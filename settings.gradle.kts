@@ -16,3 +16,4 @@ dependencyResolutionManagement {
 rootProject.name = "Mastadon_Clone"
 include(":mastadonApp")
 include(":shared")
+include(":presentation")
