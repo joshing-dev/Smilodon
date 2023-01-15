@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.mastadonclone.Greeting
+import com.example.presentation.ui.components.HomeFeed
 import com.example.presentation.ui.theme.MastadonTheme
 
 class MainActivity : ComponentActivity() {
@@ -20,9 +21,10 @@ class MainActivity : ComponentActivity() {
             MastadonTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.surface
                 ) {
-                    GreetingView(Greeting().greet())
+                    HomeFeed()
+                    //GreetingView(Greeting().greet())
                 }
             }
         }
