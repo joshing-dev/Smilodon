@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-  namespace = "com.example.presentation"
+  namespace = "com.matrix159.mastadonclone.presentation"
   compileSdk = 33
 
   defaultConfig {
@@ -21,7 +21,7 @@ android {
 
   buildTypes {
     release {
-      isMinifyEnabled = false
+      isMinifyEnabled = true
       proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
     }
   }
@@ -46,7 +46,7 @@ dependencies {
   implementation(project(":shared"))
 
   implementation("androidx.core:core-ktx:1.9.0")
-  implementation("androidx.activity:activity-compose:1.6.1")
+  //implementation("androidx.activity:activity-compose:1.6.1")
   implementation("androidx.compose.ui:ui:$composeVersion")
   debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
   implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")

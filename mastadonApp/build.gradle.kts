@@ -4,10 +4,10 @@ plugins {
 }
 
 android {
-    namespace = "com.example.mastadonclone"
+    namespace = "com.matrix159.mastadonclone"
     compileSdk = 33
     defaultConfig {
-        applicationId = "com.example.mastadonclone"
+        applicationId = "com.matrix159.mastadonclone"
         minSdk = 24
         targetSdk = 33
         versionCode = 1
@@ -16,6 +16,11 @@ android {
 
     buildFeatures {
         buildConfig = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.3.0"
     }
 
     packagingOptions {
@@ -25,14 +30,19 @@ android {
     }
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
         }
     }
 }
 
 dependencies {
+    val composeVersion = "1.3.1"
     implementation(project(":shared"))
     implementation(project(":presentation"))
+
+    implementation("androidx.core:core-ktx:1.9.0")
+    implementation("androidx.activity:activity-compose:1.6.1")
+    //implementation("androidx.compose.ui:ui:$composeVersion")
 
     // timber
     implementation("com.jakewharton.timber:timber:5.0.1")
