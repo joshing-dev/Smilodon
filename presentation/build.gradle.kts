@@ -31,7 +31,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion = "1.3.0"
+    kotlinCompilerExtensionVersion = "1.4.0"
   }
 
   kotlinOptions {
@@ -40,7 +40,7 @@ android {
 }
 
 dependencies {
-  val composeVersion = "1.3.1"
+  val composeVersion = "1.4.0-alpha04"
   val coilVersion = "2.2.2"
 
   implementation(project(":shared"))
