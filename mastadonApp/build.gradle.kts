@@ -42,6 +42,9 @@ dependencies {
   implementation("androidx.core:core-ktx:1.9.0")
   implementation("androidx.activity:activity-compose:1.6.1")
 
+  // Login OAuth
+  implementation("net.openid:appauth:0.11.1")
+
   // timber
   implementation("com.jakewharton.timber:timber:5.0.1")
 }

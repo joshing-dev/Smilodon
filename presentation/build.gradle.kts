@@ -59,8 +59,6 @@ dependencies {
   implementation("io.coil-kt:coil:$coilVersion")
   implementation("io.coil-kt:coil-compose:$coilVersion")
 
-  // TODO: Move the activity to the app module so presentation doesn't need to depend on this
-  api("net.openid:appauth:0.11.1")
 
   testImplementation("junit:junit:4.13.2")
   androidTestImplementation("androidx.test.ext:junit:1.1.5")
