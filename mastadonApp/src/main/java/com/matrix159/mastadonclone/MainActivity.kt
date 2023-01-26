@@ -52,8 +52,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         authService = AuthorizationService(this)
+        val model = (application as MastadonApplication).model
         setContent {
-           MastadonApp()
+           MastadonApp(model)
         }
 
         val authIntent = authService.getAuthorizationRequestIntent(authRequest)

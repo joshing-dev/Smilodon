@@ -72,7 +72,7 @@ class StateManager(repo: Repository) {
   }
 
   inline fun <reified T : ScreenState> updateScreen(
-    stateClass: KClass<T>,
+    //stateClass: KClass<T>,
     update: (T) -> T,
   ) {
     //debugLogger.log("updateScreen: "+currentScreenIdentifier.URI)

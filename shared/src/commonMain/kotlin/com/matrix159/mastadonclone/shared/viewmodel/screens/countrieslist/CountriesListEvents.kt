@@ -9,7 +9,7 @@ import com.matrix159.mastadonclone.shared.viewmodel.Events
 fun Events.selectFavorite(countryName: String) = screenCoroutine {
     val favorites = dataRepository.getFavoriteCountriesMap(alsoToggleCountry = countryName)
     // update state with new favorites map, after toggling the value for the specified country
-    stateManager.updateScreen(CountriesListState::class) {
+    stateManager.updateScreen<CountriesListState> {
         it.copy(favoriteCountries = favorites)
     }
 }

@@ -28,7 +28,7 @@ fun Navigation.initCountriesList(params: CountriesListParams) = ScreenInitSettin
             listData = listData.filter { favorites.containsKey(it.name) }
         }
         // update state, after retrieving data from the repository
-        stateManager.updateScreen(CountriesListState::class) {
+        stateManager.updateScreen<CountriesListState> {
             it.copy(
                 isLoading = false,
                 countriesListItems = listData,

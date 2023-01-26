@@ -68,7 +68,7 @@ class ScreenIdentifier private constructor(
 
 
   fun getScreenInitSettings(navigation: Navigation) : ScreenInitSettings {
-    return screen.initSettings(navigation,this)
+    return screen.initSettings(navigation, this)
   }
 
   fun level1VerticalBackstackEnabled() : Boolean {

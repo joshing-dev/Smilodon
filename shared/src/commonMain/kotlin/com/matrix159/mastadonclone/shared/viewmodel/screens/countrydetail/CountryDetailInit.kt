@@ -19,7 +19,7 @@ fun Navigation.initCountryDetail(params: CountryDetailParams) = ScreenInitSettin
     callOnInit = {
         val countryInfo = dataRepository.getCountryInfo(params.countryName)
         // update state, after retrieving data from the repository
-        stateManager.updateScreen(CountryDetailState::class) {
+        stateManager.updateScreen<CountryDetailState> {
             it.copy(
                 isLoading = false,
                 countryInfo = countryInfo,
