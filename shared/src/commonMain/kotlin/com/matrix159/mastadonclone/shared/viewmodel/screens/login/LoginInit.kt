@@ -2,6 +2,7 @@ package com.matrix159.mastadonclone.shared.viewmodel.screens.login
 
 import com.matrix159.mastadonclone.shared.viewmodel.Navigation
 import com.matrix159.mastadonclone.shared.viewmodel.ScreenParams
+import com.matrix159.mastadonclone.shared.viewmodel.ScreenState
 import com.matrix159.mastadonclone.shared.viewmodel.screens.ScreenInitSettings
 import com.matrix159.mastadonclone.shared.viewmodel.screens.homefeed.HomeFeedState
 import kotlinx.serialization.Serializable
@@ -17,7 +18,7 @@ class LoginScreenParams : ScreenParams
 
 fun Navigation.initLoginScreen(params: LoginScreenParams?) = ScreenInitSettings(
   title = "Login Screen",
-  initState = { HomeFeedState(isLoading = true) },
+  initState = { LoginScreenState(isLoading = true) },
   callOnInit = {
     // update state, after retrieving data from the repository
     stateManager.updateScreen<LoginScreenState> {

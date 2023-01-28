@@ -67,7 +67,7 @@ class MainActivity : ComponentActivity() {
     model = (application as MastadonApplication).model
     model.stateFlow
       .distinctUntilChanged { old, new ->
-        old.authState == new.authState
+        old.authState.authStatus == new.authState.authStatus
       }
       .onEach {
         when (it.authState.authStatus) {
@@ -78,7 +78,7 @@ class MainActivity : ComponentActivity() {
               serviceConfig,  // the authorization service configuration
               it.authState.clientId ?: "",  // the client ID, typically pre-registered and static
               ResponseTypeValues.CODE,  // the response_type value: we want a code
-              Uri.parse("com.example.mastadonclone://callback"/*"urn:ietf:wg:oauth:2.0:oob"*/)
+              Uri.parse(it.authState.redirectUri)
             )
               .setScope("read write push")
               .build()

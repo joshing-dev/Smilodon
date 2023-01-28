@@ -37,7 +37,7 @@ fun createApiClient(): HttpClient = HttpClient {
   }
 
   install(ResponseObserver) {
-    onResponse { response ->
+    onResponse { _ ->
       //co.touchlab.kermit.Logger.d("HTTP status: ${response.status.value}")
     }
   }

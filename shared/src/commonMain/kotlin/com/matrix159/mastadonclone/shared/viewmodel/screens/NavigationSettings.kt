@@ -7,7 +7,7 @@ import com.matrix159.mastadonclone.shared.viewmodel.screens.login.LoginScreenPar
 // CONFIGURATION SETTINGS
 
 object NavigationSettings {
-  val homeScreen = Level1Navigation.HomeFeed // the start screen should be specified here
+  val homeScreen = Level1Navigation.LoginScreen // the start screen should be specified here
   val saveLastLevel1Screen = true
   val alwaysQuitOnHomeScreen = true
 }

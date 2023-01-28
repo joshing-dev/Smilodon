@@ -19,20 +19,31 @@ kotlin {
 
   sourceSets {
     val ktorVersion = "2.2.2"
+    val kotlinxCoroutinesTest = "1.6.4"
     val commonMain by getting {
       dependencies {
-        //implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.2.1")
+        // Coroutines
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+
+        // Http client setup
         implementation("io.ktor:ktor-client-core:$ktorVersion")
         implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
         implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
         implementation("io.ktor:ktor-client-logging:${ktorVersion}")
+
+        // Local settings
+        implementation("com.russhwolf:multiplatform-settings-no-arg:1.0.0")
       }
     }
     val commonTest by getting {
       dependencies {
         implementation(kotlin("test"))
-
+        implementation("junit:junit:4.13.2")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+        //For runBlockingTest, CoroutineDispatcher etc.
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+        implementation("com.russhwolf:multiplatform-settings-test:1.0.0")
       }
     }
     val androidMain by getting {

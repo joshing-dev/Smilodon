@@ -27,7 +27,7 @@ class StateManager(repo: Repository) {
 
   val lastRemovedScreens = mutableListOf<ScreenIdentifier>()
 
-  internal val dataRepository by lazy { repo }
+  internal val dataRepository: Repository by lazy { repo }
 
   val currentScreenIdentifier: ScreenIdentifier
     get() = currentVerticalBackstack.lastOrNull() ?: level1Backstack.last()
@@ -275,6 +275,7 @@ data class AppState(
 data class AuthState(
   val clientId: String? = null,
   val clientSecret: String? = null,
+  val redirectUri: String? = null,
   val authStatus: AuthStatus = AuthStatus.NotLoggedIn
 )
 
