@@ -1,10 +1,9 @@
-package com.matrix159.mastadonclone.shared.viewmodel.screens.homefeed
+package com.matrix159.mastadonclone.shared.viewmodel.screens.login
 
-import com.matrix159.mastadonclone.shared.viewmodel.AppState
 import com.matrix159.mastadonclone.shared.viewmodel.Navigation
 import com.matrix159.mastadonclone.shared.viewmodel.ScreenParams
-import com.matrix159.mastadonclone.shared.viewmodel.screens.Screen
 import com.matrix159.mastadonclone.shared.viewmodel.screens.ScreenInitSettings
+import com.matrix159.mastadonclone.shared.viewmodel.screens.homefeed.HomeFeedState
 import kotlinx.serialization.Serializable
 
 // INIZIALIZATION settings for this screen
@@ -14,27 +13,19 @@ import kotlinx.serialization.Serializable
 // to understand the initialization behaviour, read the comments in the ScreenInitSettings.kt file
 
 @Serializable // Note: ScreenParams should always be set as Serializable
-class HomeFeedParams : ScreenParams
+class LoginScreenParams : ScreenParams
 
-fun Navigation.initHomeFeed(params: HomeFeedParams?) = ScreenInitSettings(
-  title = "Home Feed",
+fun Navigation.initLoginScreen(params: LoginScreenParams?) = ScreenInitSettings(
+  title = "Login Screen",
   initState = { HomeFeedState(isLoading = true) },
   callOnInit = {
     // update state, after retrieving data from the repository
-    stateManager.updateScreen<HomeFeedState> {
+    stateManager.updateScreen<LoginScreenState> {
       it.copy(
         isLoading = false,
-        posts = listOf(
-          Post("Test author", "test post here"),
-          Post("Another author", "Another post")
-        ),
       )
     }
-
-//    if (!stateManager.mutableStateFlow.value.isLoggedIn) {
-//      navigate(Screen.LoginScreen)
-//    }
   },
-  reinitOnEachNavigation = true,
-  callOnInitAlsoAfterBackground = true
+  reinitOnEachNavigation = false,
+  callOnInitAlsoAfterBackground = false
 )

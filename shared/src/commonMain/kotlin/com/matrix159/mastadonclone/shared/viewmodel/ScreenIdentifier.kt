@@ -8,7 +8,7 @@ import kotlinx.serialization.json.Json
 
 typealias URI = String
 
-class ScreenIdentifier private constructor(
+data class ScreenIdentifier private constructor(
   val screen : Screen,
   var params: ScreenParams? = null,
   var paramsAsString: String? = null,
@@ -44,12 +44,15 @@ class ScreenIdentifier private constructor(
   }
 
   // unlike the "params" property, this reified function returns the specific type and not the generic "ScreenParams" interface type
-  inline fun <reified T: ScreenParams> params() : T {
+  inline fun <reified T: ScreenParams> params() : T? {
+    if (params != null) {
+      return params as T
+    }
     if (params == null && paramsAsString != null) {
       val jsonValues = paramsStrToJson(paramsAsString!!)
       params = Json.decodeFromString("""{$jsonValues}""")
     }
-    return params as T
+    return params as T?
   }
 
   fun paramsStrToJson(paramsAsString: String) : String {

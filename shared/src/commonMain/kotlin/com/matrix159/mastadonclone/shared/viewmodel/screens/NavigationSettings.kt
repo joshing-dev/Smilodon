@@ -1,9 +1,8 @@
 package com.matrix159.mastadonclone.shared.viewmodel.screens
 
 import com.matrix159.mastadonclone.shared.viewmodel.ScreenIdentifier
-import com.matrix159.mastadonclone.shared.viewmodel.screens.countrieslist.CountriesListParams
-import com.matrix159.mastadonclone.shared.viewmodel.screens.countrieslist.CountriesListType
 import com.matrix159.mastadonclone.shared.viewmodel.screens.homefeed.HomeFeedParams
+import com.matrix159.mastadonclone.shared.viewmodel.screens.login.LoginScreenParams
 
 // CONFIGURATION SETTINGS
 
@@ -17,7 +16,6 @@ object NavigationSettings {
 // LEVEL 1 NAVIGATION OF THE APP
 
 enum class Level1Navigation(val screenIdentifier: ScreenIdentifier, val rememberVerticalStack: Boolean = false) {
-  AllCountries(ScreenIdentifier.get(Screen.CountriesList, CountriesListParams(listType = CountriesListType.ALL)), true),
-  FavoriteCountries(ScreenIdentifier.get(Screen.CountriesList, CountriesListParams(listType = CountriesListType.FAVORITES)), true),
-  HomeFeed(ScreenIdentifier.get(Screen.HomeFeed, HomeFeedParams()), rememberVerticalStack = true)
+  LoginScreen(ScreenIdentifier.get(Screen.LoginScreen, LoginScreenParams())),
+  HomeFeed(ScreenIdentifier.get(Screen.HomeFeed, HomeFeedParams())),
 }

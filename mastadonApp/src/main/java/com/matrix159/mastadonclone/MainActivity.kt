@@ -5,11 +5,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.ui.Modifier
 import com.matrix159.mastadonclone.presentation.ui.MastadonApp
+import com.matrix159.mastadonclone.shared.viewmodel.DKMPViewModel
+import com.matrix159.mastadonclone.shared.viewmodel.screens.login.logout
 import net.openid.appauth.*
+import com.matrix159.mastadonclone.shared.viewmodel.screens.login.login
+import com.matrix159.mastadonclone.shared.viewmodel.screens.login.logout
 
 class MainActivity : ComponentActivity() {
+    private lateinit var model: DKMPViewModel
 
     private lateinit var authService: AuthorizationService
     private val serviceConfig = AuthorizationServiceConfiguration(
@@ -45,14 +49,21 @@ class MainActivity : ComponentActivity() {
                     ClientSecretPost("SECRET HERE")
                 ) { resp, ex ->
                     authState.update(resp, ex)
+                    if (ex != null) {
+                        model.navigation.events.logout()
+                    } else {
+                        model.navigation.events.login()
+                    }
+
                 }
                 // ... process the response or exception ...
             }
         }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        model = (application as MastadonApplication).model
+
         authService = AuthorizationService(this)
-        val model = (application as MastadonApplication).model
         setContent {
            MastadonApp(model)
         }

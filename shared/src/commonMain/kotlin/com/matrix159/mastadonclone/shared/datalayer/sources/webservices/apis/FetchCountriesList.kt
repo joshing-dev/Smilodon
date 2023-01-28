@@ -1,13 +1,12 @@
-package eu.baroncelli.dkmpsample.shared.datalayer.sources.webservices.apis
+package com.matrix159.mastadonclone.shared.datalayer.sources.webservices.apis
 
 import com.matrix159.mastadonclone.shared.datalayer.objects.CountryListData
-import com.matrix159.mastadonclone.shared.datalayer.sources.webservices.ApiClient
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-suspend fun ApiClient.fetchCountriesList(): CountriesListResponse? {
-    return getResponse("/dkmpl/")
-}
+//suspend fun ApiClient.fetchCountriesList(): CountriesListResponse? {
+//    return getResponse("/dkmpl/")
+//}
 
 
 @Serializable

@@ -1,11 +1,14 @@
 package com.matrix159.mastadonclone.presentation.ui.components
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import com.matrix159.mastadonclone.shared.viewmodel.Navigation
 import com.matrix159.mastadonclone.shared.viewmodel.screens.Screen
 import com.matrix159.mastadonclone.shared.viewmodel.screens.homefeed.loadHomeFeed
+import com.matrix159.mastadonclone.shared.viewmodel.screens.login.login
 
 @Composable
 fun ScreenPicker(
@@ -13,23 +16,22 @@ fun ScreenPicker(
 ) {
   val stateProvider = remember { navigation.stateProvider }
   val events = remember { navigation.events }
-  val currentScreenIdentifier = remember(navigation.currentScreenIdentifier) { navigation.currentScreenIdentifier }
+  val currentScreenIdentifier =
+    remember(navigation.currentScreenIdentifier) { navigation.currentScreenIdentifier }
   when (currentScreenIdentifier.screen) {
     Screen.HomeFeed ->
       HomeFeedScreen(
         stateProvider.get(currentScreenIdentifier),
-        loadNew = { events.loadHomeFeed() }
+        loadNew = { events.loadHomeFeed() },
+        modifier = Modifier.fillMaxSize()
       )
-//      CountriesListScreen(
-//        countriesListState = stateProvider.get(screenIdentifier),
-//        onListItemClick = { navigate(CountryDetail, CountryDetailParams(countryName = it)) },
-//        onFavoriteIconClick = { navigation.events.selectFavorite(countryName = it) },
-//      )
-//    CountryDetail ->
-//      CountryDetailScreen(
-//        countryDetailState = stateProvider.get(screenIdentifier)
-//      )
-    else -> { Text("No screen found")}
+    Screen.LoginScreen ->
+      LoginScreen(
+        login = { events.login() },
+        modifier = Modifier.fillMaxSize()
+      )
+    else -> {
+      Text("No screen found")
+    }
   }
-
 }

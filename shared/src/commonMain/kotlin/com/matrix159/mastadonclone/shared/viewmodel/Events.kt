@@ -1,6 +1,6 @@
 package com.matrix159.mastadonclone.shared.viewmodel
 
-class Events (val stateManager : StateManager) {
+class Events (val navigation: Navigation, val stateManager : StateManager) {
 
   val dataRepository
     get() = stateManager.dataRepository

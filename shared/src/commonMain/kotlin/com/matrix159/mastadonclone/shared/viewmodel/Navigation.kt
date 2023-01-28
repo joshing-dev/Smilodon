@@ -4,7 +4,7 @@ import com.matrix159.mastadonclone.shared.viewmodel.screens.Level1Navigation
 import com.matrix159.mastadonclone.shared.viewmodel.screens.NavigationSettings
 import com.matrix159.mastadonclone.shared.viewmodel.screens.Screen
 
-class Navigation(val stateManager : StateManager) {
+class Navigation(val stateManager: StateManager) {
 
   init {
     var startScreenIdentifier = NavigationSettings.homeScreen.screenIdentifier
@@ -15,9 +15,9 @@ class Navigation(val stateManager : StateManager) {
   }
 
   val stateProvider by lazy { StateProvider(stateManager) }
-  val events by lazy { Events(stateManager) }
+  val events by lazy { Events(this, stateManager) }
 
-  fun getTitle(screenIdentifier: ScreenIdentifier) : String {
+  fun getTitle(screenIdentifier: ScreenIdentifier): String {
     val screenInitSettings = screenIdentifier.getScreenInitSettings(this)
     return screenInitSettings.title
   }
@@ -25,31 +25,31 @@ class Navigation(val stateManager : StateManager) {
   val dataRepository
     get() = stateManager.dataRepository
 
-  val currentScreenIdentifier : ScreenIdentifier
+  val currentScreenIdentifier: ScreenIdentifier
     get() = stateManager.currentScreenIdentifier
 
-  val currentLevel1ScreenIdentifier : ScreenIdentifier
+  val currentLevel1ScreenIdentifier: ScreenIdentifier
     get() = stateManager.currentLevel1ScreenIdentifier
 
-  val only1ScreenInBackstack : Boolean
+  val only1ScreenInBackstack: Boolean
     get() = stateManager.only1ScreenInBackstack
 
 
   // used by the Router composable in Compose apps
   // it returns a list of screens whose state has been removed, so they should also be removed from Compose's SaveableStateHolder
-  val screenStatesToRemove : List<ScreenIdentifier>
+  val screenStatesToRemove: List<ScreenIdentifier>
     get() = stateManager.getScreenStatesToRemove()
 
   // used by the Router view in SwiftUI apps
   // it returns the list of Level1 screens to be rendered inside a SwiftUI's ZStack
-  val level1ScreenIdentifiers : List<ScreenIdentifier>
+  val level1ScreenIdentifiers: List<ScreenIdentifier>
     get() = stateManager.getLevel1ScreenIdentifiers()
 
-  fun getNavigationLevelsMap(level1ScreenIdentifier: ScreenIdentifier) : Map<Int,ScreenIdentifier>? {
+  fun getNavigationLevelsMap(level1ScreenIdentifier: ScreenIdentifier): Map<Int, ScreenIdentifier>? {
     return stateManager.verticalNavigationLevels[level1ScreenIdentifier.URI]
   }
 
-  fun isInCurrentVerticalBackstack(screenIdentifier: ScreenIdentifier) : Boolean {
+  fun isInCurrentVerticalBackstack(screenIdentifier: ScreenIdentifier): Boolean {
     stateManager.currentVerticalBackstack.forEach {
       if (it.URI == screenIdentifier.URI) {
         return true
@@ -60,12 +60,12 @@ class Navigation(val stateManager : StateManager) {
 
 
   fun navigate(screen: Screen, params: ScreenParams? = null) {
-    navigateByScreenIdentifier(ScreenIdentifier.get(screen,params))
+    navigateByScreenIdentifier(ScreenIdentifier.get(screen, params))
   }
 
   fun navigateByLevel1Menu(level1NavigationItem: Level1Navigation) {
     val navigationLevelsMap = getNavigationLevelsMap(level1NavigationItem.screenIdentifier)
-    if (navigationLevelsMap==null) {
+    if (navigationLevelsMap == null) {
       navigateByScreenIdentifier(level1NavigationItem.screenIdentifier)
     } else {
       navigationLevelsMap.keys.sorted().forEach {
@@ -76,7 +76,7 @@ class Navigation(val stateManager : StateManager) {
   }
 
   fun navigateByScreenIdentifier(screenIdentifier: ScreenIdentifier) {
-    debugLogger.log("navigate to /"+screenIdentifier.URI)
+    debugLogger.log("navigate to /" + screenIdentifier.URI)
     val screenInitSettings = screenIdentifier.getScreenInitSettings(this)
     stateManager.addScreen(screenIdentifier, screenInitSettings)
 //    if (NavigationSettings.saveLastLevel1Screen && screenIdentifier.screen.navigationLevel == 1) {
@@ -86,7 +86,7 @@ class Navigation(val stateManager : StateManager) {
 
   fun exitScreen(screenIdentifier: ScreenIdentifier? = null, triggerRecomposition: Boolean = true) {
     val sID = screenIdentifier ?: currentScreenIdentifier
-    debugLogger.log("exitScreen: "+sID.URI)
+    debugLogger.log("exitScreen: " + sID.URI)
     stateManager.removeScreen(sID)
     if (triggerRecomposition) {
       navigateByScreenIdentifier(currentScreenIdentifier)
@@ -97,7 +97,7 @@ class Navigation(val stateManager : StateManager) {
   fun onReEnterForeground() {
     // not called at app startup, but only when reentering the app after it was in background
     debugLogger.log("onReEnterForeground: recomposition is triggered")
-    val reinitializedScreens = stateManager.reinitScreenScopes()
+    val reinitializedScreens: List<ScreenIdentifier> = stateManager.reinitScreenScopes()
     stateManager.triggerRecomposition()
     reinitializedScreens.forEach {
       it.getScreenInitSettings(this).apply {

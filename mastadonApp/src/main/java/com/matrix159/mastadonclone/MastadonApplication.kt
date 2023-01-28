@@ -1,10 +1,7 @@
 package com.matrix159.mastadonclone
 
 import android.app.Application
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.*
 import com.matrix159.mastadonclone.shared.viewmodel.DKMPViewModel
 import com.matrix159.mastadonclone.shared.viewmodel.getAndroidInstance
 import timber.log.Timber
@@ -28,18 +25,22 @@ class MastadonApplication: Application() {
   }
 }
 
-class AppLifecycleObserver (private val model: DKMPViewModel) : LifecycleObserver {
+class AppLifecycleObserver(private val viewModel: DKMPViewModel) : LifecycleEventObserver {
 
-  @OnLifecycleEvent(Lifecycle.Event.ON_START)
-  fun onEnterForeground() {
-    if (model.stateFlow.value.recompositionIndex > 0) { // not calling at app startup
-      model.navigation.onReEnterForeground()
+  override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+    when (event) {
+      Lifecycle.Event.ON_START -> {
+        // Avoid calling at app startup
+        if (viewModel.stateFlow.value.recompositionIndex > 0) {
+          viewModel.navigation.onReEnterForeground()
+        }
+      }
+      Lifecycle.Event.ON_STOP -> {
+        viewModel.navigation.onEnterBackground()
+      }
+      else -> {
+        // Don't care
+      }
     }
   }
-
-  @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-  fun onEnterBackground() {
-    model.navigation.onEnterBackground()
-  }
-
 }

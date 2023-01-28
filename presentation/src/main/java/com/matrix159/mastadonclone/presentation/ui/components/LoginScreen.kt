@@ -14,7 +14,10 @@ import com.matrix159.mastadonclone.presentation.ui.theme.MastadonTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginScreen(modifier: Modifier = Modifier) {
+fun LoginScreen(
+  login: () -> Unit,
+  modifier: Modifier = Modifier
+) {
   Column(
     modifier = modifier
     .padding(16.dp)
@@ -51,7 +54,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.padding(vertical = 16.dp).weight(1f))
 
     FilledTonalButton(
-      onClick = { /* TODO */ },
+      onClick = login,
       modifier = Modifier
         .fillMaxWidth()
     ) {
@@ -67,7 +70,7 @@ fun LoginScreen(modifier: Modifier = Modifier) {
 fun LoginScreenPreview() {
   MastadonTheme {
     Surface {
-      LoginScreen()
+      LoginScreen({})
     }
   }
 }

@@ -55,6 +55,7 @@ dependencies {
   // Material3 in Compose
   implementation("androidx.compose.material3:material3:1.1.0-alpha04")
 
+  implementation("androidx.activity:activity-compose:1.6.1")
   implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha04")
   // Image loading
   implementation("io.coil-kt:coil:$coilVersion")

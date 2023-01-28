@@ -32,12 +32,16 @@ class StateManager(repo: Repository) {
 
   val currentScreenIdentifier: ScreenIdentifier
     get() = currentVerticalBackstack.lastOrNull() ?: level1Backstack.last()
+
   val currentLevel1ScreenIdentifier: ScreenIdentifier
     get() = level1Backstack.last()
+
   val currentVerticalBackstack: MutableList<ScreenIdentifier>
     get() = verticalBackstacks[currentLevel1ScreenIdentifier.URI]!!
+
   val currentVerticalNavigationLevelsMap: MutableMap<Int, ScreenIdentifier>
     get() = verticalNavigationLevels[currentLevel1ScreenIdentifier.URI]!!
+
   val only1ScreenInBackstack: Boolean
     get() = level1Backstack.size + currentVerticalBackstack.size == 2
 
@@ -95,7 +99,13 @@ class StateManager(repo: Repository) {
 
 
   fun triggerRecomposition() {
-    mutableStateFlow.value = AppState(mutableStateFlow.value.recompositionIndex + 1)
+    val currentState = mutableStateFlow.value
+    mutableStateFlow.value = currentState.copy(recompositionIndex = mutableStateFlow.value.recompositionIndex + 1)
+  }
+
+  fun updateAppState(update: (state: AppState) -> AppState) {
+    mutableStateFlow.value = update(mutableStateFlow.value)
+    //triggerRecomposition()
   }
 
 
@@ -255,6 +265,7 @@ class StateManager(repo: Repository) {
 
 data class AppState(
   val recompositionIndex: Int = 0,
+  val isLoggedIn: Boolean = false,
 ) {
   fun getNavigation(model: DKMPViewModel): Navigation {
     return model.navigation
