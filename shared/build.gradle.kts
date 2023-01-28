@@ -40,7 +40,6 @@ kotlin {
         implementation(kotlin("test"))
         implementation("junit:junit:4.13.2")
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
         //For runBlockingTest, CoroutineDispatcher etc.
         implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
         implementation("com.russhwolf:multiplatform-settings-test:1.0.0")
