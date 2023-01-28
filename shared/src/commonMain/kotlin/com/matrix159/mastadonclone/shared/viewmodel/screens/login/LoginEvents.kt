@@ -1,22 +1,32 @@
 package com.matrix159.mastadonclone.shared.viewmodel.screens.login
 
+import com.matrix159.mastadonclone.shared.viewmodel.AuthStatus
 import com.matrix159.mastadonclone.shared.viewmodel.Events
-import com.matrix159.mastadonclone.shared.viewmodel.screens.Screen
 
 /********** EVENT functions, called directly by the UI layer **********/
 
 
-fun Events.login()  {
+fun Events.login() = screenCoroutine {
+  val clientAppDetails = this.dataRepository.mastadonApi.createClientApplication()
   stateManager.updateAppState {
-    it.copy(isLoggedIn = true)
+    it.copy(
+      authState = it.authState.copy(
+        clientId = clientAppDetails.clientId,
+        clientSecret = clientAppDetails.clientSecret,
+        authStatus = AuthStatus.Authenticating
+      )
+    )
   }
-  navigation.navigate(Screen.HomeFeed)
 }
 
-
-fun Events.logout()  {
+fun Events.loginComplete() {
   stateManager.updateAppState {
-    it.copy(isLoggedIn = false)
+    it.copy(authState = it.authState.copy(authStatus = AuthStatus.LoggedIn))
   }
-  navigation.navigate(Screen.LoginScreen)
+}
+
+fun Events.logout() {
+  stateManager.updateAppState {
+    it.copy(authState = it.authState.copy(authStatus = AuthStatus.NotLoggedIn))
+  }
 }

@@ -5,7 +5,6 @@ import com.matrix159.mastadonclone.shared.viewmodel.screens.NavigationSettings
 import com.matrix159.mastadonclone.shared.viewmodel.screens.ScreenInitSettings
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlin.reflect.KClass
 
 interface ScreenState
 interface ScreenParams
@@ -100,7 +99,8 @@ class StateManager(repo: Repository) {
 
   fun triggerRecomposition() {
     val currentState = mutableStateFlow.value
-    mutableStateFlow.value = currentState.copy(recompositionIndex = mutableStateFlow.value.recompositionIndex + 1)
+    mutableStateFlow.value =
+      currentState.copy(recompositionIndex = mutableStateFlow.value.recompositionIndex + 1)
   }
 
   fun updateAppState(update: (state: AppState) -> AppState) {
@@ -265,9 +265,21 @@ class StateManager(repo: Repository) {
 
 data class AppState(
   val recompositionIndex: Int = 0,
-  val isLoggedIn: Boolean = false,
+  val authState: AuthState = AuthState(),
 ) {
   fun getNavigation(model: DKMPViewModel): Navigation {
     return model.navigation
   }
+}
+
+data class AuthState(
+  val clientId: String? = null,
+  val clientSecret: String? = null,
+  val authStatus: AuthStatus = AuthStatus.NotLoggedIn
+)
+
+enum class AuthStatus {
+  NotLoggedIn,
+  Authenticating,
+  LoggedIn,
 }
