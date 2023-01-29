@@ -1,17 +1,28 @@
 package com.matrix159.mastadonclone.shared.viewmodel
 
+import co.touchlab.kermit.Logger
 import com.matrix159.mastadonclone.shared.datalayer.Repository
 import com.matrix159.mastadonclone.shared.viewmodel.screens.NavigationSettings
 import com.matrix159.mastadonclone.shared.viewmodel.screens.ScreenInitSettings
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 
 interface ScreenState
+
 interface ScreenParams
 
 class StateManager(repo: Repository) {
 
-  internal val mutableStateFlow = MutableStateFlow(AppState())
+  internal val mutableStateFlow: MutableStateFlow<AppState> by lazy {
+    MutableStateFlow(
+      AppState(
+        authState = dataRepository.mastadonSettings.authState
+      )
+    )
+  }
 
   val screenStatesMap: MutableMap<URI, ScreenState> =
     mutableMapOf() // map of screen states currently in memory
@@ -78,7 +89,7 @@ class StateManager(repo: Repository) {
     //stateClass: KClass<T>,
     update: (T) -> T,
   ) {
-    //debugLogger.log("updateScreen: "+currentScreenIdentifier.URI)
+    //Logger.d("updateScreen: "+currentScreenIdentifier.URI)
 
     lateinit var screenIdentifier: ScreenIdentifier
     var screenState: T? = null
@@ -92,7 +103,7 @@ class StateManager(repo: Repository) {
     if (screenState != null) { // only perform screen state update if screen is currently visible
       screenStatesMap[screenIdentifier.URI] = update(screenState)
       triggerRecomposition()
-      debugLogger.log("state updated @ /${screenIdentifier.URI}: recomposition is triggered")
+      Logger.d("state updated @ /${screenIdentifier.URI}: recomposition is triggered")
     }
   }
 
@@ -112,7 +123,7 @@ class StateManager(repo: Repository) {
   // ADD SCREEN FUNCTIONS
 
   fun addScreen(screenIdentifier: ScreenIdentifier, screenInitSettings: ScreenInitSettings) {
-    //debugLogger.log("addScreen: "+screenIdentifier.URI)
+    //Logger.d("addScreen: "+screenIdentifier.URI)
     addScreenToBackstack(screenIdentifier)
     initScreenScope(screenIdentifier)
     if (!isInTheStatesMap(screenIdentifier) || screenInitSettings.reinitOnEachNavigation) {
@@ -124,11 +135,11 @@ class StateManager(repo: Repository) {
     } else {
       triggerRecomposition() // JUST 1 UI RECOMPOSITION
     }
-    //debugLogger.log("currentVerticalBackstack: "+currentVerticalBackstack.map{it.URI}.toString())
-    //debugLogger.log("currentVerticalNavigationLevelsMap: "+currentVerticalNavigationLevelsMap.values.map{it.URI}.toString())
-    //debugLogger.log("level1Backstack: "+level1Backstack.map{it.URI}.toString())
-    //debugLogger.log("screenScopesMap: "+screenScopesMap.keys.map{it}.toString())
-    //debugLogger.log("screenStatesMap: "+screenStatesMap.keys.map{it}.toString())
+    //Logger.d("currentVerticalBackstack: "+currentVerticalBackstack.map{it.URI}.toString())
+    //Logger.d("currentVerticalNavigationLevelsMap: "+currentVerticalNavigationLevelsMap.values.map{it.URI}.toString())
+    //Logger.d("level1Backstack: "+level1Backstack.map{it.URI}.toString())
+    //Logger.d("screenScopesMap: "+screenScopesMap.keys.map{it}.toString())
+    //Logger.d("screenStatesMap: "+screenStatesMap.keys.map{it}.toString())
   }
 
   fun addScreenToBackstack(screenIdentifier: ScreenIdentifier) {
@@ -176,7 +187,7 @@ class StateManager(repo: Repository) {
   }
 
   fun removeScreenStateAndScope(screenIdentifier: ScreenIdentifier) {
-    debugLogger.log("removeScreenStateAndScope /" + screenIdentifier.URI)
+    Logger.d("removeScreenStateAndScope /" + screenIdentifier.URI)
     screenScopesMap[screenIdentifier.URI]?.cancel() // cancel screen's coroutine scope
     screenScopesMap.remove(screenIdentifier.URI)
     screenStatesMap.remove(screenIdentifier.URI)
@@ -187,7 +198,7 @@ class StateManager(repo: Repository) {
   // LEVEL 1 NAVIGATION FUNCTIONS
 
   fun clearLevel1Screen(screenIdentifier: ScreenIdentifier, sameAsNewScreen: Boolean) {
-    // debugLogger.log("clear vertical backstack /"+screenIdentifier.URI)
+    // Logger.d("clear vertical backstack /"+screenIdentifier.URI)
     if (!screenIdentifier.level1VerticalBackstackEnabled()) {
       currentVerticalBackstack.forEach {
         if (it.screen.navigationLevel > 1) {
@@ -229,13 +240,13 @@ class StateManager(repo: Repository) {
   // COROUTINE SCOPES FUNCTIONS
 
   fun initScreenScope(screenIdentifier: ScreenIdentifier) {
-    //debugLogger.log("initScreenScope()")
+    //Logger.d("initScreenScope()")
     screenScopesMap[screenIdentifier.URI]?.cancel()
     screenScopesMap[screenIdentifier.URI] = CoroutineScope(Job() + Dispatchers.Main)
   }
 
   fun reinitScreenScopes(): List<ScreenIdentifier> {
-    //debugLogger.log("reinitScreenScopes()")
+    //Logger.d("reinitScreenScopes()")
     currentVerticalNavigationLevelsMap.forEach {
       screenScopesMap[it.value.URI] = CoroutineScope(Job() + Dispatchers.Main)
     }
@@ -252,12 +263,11 @@ class StateManager(repo: Repository) {
   }
 
   fun cancelScreenScopes() {
-    //debugLogger.log("cancelScreenScopes()")
+    //Logger.d("cancelScreenScopes()")
     screenScopesMap.forEach {
       it.value.cancel() // cancel screen's coroutine scope
     }
   }
-
 }
 
 
@@ -267,15 +277,17 @@ data class AppState(
   val recompositionIndex: Int = 0,
   val authState: AuthState = AuthState(),
 ) {
-  fun getNavigation(model: DKMPViewModel): Navigation {
-    return model.navigation
-  }
+//  fun getNavigation(model: DKMPViewModel): Navigation {
+//    return model.navigation
+//  }
 }
 
+@Serializable
 data class AuthState(
   val clientId: String? = null,
   val clientSecret: String? = null,
   val redirectUri: String? = null,
+  val accessToken: String? = null,
   val authStatus: AuthStatus = AuthStatus.NotLoggedIn
 )
 

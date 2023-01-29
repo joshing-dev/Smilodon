@@ -1,5 +1,6 @@
 package com.matrix159.mastadonclone.shared.viewmodel
 
+import co.touchlab.kermit.Logger
 import com.matrix159.mastadonclone.shared.viewmodel.screens.Level1Navigation
 import com.matrix159.mastadonclone.shared.viewmodel.screens.NavigationSettings
 import com.matrix159.mastadonclone.shared.viewmodel.screens.Screen
@@ -76,7 +77,7 @@ class Navigation(val stateManager: StateManager) {
   }
 
   fun navigateByScreenIdentifier(screenIdentifier: ScreenIdentifier) {
-    debugLogger.log("navigate to /" + screenIdentifier.URI)
+    Logger.d("navigate to /" + screenIdentifier.URI)
     val screenInitSettings = screenIdentifier.getScreenInitSettings(this)
     stateManager.addScreen(screenIdentifier, screenInitSettings)
 //    if (NavigationSettings.saveLastLevel1Screen && screenIdentifier.screen.navigationLevel == 1) {
@@ -86,7 +87,7 @@ class Navigation(val stateManager: StateManager) {
 
   fun exitScreen(screenIdentifier: ScreenIdentifier? = null, triggerRecomposition: Boolean = true) {
     val sID = screenIdentifier ?: currentScreenIdentifier
-    debugLogger.log("exitScreen: " + sID.URI)
+    Logger.d("exitScreen: " + sID.URI)
     stateManager.removeScreen(sID)
     if (triggerRecomposition) {
       navigateByScreenIdentifier(currentScreenIdentifier)
@@ -96,7 +97,7 @@ class Navigation(val stateManager: StateManager) {
 
   fun onReEnterForeground() {
     // not called at app startup, but only when reentering the app after it was in background
-    debugLogger.log("onReEnterForeground: recomposition is triggered")
+    Logger.d("onReEnterForeground: recomposition is triggered")
     val reinitializedScreens: List<ScreenIdentifier> = stateManager.reinitScreenScopes()
     stateManager.triggerRecomposition()
     reinitializedScreens.forEach {
@@ -109,12 +110,12 @@ class Navigation(val stateManager: StateManager) {
   }
 
   fun onEnterBackground() {
-    debugLogger.log("onEnterBackground: screen scopes are cancelled")
+    Logger.d("onEnterBackground: screen scopes are cancelled")
     stateManager.cancelScreenScopes()
   }
 
   fun onChangeOrientation() {
-    debugLogger.log("onChangeOrientation: recomposition is triggered")
+    Logger.d("onChangeOrientation: recomposition is triggered")
     stateManager.triggerRecomposition()
   }
 

@@ -5,6 +5,8 @@ import com.matrix159.mastadonclone.shared.viewmodel.screens.Screen
 import com.matrix159.mastadonclone.shared.viewmodel.screens.ScreenInitSettings
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.encodeToString
+
 
 typealias URI = String
 
@@ -37,10 +39,14 @@ data class ScreenIdentifier private constructor(
     if (paramsAsString != null) {
       return screen.asString + ":" + paramsAsString
     }
-    val toString = params.toString() // returns `ClassParams(A=1&B=2)`
-    val startIndex = toString.indexOf("(")
-    val paramsString = toString.substring(startIndex + 1, toString.length - 1)
-    return screen.asString  + ":" + paramsString
+
+    if (params != null) {
+      val toString = params.toString() // returns `ClassParams(A=1&B=2)`
+      val startIndex = toString.indexOf("(")
+      val paramsString = toString.substring(startIndex + 1, toString.length - 1)
+      return screen.asString  + ":" + paramsString
+    }
+    return screen.asString
   }
 
   // unlike the "params" property, this reified function returns the specific type and not the generic "ScreenParams" interface type

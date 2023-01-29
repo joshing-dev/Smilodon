@@ -7,17 +7,16 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.lifecycleScope
 import com.matrix159.mastadonclone.presentation.ui.MastadonApp
-import com.matrix159.mastadonclone.shared.viewmodel.AuthState.*
 import com.matrix159.mastadonclone.shared.viewmodel.AuthStatus
 import com.matrix159.mastadonclone.shared.viewmodel.DKMPViewModel
 import com.matrix159.mastadonclone.shared.viewmodel.screens.login.logout
 import net.openid.appauth.*
-import com.matrix159.mastadonclone.shared.viewmodel.screens.login.login
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import com.matrix159.mastadonclone.shared.viewmodel.screens.Screen
 import com.matrix159.mastadonclone.shared.viewmodel.screens.login.loginComplete
 import kotlinx.coroutines.flow.distinctUntilChanged
+import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
   private lateinit var model: DKMPViewModel
@@ -28,9 +27,7 @@ class MainActivity : ComponentActivity() {
   private val serviceConfig = AuthorizationServiceConfiguration(
     Uri.parse("https://androiddev.social/oauth/authorize"),  // authorization endpoint
     Uri.parse("https://androiddev.social/oauth/token"), // token endpoint
-    //Uri.parse("https://androiddev.social/api/v1/apps") // client registration endpoint
   )
-
 
   private val authState = AuthState(serviceConfig)
 
@@ -38,25 +35,32 @@ class MainActivity : ComponentActivity() {
     registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
       val data = activityResult.data
       val response = data?.let { AuthorizationResponse.fromIntent(data) }
-      val exception = AuthorizationException.fromIntent(data)
-      // TODO: Check for exceptions during authorization?
-      authState.update(response, exception)
+      val authorizationException = AuthorizationException.fromIntent(data)
+      if (authorizationException != null) {
+        Timber.d("There was an exception during authorization.", authorizationException)
+        return@registerForActivityResult
+      }
+      authState.update(response, authorizationException)
 
       response?.also {
         authService.performTokenRequest(
           response.createTokenExchangeRequest(),
-          // TODO: DON'T THE SECRET
           ClientSecretPost(clientSecret ?: "")
         ) { resp, ex ->
           authState.update(resp, ex)
+          Timber.d("Client secret: ${authState.accessToken}")
           if (ex != null) {
+            Timber.e("There was an exception during authentication.", ex)
             model.navigation.events.logout()
           } else {
-            model.navigation.events.loginComplete()
+            val accessToken = authState.accessToken
+            if (accessToken != null) {
+              model.navigation.events.loginComplete(accessToken)
+            } else {
+              Timber.e("No access token was available during authentication.")
+            }
           }
-
         }
-        // ... process the response or exception ...
       }
     }
 
@@ -73,7 +77,6 @@ class MainActivity : ComponentActivity() {
         when (it.authState.authStatus) {
           AuthStatus.Authenticating -> {
 
-            // TODO Check for if clientId or clientSecret wasn't passed through
             val authRequest = AuthorizationRequest.Builder(
               serviceConfig,  // the authorization service configuration
               it.authState.clientId ?: "",  // the client ID, typically pre-registered and static
@@ -83,8 +86,8 @@ class MainActivity : ComponentActivity() {
               .setScope("read write push")
               .build()
 
-            // TODO: Store the redirect uri and scope above into app state
             val authIntent = authService.getAuthorizationRequestIntent(authRequest)
+            // Store into variables to use when we launch back into the app
             clientId = it.authState.clientId
             clientSecret = it.authState.clientSecret
             authorizationResultLauncher.launch(authIntent)

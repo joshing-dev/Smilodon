@@ -13,10 +13,10 @@ import kotlinx.serialization.Serializable
 // - Navigation extension function taking the ScreenParams class as an argument, return the ScreenInitSettings for this screen
 // to understand the initialization behaviour, read the comments in the ScreenInitSettings.kt file
 
-@Serializable // Note: ScreenParams should always be set as Serializable
-class HomeFeedParams : ScreenParams
+//@Serializable // Note: ScreenParams should always be set as Serializable
+//data class HomeFeedParams(val test: Int) : ScreenParams
 
-fun Navigation.initHomeFeed(params: HomeFeedParams?) = ScreenInitSettings(
+fun Navigation.initHomeFeed() = ScreenInitSettings(
   title = "Home Feed",
   initState = { HomeFeedState(isLoading = true) },
   callOnInit = {
@@ -30,10 +30,6 @@ fun Navigation.initHomeFeed(params: HomeFeedParams?) = ScreenInitSettings(
         ),
       )
     }
-
-//    if (!stateManager.mutableStateFlow.value.isLoggedIn) {
-//      navigate(Screen.LoginScreen)
-//    }
   },
   reinitOnEachNavigation = true,
   callOnInitAlsoAfterBackground = true

@@ -1,5 +1,7 @@
 package com.matrix159.mastadonclone.shared.viewmodel
 
+import co.touchlab.kermit.Logger
+
 class Events (val navigation: Navigation, val stateManager : StateManager) {
 
   val dataRepository
@@ -7,7 +9,7 @@ class Events (val navigation: Navigation, val stateManager : StateManager) {
 
   // we run each event function on a Dispatchers.Main coroutine
   fun screenCoroutine (block: suspend () -> Unit) {
-    debugLogger.log("/"+stateManager.currentScreenIdentifier.URI+": an Event is called")
+    Logger.d("/"+stateManager.currentScreenIdentifier.URI+": an Event is called")
     stateManager.runInScreenScope { block() }
   }
 

@@ -15,7 +15,6 @@ enum class Screen(
   val initSettings: Navigation.(ScreenIdentifier) -> ScreenInitSettings,
   val stackableInstances : Boolean = false,
 ) {
-  LoginScreen("loginscreen", 1, { screenIdentifier -> initLoginScreen(screenIdentifier.params())}),
-  HomeFeed("homefeed", 1, { screenIdentifier -> initHomeFeed(screenIdentifier.params()) }),
-
+  LoginScreen("loginscreen", 1, { screenIdentifier -> initLoginScreen()}),
+  HomeFeed("homefeed", 1, { screenIdentifier -> initHomeFeed() }),
 }

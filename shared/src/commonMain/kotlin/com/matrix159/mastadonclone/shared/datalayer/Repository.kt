@@ -13,8 +13,12 @@ class Repository(/*val sqlDriver: SqlDriver*,*/
   val useDefaultDispatcher: Boolean = true
 ) {
 
-  internal val mastadonApi: MastadonRemoteDataSource by lazy { MastadonApiRemoteDataSource() }
   internal val mastadonSettings: MastadonSettings by lazy { MastadonSettings(settings) }
+  internal val mastadonApi: MastadonRemoteDataSource by lazy {
+    MastadonApiRemoteDataSource(
+      mastadonSettings
+    )
+  }
 
   //internal val localDb by lazy { LocalDb(sqlDriver) }
   internal val runtimeCache get() = CacheObjects
@@ -33,21 +37,23 @@ class Repository(/*val sqlDriver: SqlDriver*,*/
 
   suspend fun getClientApplication(): MastadonApiApplication = withContext(Dispatchers.Default) {
     if (
-      mastadonSettings.clientId.isNotEmpty() &&
-      mastadonSettings.clientSecret.isNotEmpty() &&
-      mastadonSettings.redirectUri.isNotEmpty()
+      mastadonSettings.authState.clientId != null &&
+      mastadonSettings.authState.clientSecret != null &&
+      mastadonSettings.authState.redirectUri != null
     ) {
       MastadonApiApplication(
-        clientId = mastadonSettings.clientId,
-        clientSecret = mastadonSettings.clientSecret,
-        redirectUri = mastadonSettings.redirectUri,
+        clientId = mastadonSettings.authState.clientId!!,
+        clientSecret = mastadonSettings.authState.clientSecret!!,
+        redirectUri = mastadonSettings.authState.redirectUri!!,
       )
     } else {
       // If values aren't stored locally, retrieve and store them
       val apiResponse = mastadonApi.createClientApplication()
-      mastadonSettings.clientId = apiResponse.clientId
-      mastadonSettings.clientSecret = apiResponse.clientSecret
-      mastadonSettings.redirectUri = apiResponse.redirectUris
+      mastadonSettings.authState = mastadonSettings.authState.copy(
+        clientId = apiResponse.clientId,
+        clientSecret = apiResponse.clientSecret,
+        redirectUri = apiResponse.redirectUris
+      )
       MastadonApiApplication(
         clientId = apiResponse.clientId,
         clientSecret = apiResponse.clientSecret,

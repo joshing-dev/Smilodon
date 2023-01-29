@@ -33,6 +33,9 @@ kotlin {
 
         // Local settings
         implementation("com.russhwolf:multiplatform-settings-no-arg:1.0.0")
+
+        // Logger
+        implementation("co.touchlab:kermit:1.2.2")
       }
     }
     val commonTest by getting {

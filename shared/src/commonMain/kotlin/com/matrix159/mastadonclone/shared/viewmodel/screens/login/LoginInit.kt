@@ -13,10 +13,10 @@ import kotlinx.serialization.Serializable
 // - Navigation extension function taking the ScreenParams class as an argument, return the ScreenInitSettings for this screen
 // to understand the initialization behaviour, read the comments in the ScreenInitSettings.kt file
 
-@Serializable // Note: ScreenParams should always be set as Serializable
-class LoginScreenParams : ScreenParams
+//@Serializable // Note: ScreenParams should always be set as Serializable
+//data class LoginScreenParams(val test: Int) : ScreenParams
 
-fun Navigation.initLoginScreen(params: LoginScreenParams?) = ScreenInitSettings(
+fun Navigation.initLoginScreen() = ScreenInitSettings(
   title = "Login Screen",
   initState = { LoginScreenState(isLoading = true) },
   callOnInit = {

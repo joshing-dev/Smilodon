@@ -1,13 +1,8 @@
 package com.matrix159.mastadonclone.shared.viewmodel
 
-import com.matrix159.mastadonclone.shared.DebugLogger
 import com.matrix159.mastadonclone.shared.datalayer.Repository
 import kotlinx.coroutines.flow.StateFlow
 import kotlin.native.concurrent.ThreadLocal
-
-@ThreadLocal
-val debugLogger by lazy { DebugLogger("D-KMP SAMPLE") }
-
 
 class DKMPViewModel (repo: Repository) {
 

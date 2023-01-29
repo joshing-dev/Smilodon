@@ -1,5 +1,6 @@
 package com.matrix159.mastadonclone.shared.datalayer.sources.webservices
 
+import com.matrix159.mastadonclone.shared.datalayer.sources.localsettings.MastadonSettings
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -36,9 +37,10 @@ data class CreateApplicationResponseJson(
   val vapidKey: String,
 )
 
-internal class MastadonApiRemoteDataSource : MastadonRemoteDataSource {
+internal class MastadonApiRemoteDataSource(private val settings: MastadonSettings) : MastadonRemoteDataSource {
   private val baseUrl = "https://androiddev.social/api/v1/apps"
-  private val client: HttpClient by lazy { createApiClient() }
+  private val client: HttpClient
+    get() = createApiClient(settings.authState.accessToken)
 
   override suspend fun createClientApplication(): CreateApplicationResponseJson =
     client.post(baseUrl) {
