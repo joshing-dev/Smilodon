@@ -1,6 +1,7 @@
 package com.matrix159.mastadonclone.shared.viewmodel.screens.login
 
 import com.matrix159.mastadonclone.shared.datalayer.models.MastadonApiApplication
+import com.matrix159.mastadonclone.shared.datalayer.models.mastadonapi.instance.InstanceResponseJson
 import com.matrix159.mastadonclone.shared.viewmodel.AppState
 import com.matrix159.mastadonclone.shared.viewmodel.AuthStatus
 import com.matrix159.mastadonclone.shared.viewmodel.Events
@@ -51,4 +52,17 @@ fun Events.logout() {
   }
   // Store the new state in local settings
   stateManager.dataRepository.mastadonSettings.authState = newState.authState
+}
+
+fun Events.searchForServer(serverUrl: String) = screenCoroutine {
+  val response: InstanceResponseJson? = stateManager.dataRepository.getInstance(serverUrl)
+  if (response != null) {
+    stateManager.updateScreen<LoginScreenState> {
+      it.copy(serverList = listOf(response.domain))
+    }
+  } else {
+    stateManager.updateScreen<LoginScreenState> {
+      it.copy(serverList = listOf("No server found"))
+    }
+  }
 }

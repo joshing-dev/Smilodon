@@ -1,5 +1,6 @@
 package com.matrix159.mastadonclone.shared.datalayer.sources.webservices
 
+import com.matrix159.mastadonclone.shared.datalayer.models.mastadonapi.instance.InstanceResponseJson
 import com.matrix159.mastadonclone.shared.datalayer.sources.localsettings.MastadonSettings
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -9,7 +10,17 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 internal interface MastadonRemoteDataSource {
+  /**
+   * Creates a client application to use with OAuth. This includes the client_id, client_secret
+   * and additional information.
+   */
   suspend fun createClientApplication(): CreateApplicationResponseJson
+
+  /**
+   * Searches for an instance via a server URL ex: androiddev.social
+   * @return The server information if found, null if not.
+   */
+  suspend fun getInstance(serverUrl: String): InstanceResponseJson?
 }
 
 @Serializable
@@ -54,4 +65,13 @@ internal class MastadonApiRemoteDataSource(private val settings: MastadonSetting
         )
       )
     }.body()
+
+  override suspend fun getInstance(serverUrl: String): InstanceResponseJson? {
+    return try {
+      client.get("https://$serverUrl/api/v2/instance").body()
+    } catch (ex: Exception) {
+      null
+    }
+  }
+
 }

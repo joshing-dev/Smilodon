@@ -1,6 +1,7 @@
 package com.matrix159.mastadonclone.shared.datalayer
 
 import com.matrix159.mastadonclone.shared.datalayer.models.MastadonApiApplication
+import com.matrix159.mastadonclone.shared.datalayer.models.mastadonapi.instance.InstanceResponseJson
 import com.matrix159.mastadonclone.shared.datalayer.sources.localsettings.MastadonSettings
 import com.matrix159.mastadonclone.shared.datalayer.sources.runtimecache.CacheObjects
 import com.matrix159.mastadonclone.shared.datalayer.sources.webservices.MastadonApiRemoteDataSource
@@ -35,6 +36,7 @@ class Repository(/*val sqlDriver: SqlDriver*,*/
     }
   }
 
+  // TODO: Create domain layer data models so we aren't using the JSON models directly for below functions
   suspend fun getClientApplication(): MastadonApiApplication = withContext(Dispatchers.Default) {
     if (
       mastadonSettings.authState.clientId != null &&
@@ -60,6 +62,10 @@ class Repository(/*val sqlDriver: SqlDriver*,*/
         redirectUri = apiResponse.redirectUris,
       )
     }
+  }
+
+  suspend fun getInstance(serverUrl: String): InstanceResponseJson? {
+    return mastadonApi.getInstance(serverUrl)
   }
 
 }

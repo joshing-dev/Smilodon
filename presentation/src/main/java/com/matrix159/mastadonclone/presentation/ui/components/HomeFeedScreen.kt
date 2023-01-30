@@ -23,7 +23,6 @@ fun HomeFeedScreen(
   modifier: Modifier = Modifier
 ) {
   LazyColumn(
-    state = rememberLazyListState(),
     modifier = modifier
   ) {
     items(state.posts) { post ->

@@ -2,7 +2,6 @@ package com.matrix159.mastadonclone.shared.datalayer.sources.localsettings
 
 import com.matrix159.mastadonclone.shared.viewmodel.AuthState
 import com.russhwolf.settings.Settings
-import com.russhwolf.settings.long
 import com.russhwolf.settings.string
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString

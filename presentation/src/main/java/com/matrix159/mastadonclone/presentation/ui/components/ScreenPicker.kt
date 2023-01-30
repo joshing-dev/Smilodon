@@ -9,6 +9,7 @@ import com.matrix159.mastadonclone.shared.viewmodel.Navigation
 import com.matrix159.mastadonclone.shared.viewmodel.screens.Screen
 import com.matrix159.mastadonclone.shared.viewmodel.screens.homefeed.loadHomeFeed
 import com.matrix159.mastadonclone.shared.viewmodel.screens.login.login
+import com.matrix159.mastadonclone.shared.viewmodel.screens.login.searchForServer
 
 @Composable
 fun ScreenPicker(
@@ -21,12 +22,16 @@ fun ScreenPicker(
   when (currentScreenIdentifier.screen) {
     Screen.HomeFeed ->
       HomeFeedScreen(
-        stateProvider.get(currentScreenIdentifier),
+        state = stateProvider.get(currentScreenIdentifier),
         loadNew = { events.loadHomeFeed() },
         modifier = Modifier.fillMaxSize()
       )
     Screen.LoginScreen ->
       LoginScreen(
+        state = stateProvider.get(currentScreenIdentifier),
+        serverTextChange = {
+          events.searchForServer(it)
+        },
         login = { events.login() },
         modifier = Modifier.fillMaxSize()
       )
