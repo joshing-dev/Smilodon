@@ -32,7 +32,7 @@ fun ScreenPicker(
         serverTextChange = {
           events.searchForServer(it)
         },
-        login = { events.login() },
+        login = { events.login(it) },
         modifier = Modifier.fillMaxSize()
       )
     else -> {

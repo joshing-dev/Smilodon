@@ -48,8 +48,10 @@ data class CreateApplicationResponseJson(
   val vapidKey: String,
 )
 
-internal class MastadonApiRemoteDataSource(private val settings: MastadonSettings) : MastadonRemoteDataSource {
-  private val baseUrl = "https://androiddev.social/api/v1/apps"
+internal class MastadonApiRemoteDataSource(private val settings: MastadonSettings) :
+  MastadonRemoteDataSource {
+  private val baseUrl: String
+    get() = "https://${settings.authState.userServerUrl}/api/v1/apps"
   private val client: HttpClient
     get() = createApiClient(settings.authState.accessToken)
 
@@ -61,7 +63,7 @@ internal class MastadonApiRemoteDataSource(private val settings: MastadonSetting
           "Mastadon Clone App",
           "com.example.mastadonclone://callback",
           "read write push",
-          "https://androiddev.social"
+          "https://${settings.authState.userServerUrl}"
         )
       )
     }.body()

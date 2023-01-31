@@ -9,12 +9,13 @@ import com.matrix159.mastadonclone.shared.viewmodel.Events
 /********** EVENT functions, called directly by the UI layer **********/
 
 
-fun Events.login() = screenCoroutine {
-  val clientAppDetails: MastadonApiApplication = this.dataRepository.getClientApplication()
+fun Events.login(serverUrl: String) = screenCoroutine {
+  val clientAppDetails: MastadonApiApplication = this.dataRepository.getClientApplication(serverUrl)
   lateinit var newState: AppState
   stateManager.updateAppState {
     newState = it.copy(
       authState = it.authState.copy(
+        userServerUrl = clientAppDetails.serverUrl,
         clientId = clientAppDetails.clientId,
         clientSecret = clientAppDetails.clientSecret,
         redirectUri = clientAppDetails.redirectUri,
@@ -55,14 +56,24 @@ fun Events.logout() {
 }
 
 fun Events.searchForServer(serverUrl: String) = screenCoroutine {
+  stateManager.updateScreen<LoginScreenState> {
+    it.copy(
+      isLoadingServerList = true,
+      serverName = null,
+      serverDescription = null,
+    )
+  }
   val response: InstanceResponseJson? = stateManager.dataRepository.getInstance(serverUrl)
   if (response != null) {
     stateManager.updateScreen<LoginScreenState> {
-      it.copy(serverList = listOf(response.domain))
+      it.copy(serverName = response.title, serverDescription = response.description)
     }
   } else {
     stateManager.updateScreen<LoginScreenState> {
-      it.copy(serverList = listOf("No server found"))
+      it.copy(serverName = null, serverDescription = null)
     }
+  }
+  stateManager.updateScreen<LoginScreenState> {
+    it.copy(isLoadingServerList = false)
   }
 }

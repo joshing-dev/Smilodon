@@ -1,11 +1,7 @@
 package com.matrix159.mastadonclone.shared.viewmodel.screens.login
 
 import com.matrix159.mastadonclone.shared.viewmodel.Navigation
-import com.matrix159.mastadonclone.shared.viewmodel.ScreenParams
-import com.matrix159.mastadonclone.shared.viewmodel.ScreenState
 import com.matrix159.mastadonclone.shared.viewmodel.screens.ScreenInitSettings
-import com.matrix159.mastadonclone.shared.viewmodel.screens.homefeed.HomeFeedState
-import kotlinx.serialization.Serializable
 
 // INIZIALIZATION settings for this screen
 // this is what should be implemented:
@@ -18,12 +14,12 @@ import kotlinx.serialization.Serializable
 
 fun Navigation.initLoginScreen() = ScreenInitSettings(
   title = "Login Screen",
-  initState = { LoginScreenState(isLoading = true) },
+  initState = { LoginScreenState(isScreenLoading = true) },
   callOnInit = {
     // update state, after retrieving data from the repository
     stateManager.updateScreen<LoginScreenState> {
       it.copy(
-        isLoading = false,
+        isScreenLoading = false,
       )
     }
   },

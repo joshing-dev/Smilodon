@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.matrix159.mastadonclone.presentation.ui.MastadonApp
 import com.matrix159.mastadonclone.shared.viewmodel.AuthStatus
@@ -24,12 +25,9 @@ class MainActivity : ComponentActivity() {
   private lateinit var authService: AuthorizationService
   private var clientId: String? = null
   private var clientSecret: String? = null
-  private val serviceConfig = AuthorizationServiceConfiguration(
-    Uri.parse("https://androiddev.social/oauth/authorize"),  // authorization endpoint
-    Uri.parse("https://androiddev.social/oauth/token"), // token endpoint
-  )
 
-  private val authState = AuthState(serviceConfig)
+
+  private lateinit var authState: AuthState
 
   private val authorizationResultLauncher =
     registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
@@ -66,6 +64,9 @@ class MainActivity : ComponentActivity() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
+    WindowCompat.setDecorFitsSystemWindows(window, false)
+
     authService = AuthorizationService(this)
 
     model = (application as MastadonApplication).model
@@ -76,6 +77,12 @@ class MainActivity : ComponentActivity() {
       .onEach {
         when (it.authState.authStatus) {
           AuthStatus.Authenticating -> {
+            val serviceConfig = AuthorizationServiceConfiguration(
+              Uri.parse("https://${it.authState.userServerUrl}/oauth/authorize"),  // authorization endpoint
+              Uri.parse("https://${it.authState.userServerUrl}/oauth/token"), // token endpoint
+            )
+
+            authState = AuthState(serviceConfig)
 
             val authRequest = AuthorizationRequest.Builder(
               serviceConfig,  // the authorization service configuration

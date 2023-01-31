@@ -37,32 +37,40 @@ class Repository(/*val sqlDriver: SqlDriver*,*/
   }
 
   // TODO: Create domain layer data models so we aren't using the JSON models directly for below functions
-  suspend fun getClientApplication(): MastadonApiApplication = withContext(Dispatchers.Default) {
-    if (
-      mastadonSettings.authState.clientId != null &&
-      mastadonSettings.authState.clientSecret != null &&
-      mastadonSettings.authState.redirectUri != null
-    ) {
-      MastadonApiApplication(
-        clientId = mastadonSettings.authState.clientId!!,
-        clientSecret = mastadonSettings.authState.clientSecret!!,
-        redirectUri = mastadonSettings.authState.redirectUri!!,
-      )
-    } else {
-      // If values aren't stored locally, retrieve and store them
-      val apiResponse = mastadonApi.createClientApplication()
-      mastadonSettings.authState = mastadonSettings.authState.copy(
-        clientId = apiResponse.clientId,
-        clientSecret = apiResponse.clientSecret,
-        redirectUri = apiResponse.redirectUris
-      )
-      MastadonApiApplication(
-        clientId = apiResponse.clientId,
-        clientSecret = apiResponse.clientSecret,
-        redirectUri = apiResponse.redirectUris,
-      )
+  suspend fun getClientApplication(serverUrl: String): MastadonApiApplication =
+    withContext(Dispatchers.Default) {
+      if (
+        mastadonSettings.authState.userServerUrl != null &&
+        mastadonSettings.authState.clientId != null &&
+        mastadonSettings.authState.clientSecret != null &&
+        mastadonSettings.authState.redirectUri != null
+
+        ) {
+        MastadonApiApplication(
+          serverUrl = mastadonSettings.authState.userServerUrl!!,
+          clientId = mastadonSettings.authState.clientId!!,
+          clientSecret = mastadonSettings.authState.clientSecret!!,
+          redirectUri = mastadonSettings.authState.redirectUri!!,
+        )
+      } else {
+        // If values aren't stored locally, retrieve and store them
+        mastadonSettings.authState = mastadonSettings.authState.copy(
+          userServerUrl = serverUrl
+        )
+        val apiResponse = mastadonApi.createClientApplication()
+        mastadonSettings.authState = mastadonSettings.authState.copy(
+          clientId = apiResponse.clientId,
+          clientSecret = apiResponse.clientSecret,
+          redirectUri = apiResponse.redirectUris,
+        )
+        MastadonApiApplication(
+          serverUrl = serverUrl,
+          clientId = apiResponse.clientId,
+          clientSecret = apiResponse.clientSecret,
+          redirectUri = apiResponse.redirectUris,
+        )
+      }
     }
-  }
 
   suspend fun getInstance(serverUrl: String): InstanceResponseJson? {
     return mastadonApi.getInstance(serverUrl)

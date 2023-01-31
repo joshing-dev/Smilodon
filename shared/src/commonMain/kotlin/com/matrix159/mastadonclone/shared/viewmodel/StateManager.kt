@@ -284,6 +284,7 @@ data class AppState(
 
 @Serializable
 data class AuthState(
+  val userServerUrl: String? = null,
   val clientId: String? = null,
   val clientSecret: String? = null,
   val redirectUri: String? = null,
