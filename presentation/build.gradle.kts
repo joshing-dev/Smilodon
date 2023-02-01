@@ -1,6 +1,7 @@
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
-  id("com.android.library")
-  id("org.jetbrains.kotlin.android")
+  alias(libs.plugins.android.library)
+  alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -31,7 +32,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion = "1.4.0"
+    kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.toString()
   }
 
   kotlinOptions {
@@ -40,32 +41,29 @@ android {
 }
 
 dependencies {
-  val composeVersion = "1.4.0-alpha04"
-  val coilVersion = "2.2.2"
 
   implementation(project(":shared"))
+  implementation(libs.androidx.core.ktx)
+  implementation(libs.androidx.compose.ui)
+  debugImplementation(libs.androidx.compose.ui.tooling)
+  implementation(libs.androidx.compose.ui.tooling.preview)
 
-  implementation("androidx.core:core-ktx:1.9.0")
-  //implementation("androidx.activity:activity-compose:1.6.1")
-  implementation("androidx.compose.ui:ui:$composeVersion")
-  debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
-  implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-  implementation("androidx.compose.material:material:$composeVersion")
-  implementation("androidx.compose.material:material-icons-extended:$composeVersion")
+  // TODO remove this????
+  //implementation("androidx.compose.material:material:$composeVersion")
+
+  implementation(libs.androidx.compose.material.iconsExtended)
   // Material3 in Compose
-  implementation("androidx.compose.material3:material3:1.1.0-alpha04")
 
-  implementation("androidx.activity:activity-compose:1.6.1")
-  implementation("androidx.lifecycle:lifecycle-runtime-compose:2.6.0-alpha04")
+  implementation(libs.androidx.activity.compose)
+  implementation(libs.androidx.compose.material3)
+  implementation(libs.androidx.lifecycle.runtimeCompose)
+
   // Image loading
-  implementation("io.coil-kt:coil:$coilVersion")
-  implementation("io.coil-kt:coil-compose:$coilVersion")
+  implementation(libs.coil.kt)
+  implementation(libs.coil.kt.compose)
+  implementation(libs.timber)
 
-  // timber
-  implementation("com.jakewharton.timber:timber:5.0.1")
-
-
-  testImplementation("junit:junit:4.13.2")
-  androidTestImplementation("androidx.test.ext:junit:1.1.5")
-  androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+  testImplementation(libs.junit4)
+  androidTestImplementation(libs.androidx.test.ext)
+  androidTestImplementation(libs.androidx.test.espresso)
 }

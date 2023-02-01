@@ -1,11 +1,18 @@
-plugins {
-  //trick: for the same plugin versions in all sub-modules
-  id("com.android.application").version("7.4.0").apply(false)
-  id("com.android.library").version("7.4.0").apply(false)
-  kotlin("android").version("1.8.0").apply(false)
-  kotlin("multiplatform").version("1.8.0").apply(false)
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+
 }
 
-tasks.register("clean", Delete::class) {
-  delete(rootProject.buildDir)
+// Top level adds to classpath
+plugins {
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.kotlin.kapt) apply false
+    alias(libs.plugins.ksp) apply false
 }
