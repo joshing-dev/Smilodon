@@ -1,26 +1,37 @@
 package com.matrix159.mastadonclone.presentation.ui
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.matrix159.mastadonclone.presentation.ui.components.HomeFeed
-import com.matrix159.mastadonclone.presentation.ui.components.LoginScreen
 import com.matrix159.mastadonclone.presentation.ui.theme.MastadonTheme
+import com.matrix159.mastadonclone.shared.viewmodel.DKMPViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import com.matrix159.mastadonclone.presentation.ui.components.Router
+import com.matrix159.mastadonclone.presentation.ui.components.ScreenPicker
+import timber.log.Timber
 
 @Composable
-fun MastadonApp() {
+fun MastadonApp(model: DKMPViewModel) {
+  val appState by model.stateFlow.collectAsStateWithLifecycle()
+
+  Timber.d("D-KMP-SAMPLE: recomposition Index: " + appState.recompositionIndex.toString())
   MastadonTheme {
     Surface(
-      modifier = Modifier.fillMaxSize(),
+      modifier = Modifier
+        .fillMaxSize()
+        .safeDrawingPadding(), // Handle safe drawing insets at the root level
       color = MaterialTheme.colorScheme.surface
     ) {
-      LoginScreen(modifier = Modifier.fillMaxHeight())
-      //HomeFeed()
+      Router(model)
     }
   }
 }
@@ -29,5 +40,5 @@ fun MastadonApp() {
 @Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewMastadonApp() {
-  MastadonApp()
+  //MastadonApp(DKMPViewModel(Repository()))
 }
