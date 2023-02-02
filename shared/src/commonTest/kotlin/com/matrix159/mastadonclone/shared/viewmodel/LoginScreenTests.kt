@@ -1,17 +1,19 @@
 package com.matrix159.mastadonclone.shared.viewmodel
 
+import co.touchlab.kermit.CommonWriter
+import co.touchlab.kermit.Logger
 import com.matrix159.mastadonclone.shared.datalayer.Repository
 import com.matrix159.mastadonclone.shared.viewmodel.screens.Screen
-import com.matrix159.mastadonclone.shared.viewmodel.screens.login.LoginScreenParams
 import com.matrix159.mastadonclone.shared.viewmodel.screens.login.LoginScreenState
 import com.russhwolf.settings.MapSettings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.*
 import kotlin.test.*
+import com.matrix159.mastadonclone.shared.viewmodel.screens.login.login
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ViewModelTests {
+class LoginScreenTests {
 
   private lateinit var viewModel: DKMPViewModel
   private lateinit var navigation: Navigation
@@ -22,6 +24,7 @@ class ViewModelTests {
 
   @BeforeTest
   fun before() {
+    Logger.setLogWriters(CommonWriter())
     Dispatchers.setMain(testDispatcher)
     viewModel = DKMPViewModel(
       Repository(
@@ -38,23 +41,28 @@ class ViewModelTests {
     Dispatchers.resetMain()
   }
 
-  @Test()
-  fun anything() {
-    println("test")
-  }
-
   @Test
   fun testLoginScreen() {
-    val screenIdentifier = ScreenIdentifier.get(Screen.LoginScreen, LoginScreenParams())
+    val screenIdentifier = ScreenIdentifier.get(Screen.LoginScreen, null)
     val screenInitSettings = screenIdentifier.getScreenInitSettings(navigation)
     stateManager.addScreen(screenIdentifier, screenInitSettings)
     val serverName = "This is a test server"
-    val serverList = listOf("This is a test server", "This is another server")
+    val serverDescription = "This is a test description"
     stateManager.updateScreen<LoginScreenState> {
-      it.copy(serverName = serverName, serverList = serverList)
+      it.copy(serverName = serverName, serverDescription = serverDescription)
     }
     val screenState = stateProvider.get<LoginScreenState>(screenIdentifier)
     assertEquals(serverName, screenState.serverName)
-    assertEquals(serverList, screenState.serverList)
+    assertEquals(serverDescription, screenState.serverDescription)
+  }
+
+  // TODO
+  @Test
+  fun testLogin() {
+    val screenIdentifier = ScreenIdentifier.get(Screen.LoginScreen, null)
+    val screenInitSettings = screenIdentifier.getScreenInitSettings(navigation)
+    stateManager.addScreen(screenIdentifier, screenInitSettings)
+    val serverUrl = "testserver@test"
+    navigation.events.login(serverUrl)
   }
 }
