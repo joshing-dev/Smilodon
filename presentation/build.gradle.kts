@@ -10,8 +10,6 @@ android {
 
   defaultConfig {
     minSdk = 24
-    targetSdk = 33
-
     testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     consumerProguardFiles("consumer-rules.pro")
   }
@@ -44,29 +42,18 @@ dependencies {
   val composeBom = platform(libs.androidx.compose.bom)
   implementation(composeBom)
   androidTestImplementation(composeBom)
-
   implementation(project(":shared"))
-
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.compose.ui)
   debugImplementation(libs.androidx.compose.ui.tooling)
   implementation(libs.androidx.compose.ui.tooling.preview)
-
-  // TODO remove this????
-  //implementation("androidx.compose.material:material:$composeVersion")
-
   implementation(libs.androidx.compose.material.iconsExtended)
-
   implementation(libs.androidx.activity.compose)
-  // Material3 in Compose
   implementation(libs.androidx.compose.material3)
   implementation(libs.androidx.lifecycle.runtimeCompose)
-
-  // Image loading
   implementation(libs.coil.kt)
   implementation(libs.coil.kt.compose)
   implementation(libs.timber)
-
   testImplementation(libs.junit4)
   androidTestImplementation(libs.androidx.test.ext)
   androidTestImplementation(libs.androidx.test.espresso)

@@ -33,6 +33,8 @@ android {
   }
   buildTypes {
     getByName("release") {
+
+//      TODO enable minify and update signing configs
       signingConfig = signingConfigs.getByName("debug")
     }
   }
