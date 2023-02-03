@@ -7,8 +7,6 @@ import com.matrix159.mastadonclone.shared.viewmodel.AuthStatus
 import com.matrix159.mastadonclone.shared.viewmodel.Events
 
 /********** EVENT functions, called directly by the UI layer **********/
-
-
 fun Events.login(serverUrl: String) = screenCoroutine {
   val clientAppDetails: MastadonApiApplication = this.dataRepository.getClientApplication(serverUrl)
   lateinit var newState: AppState
@@ -28,7 +26,7 @@ fun Events.login(serverUrl: String) = screenCoroutine {
   stateManager.dataRepository.mastadonSettings.authState = newState.authState
 }
 
-fun Events.loginComplete(accessToken: String) {
+fun Events.loginComplete(accessToken: String) = screenCoroutine {
   lateinit var newState: AppState
   stateManager.updateAppState {
     newState = it.copy(
@@ -40,7 +38,7 @@ fun Events.loginComplete(accessToken: String) {
   stateManager.dataRepository.mastadonSettings.authState = newState.authState
 }
 
-fun Events.logout() {
+fun Events.logout() = screenCoroutine {
   lateinit var newState: AppState
   stateManager.updateAppState {
     newState = it.copy(

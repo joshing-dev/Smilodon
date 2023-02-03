@@ -32,7 +32,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.toString()
+    kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
   }
 
   kotlinOptions {
@@ -41,8 +41,12 @@ android {
 }
 
 dependencies {
+  val composeBom = platform(libs.androidx.compose.bom)
+  implementation(composeBom)
+  androidTestImplementation(composeBom)
 
   implementation(project(":shared"))
+
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.compose.ui)
   debugImplementation(libs.androidx.compose.ui.tooling)
@@ -52,9 +56,9 @@ dependencies {
   //implementation("androidx.compose.material:material:$composeVersion")
 
   implementation(libs.androidx.compose.material.iconsExtended)
-  // Material3 in Compose
 
   implementation(libs.androidx.activity.compose)
+  // Material3 in Compose
   implementation(libs.androidx.compose.material3)
   implementation(libs.androidx.lifecycle.runtimeCompose)
 

@@ -1,33 +1,31 @@
 [versions]
-androidxCore = "1.9.0"
+androidGradlePlugin = "7.4.1"
 androidxActivity = "1.6.1"
 androidxComposeBom = "2023.01.00"
-androidxLifecycleProcess = "2.5.1"
-androidGradlePlugin = "7.4.0"
 androidxComposeCompiler = "1.4.0"
-androidxComposeUi = "1.3.3"
-androidxLifecycle = "2.6.0-alpha03"
 androidxComposeMaterial3 = "1.0.1"
 androidxComposeMaterialIconsExtended = "1.3.1"
+androidxComposeUi = "1.3.3"
+androidxCore = "1.9.0"
+androidxLifecycle = "2.6.0-alpha03"
+androidxLifecycleProcess = "2.5.1"
 coil = "2.2.2"
 coroutines = "1.6.4"
 espresso = "3.5.1"
-kotlin = "1.8.0"
-ksp = "1.8.0-1.0.8"
-ktor = "2.2.2"
-multiplatform-settings = "1.0.0"
-kermit = "1.2.2"
-kotlinxCoroutines = "1.6.4"
-loginoauth = "0.11.1"
 junit = "1.1.5"
 junit4 = "4.13.2"
+kermit = "1.2.2"
+kotlin = "1.8.0"
+kotlinxCoroutines = "1.6.4"
+#ksp = "1.8.0-1.0.8"
+ktor = "2.2.2"
+loginoauth = "0.11.1"
+multiplatform-settings = "1.0.0"
 timber = "5.0.1"
 
 [libraries]
-androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
-androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "androidxLifecycleProcess"}
-androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 
 # uses compose-bom so no version.ref for some deps
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "androidxComposeBom" }
@@ -35,44 +33,39 @@ androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", versi
 # see https://developer.android.com/jetpack/compose/bom/bom#does_the_bom_work_with_version_catalogs
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 
-androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidxComposeMaterial3" }
 androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "androidxComposeMaterialIconsExtended" }
-
+androidx-compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "androidxComposeMaterial3" }
 androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "androidxComposeUi" }
-androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidxComposeUi" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidxComposeUi" }
-
-androidx-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit"}
+androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "androidxComposeUi" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "androidxLifecycleProcess"}
+androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-test-espresso = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso"}
+androidx-test-ext = { group = "androidx.test.ext", name = "junit", version.ref = "junit"}
 
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
-
-android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
-ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
-ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
-ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
-ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 logger = { group = "co.touchlab", name = "kermit", version.ref = "kermit"}
+loginoauth = { group = "net.openid", name = "appauth", version.ref = "loginoauth"}
 multiplatform-settings = { group = "com.russhwolf", name = "multiplatform-settings-no-arg", version.ref = "multiplatform-settings"}
 multiplatform-settings-test = { group = "com.russhwolf", name = "multiplatform-settings-test", version.ref = "multiplatform-settings"}
-loginoauth = { group = "net.openid", name = "appauth", version.ref = "loginoauth"}
-kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
-kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber"}
-
-#implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-#//For runBlockingTest, CoroutineDispatcher etc.
-#implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
 android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+#kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+#ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

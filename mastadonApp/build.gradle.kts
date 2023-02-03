@@ -3,8 +3,8 @@
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.android)
-  alias(libs.plugins.kotlin.kapt)
-  alias(libs.plugins.ksp)
+  //alias(libs.plugins.kotlin.kapt)
+  //alias(libs.plugins.ksp)
 }
 android {
   namespace = "com.matrix159.mastadonclone"
@@ -23,7 +23,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.toString()
+    kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
   }
 
   packagingOptions {
