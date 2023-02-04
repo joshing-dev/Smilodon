@@ -15,10 +15,12 @@ import com.matrix159.mastadonclone.shared.viewmodel.DKMPViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import com.matrix159.mastadonclone.presentation.ui.components.Router
 import com.matrix159.mastadonclone.presentation.ui.components.ScreenPicker
 import timber.log.Timber
 
+@OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
 fun MastadonApp(model: DKMPViewModel) {
   val appState by model.stateFlow.collectAsStateWithLifecycle()

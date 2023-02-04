@@ -1,8 +1,11 @@
-plugins {
-  id("com.android.application")
-  kotlin("android")
-}
 
+@Suppress("DSL_SCOPE_VIOLATION") // Remove when fixed https://youtrack.jetbrains.com/issue/KTIJ-19369
+plugins {
+  alias(libs.plugins.android.application)
+  alias(libs.plugins.kotlin.android)
+  //alias(libs.plugins.kotlin.kapt)
+  //alias(libs.plugins.ksp)
+}
 android {
   namespace = "com.matrix159.mastadonclone"
   compileSdk = 33
@@ -11,7 +14,7 @@ android {
     minSdk = 24
     targetSdk = 33
     versionCode = 1
-    versionName = "1.0"
+    versionName = "0.0.1" // X.Y.Z; X= Major, Y = minor, Z = Patch level
   }
 
   buildFeatures {
@@ -20,7 +23,7 @@ android {
   }
 
   composeOptions {
-    kotlinCompilerExtensionVersion = "1.4.0"
+    kotlinCompilerExtensionVersion = libs.versions.androidxComposeCompiler.get()
   }
 
   packagingOptions {
@@ -30,23 +33,20 @@ android {
   }
   buildTypes {
     getByName("release") {
-      isMinifyEnabled = true
+
+//      TODO enable minify and update signing configs
+      signingConfig = signingConfigs.getByName("debug")
     }
   }
+
 }
 
 dependencies {
   implementation(project(":shared"))
   implementation(project(":presentation"))
-
-  implementation("androidx.core:core-ktx:1.9.0")
-  implementation("androidx.activity:activity-compose:1.6.1")
-
-  implementation("androidx.lifecycle:lifecycle-process:2.5.1")
-
-  // Login OAuth
-  implementation("net.openid:appauth:0.11.1")
-
-  // timber
-  implementation("com.jakewharton.timber:timber:5.0.1")
+  implementation(libs.androidx.core.ktx)
+  implementation(libs.androidx.activity.compose)
+  implementation(libs.androidx.lifecycle.process)
+  implementation(libs.loginoauth)
+  implementation(libs.timber)
 }
