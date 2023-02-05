@@ -8,26 +8,26 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.matrix159.mastadonclone.presentation.ui.MastadonApp
+import com.matrix159.mastadonclone.shared.mvi.app.AppAction
+import com.matrix159.mastadonclone.shared.mvi.app.AppEffect
+import com.matrix159.mastadonclone.shared.mvi.app.AppState
+import com.matrix159.mastadonclone.shared.mvi.app.appStore
 import com.matrix159.mastadonclone.shared.viewmodel.AuthStatus
 import com.matrix159.mastadonclone.shared.viewmodel.DKMPViewModel
-import com.matrix159.mastadonclone.shared.viewmodel.screens.login.logout
 import net.openid.appauth.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import com.matrix159.mastadonclone.shared.viewmodel.screens.Screen
-import com.matrix159.mastadonclone.shared.viewmodel.screens.login.loginComplete
 import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
   private lateinit var model: DKMPViewModel
-
   private lateinit var authService: AuthorizationService
+  private lateinit var authState: AuthState
   private var clientId: String? = null
   private var clientSecret: String? = null
-
-
-  private lateinit var authState: AuthState
 
   private val authorizationResultLauncher =
     registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
@@ -49,11 +49,15 @@ class MainActivity : ComponentActivity() {
           Timber.d("Client secret: ${authState.accessToken}")
           if (ex != null) {
             Timber.e("There was an exception during authentication.", ex)
-            model.navigation.events.logout()
+            lifecycleScope.launch {
+              appStore.dispatchEffect(AppEffect.Logout)
+            }
           } else {
             val accessToken = authState.accessToken
             if (accessToken != null) {
-              model.navigation.events.loginComplete(accessToken)
+              lifecycleScope.launch {
+                appStore.dispatchEffect(AppEffect.Login(accessToken))
+              }
             } else {
               Timber.e("No access token was available during authentication.")
             }
@@ -70,39 +74,39 @@ class MainActivity : ComponentActivity() {
     authService = AuthorizationService(this)
 
     model = (application as MastadonApplication).model
-    model.stateFlow
+    appStore.state
       .distinctUntilChanged { old, new ->
-        old.authState.authStatus == new.authState.authStatus
+        old == new
       }
-      .onEach {
-        when (it.authState.authStatus) {
-          AuthStatus.Authenticating -> {
+      .onEach { appState ->
+        when (appState) {
+          is AppState.Authenticating -> {
             val serviceConfig = AuthorizationServiceConfiguration(
-              Uri.parse("https://${it.authState.userServerUrl}/oauth/authorize"),  // authorization endpoint
-              Uri.parse("https://${it.authState.userServerUrl}/oauth/token"), // token endpoint
+              Uri.parse("https://${appState.userServerUrl}/oauth/authorize"),  // authorization endpoint
+              Uri.parse("https://${appState.userServerUrl}/oauth/token"), // token endpoint
             )
 
             authState = AuthState(serviceConfig)
 
             val authRequest = AuthorizationRequest.Builder(
               serviceConfig,  // the authorization service configuration
-              it.authState.clientId ?: "",  // the client ID, typically pre-registered and static
+              appState.clientId,  // the client ID, typically pre-registered and static
               ResponseTypeValues.CODE,  // the response_type value: we want a code
-              Uri.parse(it.authState.redirectUri)
+              Uri.parse(appState.redirectUri)
             )
               .setScope("read write push")
               .build()
 
             val authIntent = authService.getAuthorizationRequestIntent(authRequest)
             // Store into variables to use when we launch back into the app
-            clientId = it.authState.clientId
-            clientSecret = it.authState.clientSecret
+            clientId = appState.clientId
+            clientSecret = appState.clientSecret
             authorizationResultLauncher.launch(authIntent)
           }
-          AuthStatus.LoggedIn -> {
+          is AppState.LoggedIn -> {
             model.navigation.navigate(Screen.HomeFeed)
           }
-          AuthStatus.NotLoggedIn -> {
+          is AppState.NotLoggedIn -> {
             model.navigation.navigate(Screen.LoginScreen)
           }
           else -> {}

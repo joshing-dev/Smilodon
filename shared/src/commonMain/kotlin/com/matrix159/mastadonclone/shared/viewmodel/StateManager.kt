@@ -1,25 +1,23 @@
 package com.matrix159.mastadonclone.shared.viewmodel
 
 import co.touchlab.kermit.Logger
-import com.matrix159.mastadonclone.shared.datalayer.Repository
+import com.matrix159.mastadonclone.shared.datalayer.MastadonRepository
 import com.matrix159.mastadonclone.shared.viewmodel.screens.NavigationSettings
 import com.matrix159.mastadonclone.shared.viewmodel.screens.ScreenInitSettings
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 
 interface ScreenState
 
 interface ScreenParams
 
-class StateManager(repo: Repository) {
+class StateManager(repo: MastadonRepository) {
 
   internal val mutableStateFlow: MutableStateFlow<AppState> by lazy {
     MutableStateFlow(
       AppState(
-        authState = dataRepository.mastadonSettings.authState
+        //authState = dataRepository.mastadonSettings.appState
       )
     )
   }
@@ -38,7 +36,7 @@ class StateManager(repo: Repository) {
 
   val lastRemovedScreens = mutableListOf<ScreenIdentifier>()
 
-  internal val dataRepository: Repository by lazy { repo }
+  internal val dataRepository: MastadonRepository by lazy { repo }
 
   val currentScreenIdentifier: ScreenIdentifier
     get() = currentVerticalBackstack.lastOrNull() ?: level1Backstack.last()

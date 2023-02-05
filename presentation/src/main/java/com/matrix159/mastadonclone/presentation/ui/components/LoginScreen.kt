@@ -13,11 +13,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.matrix159.mastadonclone.presentation.R
 import com.matrix159.mastadonclone.presentation.ui.theme.MastadonTheme
-import com.matrix159.mastadonclone.shared.viewmodel.screens.login.LoginScreenState
-import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.*
+import com.matrix159.mastadonclone.shared.mvi.screens.login.LoginScreenState
 
-@OptIn(ExperimentalMaterial3Api::class, FlowPreview::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LoginScreen(
   state: LoginScreenState,
@@ -44,87 +42,96 @@ fun LoginScreen(
 
     Spacer(modifier = Modifier.height(16.dp))
 
-    // Loading indicator logic derived from login screen state
-    var showServerListLoadingIndicator by remember { mutableStateOf(false) }
-    LaunchedEffect(state.isLoadingServerList) {
-      if (!state.isLoadingServerList) {
-        showServerListLoadingIndicator = false
+    when (state) {
+      LoginScreenState.Error -> {
+        Text("An error occurred")
       }
-    }
-
-    val serverFlow: MutableStateFlow<String> = remember { MutableStateFlow("") }
-    LaunchedEffect(true) {
-      serverFlow
-        .filter { it.isNotEmpty() }
-        .onEach { showServerListLoadingIndicator = true }
-        .debounce(300)
-        .onEach { serverTextChange(it) }
-        .launchIn(this)
-    }
-
-    var serverUrl by remember { mutableStateOf("") }
-    TextField(
-      value = serverUrl,
-      keyboardOptions = KeyboardOptions(
-        keyboardType = KeyboardType.Email,
-        autoCorrect = false
-      ),
-      onValueChange = { value: String ->
-        serverUrl = value
-        serverFlow.value = value
-      },
-      singleLine = true,
-      leadingIcon = {
-        Icon(
-          Icons.Default.Search,
-          contentDescription = stringResource(R.string.login_content_search_for_server)
+      is LoginScreenState.BaseState -> {
+        TextField(
+          value = state.serverUrl,
+          keyboardOptions = KeyboardOptions(
+            keyboardType = KeyboardType.Email,
+            autoCorrect = false
+          ),
+          onValueChange = { value: String ->
+            serverTextChange(value)
+            //serverFlow.value = value
+          },
+          singleLine = true,
+          leadingIcon = {
+            Icon(
+              Icons.Default.Search,
+              contentDescription = stringResource(R.string.login_content_search_for_server)
+            )
+          },
+          trailingIcon = {
+            if (state.loadingIndicatorShown) {
+              CircularProgressIndicator(modifier = Modifier.size(24.dp))
+            }
+          },
+          label = {
+            Text(text = stringResource(R.string.login_server_url))
+          },
+          modifier = Modifier.fillMaxWidth()
         )
-      },
-      trailingIcon = {
-        if (showServerListLoadingIndicator) {
-          CircularProgressIndicator(modifier = Modifier.size(24.dp))
-        }
-      },
-      label = {
-        Text(text = stringResource(R.string.login_server_url))
-      },
-      modifier = Modifier.fillMaxWidth()
-    )
 
-    Spacer(modifier = Modifier.padding(vertical = 4.dp))
+        Spacer(modifier = Modifier.padding(vertical = 4.dp))
 
 
-    if (serverUrl.isNotEmpty()) {
-      ElevatedCard(
-        modifier = Modifier.fillMaxWidth()
-      ) {
-        Column {
-          Text(
-            text = state.serverName ?: serverUrl,
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.padding(8.dp)
-          )
-          Text(
-            text = state.serverDescription ?: stringResource(R.string.login_no_server_info_found),
-            style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(8.dp)
-          )
-
-          if (state.serverName != null) {
-            FilledTonalButton(
-              onClick = { login(serverUrl) },
-              modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp)
-            ) {
+        if (state.serverUrl.isNotEmpty()) {
+          ElevatedCard(
+            modifier = Modifier.fillMaxWidth()
+          ) {
+            Column {
               Text(
-                text = stringResource(R.string.login)
+                text = state.serverTitle ?: state.serverUrl,
+                style = MaterialTheme.typography.headlineMedium,
+                modifier = Modifier.padding(8.dp)
               )
+              Text(
+                text = state.serverDescription
+                  ?: stringResource(R.string.login_no_server_info_found),
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(8.dp)
+              )
+
+              if (state.serverTitle != null) {
+                FilledTonalButton(
+                  onClick = { login(state.serverUrl) },
+                  modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp)
+                ) {
+                  Text(
+                    text = stringResource(R.string.login)
+                  )
+                }
+              }
             }
           }
         }
       }
     }
+    // Loading indicator logic derived from login screen state
+//    var showServerListLoadingIndicator by remember { mutableStateOf(false) }
+//    LaunchedEffect(state.isLoadingServerList) {
+//      if (!state.isLoadingServerList) {
+//        showServerListLoadingIndicator = false
+//      }
+//    }
+//
+//    val serverFlow: MutableStateFlow<String> = remember { MutableStateFlow("") }
+//    LaunchedEffect(true) {
+//      serverFlow
+//        .filter { it.isNotEmpty() }
+//        .onEach { showServerListLoadingIndicator = true }
+//        .debounce(300)
+//        .onEach { serverTextChange(it) }
+//        .launchIn(this)
+//    }
+//
+//    var serverUrl by remember { mutableStateOf("") }
+
   }
 }
 
@@ -134,8 +141,9 @@ fun LoginScreenPreview() {
   MastadonTheme {
     Surface {
       LoginScreen(
-        state = LoginScreenState(
-          serverName = "androiddev.social",
+        state = LoginScreenState.BaseState(
+          serverUrl = "androiddev.social",
+          serverTitle = "androiddev.social",
           serverDescription = "This is a test description"
         ),
         serverTextChange = {},

@@ -2,11 +2,15 @@ package com.matrix159.mastadonclone
 
 import android.app.Application
 import androidx.lifecycle.*
+import androidx.lifecycle.repeatOnLifecycle
+import com.matrix159.mastadonclone.shared.mvi.app.AppEffect
+import com.matrix159.mastadonclone.shared.mvi.app.appStore
 import com.matrix159.mastadonclone.shared.viewmodel.DKMPViewModel
 import com.matrix159.mastadonclone.shared.viewmodel.getAndroidInstance
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class MastadonApplication: Application() {
+class MastadonApplication : Application() {
 
   lateinit var model: DKMPViewModel
 
@@ -21,7 +25,14 @@ class MastadonApplication: Application() {
     model = DKMPViewModel.Factory.getAndroidInstance(this)
 
     val appLifecycleObserver = AppLifecycleObserver(model)
-    ProcessLifecycleOwner.get().lifecycle.addObserver(appLifecycleObserver)
+    val lifecycle = ProcessLifecycleOwner.get().lifecycle
+    val lifecycleScope = ProcessLifecycleOwner.get().lifecycleScope
+    lifecycle.addObserver(appLifecycleObserver)
+    lifecycleScope.launch {
+      lifecycle.repeatOnLifecycle(Lifecycle.State.CREATED) {
+        appStore.dispatchEffect(AppEffect.Startup)
+      }
+    }
   }
 }
 

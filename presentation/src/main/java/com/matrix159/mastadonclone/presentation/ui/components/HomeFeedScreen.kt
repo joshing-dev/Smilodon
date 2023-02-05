@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -14,20 +13,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.matrix159.mastadonclone.presentation.ui.theme.MastadonTheme
-import com.matrix159.mastadonclone.shared.viewmodel.screens.homefeed.HomeFeedState
+import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedPost
+import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedState
 
 @Composable
 fun HomeFeedScreen(
-  state: HomeFeedState = HomeFeedState(),
+  state: HomeFeedState,
   loadNew: () -> Unit,
   modifier: Modifier = Modifier
 ) {
   LazyColumn(
     modifier = modifier
   ) {
-    items(state.posts) { post ->
+    items(state.homeFeedPosts) { post ->
       Post(
-        post = post,
+        homeFeedPost = post,
         modifier = Modifier
           .padding(16.dp, 16.dp, 16.dp, 0.dp)
           .clickable { loadNew() }
@@ -46,7 +46,15 @@ fun HomeFeedScreen(
 fun HomeFeedPreview() {
   MastadonTheme {
     Surface {
-      HomeFeedScreen(loadNew = {})
+      HomeFeedScreen(
+        state = HomeFeedState(
+          homeFeedPosts = listOf(
+            HomeFeedPost("Test author", "Test description"),
+            HomeFeedPost("Another author", "Another description")
+          )
+        ),
+        loadNew = {}
+      )
     }
   }
 }

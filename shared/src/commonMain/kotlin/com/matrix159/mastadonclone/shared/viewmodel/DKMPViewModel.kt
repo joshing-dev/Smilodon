@@ -1,10 +1,9 @@
 package com.matrix159.mastadonclone.shared.viewmodel
 
-import com.matrix159.mastadonclone.shared.datalayer.Repository
+import com.matrix159.mastadonclone.shared.datalayer.MastadonRepository
 import kotlinx.coroutines.flow.StateFlow
-import kotlin.native.concurrent.ThreadLocal
 
-class DKMPViewModel (repo: Repository) {
+class DKMPViewModel (repo: MastadonRepository) {
 
   companion object Factory {
     // factory methods are defined in the platform-specific shared code (androidMain and iosMain)

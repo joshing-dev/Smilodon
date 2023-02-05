@@ -1,5 +1,6 @@
 package com.matrix159.mastadonclone.shared.datalayer.sources.webservices
 
+import co.touchlab.kermit.Logger
 import com.matrix159.mastadonclone.shared.datalayer.models.mastadonapi.instance.InstanceResponseJson
 import com.matrix159.mastadonclone.shared.datalayer.sources.localsettings.MastadonSettings
 import io.ktor.client.*
@@ -9,15 +10,23 @@ import io.ktor.http.*
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Remote data source that pulls information from the Mastadon API. It relies on a custom server URL
+ * provided by the user to make the requests one authenticated.
+ */
 internal interface MastadonRemoteDataSource {
   /**
    * Creates a client application to use with OAuth. This includes the client_id, client_secret
    * and additional information.
+   *
+   * @return [CreateApplicationResponseJson]
    */
-  suspend fun createClientApplication(): CreateApplicationResponseJson
+  suspend fun createClientApplication(serverUrl: String): CreateApplicationResponseJson
 
   /**
    * Searches for an instance via a server URL ex: androiddev.social
+   *
+   * @param serverUrl The custom server URL that the user is logged into.
    * @return The server information if found, null if not.
    */
   suspend fun getInstance(serverUrl: String): InstanceResponseJson?
@@ -51,19 +60,19 @@ data class CreateApplicationResponseJson(
 internal class MastadonApiRemoteDataSource(private val settings: MastadonSettings) :
   MastadonRemoteDataSource {
   private val baseUrl: String
-    get() = "https://${settings.authState.userServerUrl}/api/v1/apps"
+    get() = "https://${settings.appState.userServerUrl}/api/v1/apps"
   private val client: HttpClient
-    get() = createApiClient(settings.authState.accessToken)
+    get() = createApiClient(settings.appState.accessToken)
 
-  override suspend fun createClientApplication(): CreateApplicationResponseJson =
-    client.post(baseUrl) {
+  override suspend fun createClientApplication(serverUrl: String): CreateApplicationResponseJson =
+    client.post("https://${serverUrl}/api/v1/apps") {
       contentType(ContentType.Application.Json)
       setBody(
         CreateApplicationRequestJson(
           "Mastadon Clone App",
           "com.example.mastadonclone://callback",
           "read write push",
-          "https://${settings.authState.userServerUrl}"
+          "https://${settings.appState.userServerUrl}"
         )
       )
     }.body()
@@ -72,6 +81,7 @@ internal class MastadonApiRemoteDataSource(private val settings: MastadonSetting
     return try {
       client.get("https://$serverUrl/api/v2/instance").body()
     } catch (ex: Exception) {
+      Logger.e("Api Exception", ex)
       null
     }
   }

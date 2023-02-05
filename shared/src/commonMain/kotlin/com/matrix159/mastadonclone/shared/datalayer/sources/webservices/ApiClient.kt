@@ -10,6 +10,13 @@ import io.ktor.http.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
+/**
+ * Creates a Ktor HttpClient that is preconfigured with an access token.
+ * ContentNegotiation, Logging, ResponseObserver, and DefaultRequest are installed.
+ *
+ * @param accessToken A bearer token to inject into requests via Authorization header.
+ * @return [HttpClient]
+ */
 fun createApiClient(accessToken: String?): HttpClient = HttpClient {
   install(ContentNegotiation) {
     json(Json {

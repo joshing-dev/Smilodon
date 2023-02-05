@@ -2,7 +2,7 @@ package com.matrix159.mastadonclone.shared.viewmodel
 
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
-import com.matrix159.mastadonclone.shared.datalayer.Repository
+import com.matrix159.mastadonclone.shared.datalayer.MastadonRepository
 import com.matrix159.mastadonclone.shared.viewmodel.screens.Screen
 import com.matrix159.mastadonclone.shared.viewmodel.screens.login.LoginScreenState
 import com.russhwolf.settings.MapSettings
@@ -10,7 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.*
 import kotlin.test.*
-import com.matrix159.mastadonclone.shared.viewmodel.screens.login.login
+import com.matrix159.mastadonclone.shared.mvi.screens.login.login
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class LoginScreenTests {
@@ -27,7 +27,7 @@ class LoginScreenTests {
     Logger.setLogWriters(CommonWriter())
     Dispatchers.setMain(testDispatcher)
     viewModel = DKMPViewModel(
-      Repository(
+      MastadonRepository(
         settings = MapSettings(),
       )
     )
@@ -63,6 +63,6 @@ class LoginScreenTests {
     val screenInitSettings = screenIdentifier.getScreenInitSettings(navigation)
     stateManager.addScreen(screenIdentifier, screenInitSettings)
     val serverUrl = "testserver@test"
-    navigation.events.login(serverUrl)
+    com.matrix159.mastadonclone.shared.mvi.screens.login.login(serverUrl)
   }
 }

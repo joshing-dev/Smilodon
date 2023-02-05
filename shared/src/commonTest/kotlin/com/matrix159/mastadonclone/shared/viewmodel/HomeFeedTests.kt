@@ -2,7 +2,7 @@ package com.matrix159.mastadonclone.shared.viewmodel
 
 import co.touchlab.kermit.CommonWriter
 import co.touchlab.kermit.Logger
-import com.matrix159.mastadonclone.shared.datalayer.Repository
+import com.matrix159.mastadonclone.shared.datalayer.MastadonRepository
 import com.matrix159.mastadonclone.shared.viewmodel.screens.Screen
 import com.matrix159.mastadonclone.shared.viewmodel.screens.homefeed.HomeFeedState
 import com.matrix159.mastadonclone.shared.viewmodel.screens.homefeed.Post
@@ -27,7 +27,7 @@ class HomeFeedTests {
     Logger.setLogWriters(CommonWriter())
     Dispatchers.setMain(testDispatcher)
     viewModel = DKMPViewModel(
-      Repository(
+      MastadonRepository(
         settings = MapSettings(),
       )
     )
