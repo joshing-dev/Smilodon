@@ -1,13 +1,11 @@
 package com.matrix159.mastadonclone.shared.mvi.screens.login
 
-import com.matrix159.mastadonclone.shared.datalayer.MastadonRepository
-import com.matrix159.mastadonclone.shared.datalayer.Repository
-import com.matrix159.mastadonclone.shared.datalayer.models.MastadonApiApplication
-import com.matrix159.mastadonclone.shared.datalayer.models.mastadonapi.instance.InstanceResponseJson
+import com.matrix159.mastadonclone.shared.data.MastadonRepository
+import com.matrix159.mastadonclone.shared.data.models.MastadonApiApplication
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.InstanceResponseJson
 import com.matrix159.mastadonclone.shared.mvi.ActionReducer
 import com.matrix159.mastadonclone.shared.mvi.EffectHandler
 import com.matrix159.mastadonclone.shared.mvi.Store
-import com.matrix159.mastadonclone.shared.mvi.app.AppAction
 import com.matrix159.mastadonclone.shared.mvi.app.AppEffect
 import com.matrix159.mastadonclone.shared.mvi.app.appStore
 

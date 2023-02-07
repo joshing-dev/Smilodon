@@ -8,22 +8,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.lifecycleScope
 import com.matrix159.mastadonclone.presentation.ui.MastadonApp
-import com.matrix159.mastadonclone.shared.mvi.app.AppAction
 import com.matrix159.mastadonclone.shared.mvi.app.AppEffect
 import com.matrix159.mastadonclone.shared.mvi.app.AppState
 import com.matrix159.mastadonclone.shared.mvi.app.appStore
-import com.matrix159.mastadonclone.shared.viewmodel.AuthStatus
-import com.matrix159.mastadonclone.shared.viewmodel.DKMPViewModel
 import net.openid.appauth.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import com.matrix159.mastadonclone.shared.viewmodel.screens.Screen
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
-  private lateinit var model: DKMPViewModel
   private lateinit var authService: AuthorizationService
   private lateinit var authState: AuthState
   private var clientId: String? = null
@@ -70,10 +65,20 @@ class MainActivity : ComponentActivity() {
     super.onCreate(savedInstanceState)
 
     WindowCompat.setDecorFitsSystemWindows(window, false)
-
     authService = AuthorizationService(this)
+    reactToAppState()
 
-    model = (application as MastadonApplication).model
+    setContent {
+      MastadonApp()
+    }
+  }
+
+  override fun onDestroy() {
+    super.onDestroy()
+    authService.dispose()
+  }
+
+  private fun reactToAppState() {
     appStore.state
       .distinctUntilChanged { old, new ->
         old == new
@@ -104,23 +109,14 @@ class MainActivity : ComponentActivity() {
             authorizationResultLauncher.launch(authIntent)
           }
           is AppState.LoggedIn -> {
-            model.navigation.navigate(Screen.HomeFeed)
+            //model.navigation.navigate(Screen.HomeFeed)
           }
           is AppState.NotLoggedIn -> {
-            model.navigation.navigate(Screen.LoginScreen)
+            //model.navigation.navigate(Screen.LoginScreen)
           }
           else -> {}
         }
       }
       .launchIn(lifecycleScope)
-
-    setContent {
-      MastadonApp(model)
-    }
-  }
-
-  override fun onDestroy() {
-    super.onDestroy()
-    authService.dispose()
   }
 }

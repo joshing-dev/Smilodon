@@ -1,8 +1,7 @@
 package com.matrix159.mastadonclone.shared.mvi.app
 
-import com.matrix159.mastadonclone.shared.datalayer.MastadonRepository
-import com.matrix159.mastadonclone.shared.datalayer.Repository
-import com.matrix159.mastadonclone.shared.datalayer.sources.localsettings.SettingsAppState
+import com.matrix159.mastadonclone.shared.data.MastadonRepository
+import com.matrix159.mastadonclone.shared.data.sources.localsettings.SettingsAppState
 import com.matrix159.mastadonclone.shared.mvi.ActionReducer
 import com.matrix159.mastadonclone.shared.mvi.EffectHandler
 import com.matrix159.mastadonclone.shared.mvi.Store
