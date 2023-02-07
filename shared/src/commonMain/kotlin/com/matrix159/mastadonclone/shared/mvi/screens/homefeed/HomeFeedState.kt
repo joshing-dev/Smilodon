@@ -9,5 +9,6 @@ data class HomeFeedState(
 
 data class HomeFeedPost(
   val author: String,
-  val content: String
+  val content: String,
+  val avatar: String
 )

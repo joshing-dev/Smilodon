@@ -49,8 +49,8 @@ fun HomeFeedPreview() {
       HomeFeedScreen(
         state = HomeFeedState(
           homeFeedPosts = listOf(
-            HomeFeedPost("Test author", "Test description"),
-            HomeFeedPost("Another author", "Another description")
+            HomeFeedPost("Test author", "Test description", avatar = ""),
+            HomeFeedPost("Another author", "Another description", avatar = "")
           )
         ),
         loadNew = {}

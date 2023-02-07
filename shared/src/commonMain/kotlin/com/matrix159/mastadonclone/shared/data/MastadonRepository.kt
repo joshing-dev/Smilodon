@@ -2,6 +2,7 @@ package com.matrix159.mastadonclone.shared.data
 
 import com.matrix159.mastadonclone.shared.data.models.MastadonApiApplication
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.InstanceResponseJson
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Status
 import com.matrix159.mastadonclone.shared.data.sources.localsettings.MastadonSettings
 import com.matrix159.mastadonclone.shared.data.sources.localsettings.SettingsAppState
 import com.matrix159.mastadonclone.shared.data.sources.webservices.MastadonRemoteDataSource
@@ -35,6 +36,11 @@ interface Repository {
    * Retrieves the app state from local storage
    */
   fun getSavedAppState(): SettingsAppState
+
+  /**
+   *  GET /api/v1/timelines/home HTTP/1.1
+   */
+  suspend fun getHomeTimelines() : List<Status>
 }
 
 /**
@@ -68,4 +74,9 @@ internal class MastadonRepository(
   override suspend fun getInstance(serverUrl: String): InstanceResponseJson? {
     return mastadonApi.getInstance(serverUrl)
   }
+
+  override suspend fun getHomeTimelines(): List<Status> {
+    return mastadonApi.getHomeTimelines()
+  }
+
 }

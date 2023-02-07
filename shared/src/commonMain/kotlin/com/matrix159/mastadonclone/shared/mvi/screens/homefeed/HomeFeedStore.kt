@@ -1,5 +1,7 @@
 package com.matrix159.mastadonclone.shared.mvi.screens.homefeed
 
+import com.matrix159.mastadonclone.shared.data.MastadonRepository
+import com.matrix159.mastadonclone.shared.data.Repository
 import com.matrix159.mastadonclone.shared.mvi.ActionReducer
 import com.matrix159.mastadonclone.shared.mvi.EffectHandler
 import com.matrix159.mastadonclone.shared.mvi.StoreImpl
@@ -33,15 +35,20 @@ class HomeFeedStore(
         )
       }
       HomeFeedEffects.Init -> {
-        dispatcher.dispatchAction(
-          HomeFeedActions.UpdatePosts(
-            listOf(
-              HomeFeedPost("Someone here", "antherha"),
-              HomeFeedPost("Another person", "asdalsdkaldsk")
-            )
-          )
-        )
-      }
+                // TODO DIO
+                dispatcher.dispatchAction(
+                    HomeFeedActions.UpdatePosts(
+                        MastadonRepository().getHomeTimelines().map { status ->
+                            //TODO change this to just take the Account object
+                            HomeFeedPost(
+                                author = status.account.displayName,
+                                content = status.content,
+                                avatar = status.account.avatar
+                            )
+                        }
+                    )
+                )
+            }
     }
   },
 ) : StoreImpl<HomeFeedState, HomeFeedActions, HomeFeedEffects>(
