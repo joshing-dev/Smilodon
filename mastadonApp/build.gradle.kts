@@ -47,6 +47,7 @@ dependencies {
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.activity.compose)
   implementation(libs.androidx.lifecycle.process)
+  implementation(libs.androidx.lifecycle.runtime)
   implementation(libs.loginoauth)
   implementation(libs.timber)
 }

@@ -1,5 +1,5 @@
 package com.matrix159.mastadonclone.shared
 
-import com.matrix159.mastadonclone.shared.datalayer.Repository
+import com.matrix159.mastadonclone.shared.data.MastadonRepository
 
-actual fun getTestRepository(): Repository = Repository()
+actual fun getTestRepository(): MastadonRepository = MastadonRepository()

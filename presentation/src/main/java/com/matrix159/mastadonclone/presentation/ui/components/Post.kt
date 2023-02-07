@@ -20,10 +20,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.matrix159.mastadonclone.presentation.R
 import com.matrix159.mastadonclone.presentation.ui.theme.MastadonTheme
-import com.matrix159.mastadonclone.shared.viewmodel.screens.homefeed.Post
+import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedPost
 
 @Composable
-fun Post(post: Post, modifier: Modifier = Modifier) {
+fun Post(homeFeedPost: HomeFeedPost, modifier: Modifier = Modifier) {
   Column(modifier = modifier) {
     Row(
       verticalAlignment = Alignment.CenterVertically,
@@ -40,7 +40,7 @@ fun Post(post: Post, modifier: Modifier = Modifier) {
       Spacer(modifier = Modifier.width(16.dp))
       Column(modifier = Modifier.weight(1f)) {
         Text(
-          text = post.author,
+          text = homeFeedPost.author,
           style = MaterialTheme.typography.titleMedium
         )
         Spacer(modifier = Modifier.height(4.dp))
@@ -129,7 +129,7 @@ fun Post(post: Post, modifier: Modifier = Modifier) {
 fun PreviewPost() {
   MastadonTheme {
     Surface {
-      Post(Post("preview author", "preview test"), modifier = Modifier.fillMaxSize())
+      Post(HomeFeedPost("preview author", "preview test"), modifier = Modifier.fillMaxSize())
     }
   }
 }
