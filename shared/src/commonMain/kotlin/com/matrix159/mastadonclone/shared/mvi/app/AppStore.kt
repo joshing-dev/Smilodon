@@ -6,7 +6,7 @@ import com.matrix159.mastadonclone.shared.mvi.ActionReducer
 import com.matrix159.mastadonclone.shared.mvi.EffectHandler
 import com.matrix159.mastadonclone.shared.mvi.Store
 
-private val actionReducer: ActionReducer<AppState, AppAction> = { state, action ->
+private val actionReducer: ActionReducer<AppState, AppAction> = { _, action ->
   when (action) {
     is AppAction.StartAuthentication -> {
       AppState.Authenticating(
