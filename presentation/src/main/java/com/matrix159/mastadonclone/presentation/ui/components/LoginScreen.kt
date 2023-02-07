@@ -55,7 +55,6 @@ fun LoginScreen(
           ),
           onValueChange = { value: String ->
             serverTextChange(value)
-            //serverFlow.value = value
           },
           singleLine = true,
           leadingIcon = {
@@ -112,26 +111,6 @@ fun LoginScreen(
         }
       }
     }
-    // Loading indicator logic derived from login screen state
-//    var showServerListLoadingIndicator by remember { mutableStateOf(false) }
-//    LaunchedEffect(state.isLoadingServerList) {
-//      if (!state.isLoadingServerList) {
-//        showServerListLoadingIndicator = false
-//      }
-//    }
-//
-//    val serverFlow: MutableStateFlow<String> = remember { MutableStateFlow("") }
-//    LaunchedEffect(true) {
-//      serverFlow
-//        .filter { it.isNotEmpty() }
-//        .onEach { showServerListLoadingIndicator = true }
-//        .debounce(300)
-//        .onEach { serverTextChange(it) }
-//        .launchIn(this)
-//    }
-//
-//    var serverUrl by remember { mutableStateOf("") }
-
   }
 }
 

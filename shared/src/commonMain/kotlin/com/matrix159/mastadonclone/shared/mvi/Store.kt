@@ -23,7 +23,6 @@ internal class StoreImpl<S, A, E>(
   }
 }
 
-// and to construct it from a Store:
 interface Store<S, A, E> : SuspendingDispatcher<A, E> {
   val state: StateFlow<S>
 

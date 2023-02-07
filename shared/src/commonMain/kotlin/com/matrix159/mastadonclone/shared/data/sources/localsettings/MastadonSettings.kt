@@ -15,8 +15,6 @@ class MastadonSettings(s: Settings) {
       _appState = Json.encodeToString(value)
     }
   private var _appState: String by s.string("authState", Json.encodeToString(SettingsAppState()))
-
-  //var savedLevel1URI by s.string(defaultValue = Level1Navigation.LoginScreen.screenIdentifier.URI)
 }
 
 @Serializable
