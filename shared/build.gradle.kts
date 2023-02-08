@@ -87,7 +87,7 @@ android {
     namespace = "com.matrix159.mastadonclone.shared"
     compileSdk = 33
     defaultConfig {
-        minSdk = 24
+        minSdk = 26
     }
 
     buildTypes {

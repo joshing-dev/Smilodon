@@ -1,6 +1,7 @@
 package com.matrix159.mastadonclone.presentation.ui.components
 
 import android.content.res.Configuration
+import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -64,6 +65,8 @@ fun Post(homeFeedPost: HomeFeedPost, modifier: Modifier = Modifier) {
                 )
 
                 Spacer(modifier = Modifier.height(4.dp))
+
+
 
                 //TODO add author URL + time concatinated here.
                 // calculate the createdAt time vs now to show.

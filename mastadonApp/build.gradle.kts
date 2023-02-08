@@ -8,7 +8,7 @@ android {
   compileSdk = 33
   defaultConfig {
     applicationId = "com.matrix159.mastadonclone"
-    minSdk = 24
+    minSdk = 26
     targetSdk = 33
     versionCode = 1
     versionName = "0.0.1" // X.Y.Z; X= Major, Y = minor, Z = Patch level
