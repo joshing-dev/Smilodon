@@ -24,7 +24,6 @@ kotlin {
             dependencies {
                 // Kotlinx
                 implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.kotlinx.datetime)
 
                 // Http client setup
                 implementation(libs.ktor.client.core)

@@ -1,7 +1,6 @@
 package com.matrix159.mastadonclone.presentation.ui.components
 
 import android.content.res.Configuration
-import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -39,8 +38,9 @@ import com.matrix159.mastadonclone.presentation.ui.theme.MastadonTheme
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Account
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Status
 import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedPost
-import java.time.LocalDateTime
-import java.util.Date
+import kotlinx.datetime.Clock
+import kotlinx.datetime.toInstant
+
 
 @Composable
 fun Post(homeFeedPost: HomeFeedPost, modifier: Modifier = Modifier) {
@@ -66,18 +66,8 @@ fun Post(homeFeedPost: HomeFeedPost, modifier: Modifier = Modifier) {
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-
-
-                //TODO add author URL + time concatinated here.
-                // calculate the createdAt time vs now to show.
-
-                // example date time
-                //"2019-12-08T03:48:33.901Z"
-
-
-
                 Text(
-                    text = "@${homeFeedPost.status.account.acct} + ${homeFeedPost.status}",// "@JoshEldridge@androiddev.social · 3h",
+                    text = "@${homeFeedPost.status.account.acct}${createdHoursAgo(homeFeedPost)}",// "@JoshEldridge@androiddev.social · 3h",
                     color = MaterialTheme.colorScheme.tertiary,
                     style = MaterialTheme.typography.titleSmall,
                     maxLines = 1,
@@ -153,6 +143,21 @@ fun Post(homeFeedPost: HomeFeedPost, modifier: Modifier = Modifier) {
             }
         }
     }
+}
+
+@Composable
+private fun createdHoursAgo(homeFeedPost: HomeFeedPost): String {
+    val now = Clock.System.now()
+    val postCreatedAt = homeFeedPost.status.createdAt.toInstant()
+    val durationSincePost = now - postCreatedAt
+    val hrs = durationSincePost.inWholeHours
+
+    val hoursAgo = if (hrs > 0) {
+        " · ${hrs}h"
+    } else {
+        ""
+    }
+    return hoursAgo
 }
 
 @Preview(showBackground = true)

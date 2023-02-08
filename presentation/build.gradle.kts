@@ -43,6 +43,7 @@ dependencies {
   implementation(composeBom)
   androidTestImplementation(composeBom)
   implementation(project(":shared"))
+  implementation(libs.kotlinx.datetime)
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.compose.ui)
   debugImplementation(libs.androidx.compose.ui.tooling)
