@@ -10,13 +10,19 @@ import androidx.lifecycle.lifecycleScope
 import com.matrix159.mastadonclone.presentation.ui.MastadonApp
 import com.matrix159.mastadonclone.shared.mvi.app.AppEffect
 import com.matrix159.mastadonclone.shared.mvi.app.AppState
-import com.matrix159.mastadonclone.shared.mvi.app.AppStore
-import net.openid.appauth.*
+import com.matrix159.mastadonclone.shared.mvi.app.appStore
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import net.openid.appauth.AuthState
+import net.openid.appauth.AuthorizationException
+import net.openid.appauth.AuthorizationRequest
+import net.openid.appauth.AuthorizationResponse
+import net.openid.appauth.AuthorizationService
+import net.openid.appauth.AuthorizationServiceConfiguration
+import net.openid.appauth.ClientSecretPost
+import net.openid.appauth.ResponseTypeValues
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {

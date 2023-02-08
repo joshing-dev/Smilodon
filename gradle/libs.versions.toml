@@ -12,6 +12,7 @@ androidxLifecycleRuntime = "2.4.0"
 androidxNavigationCompose = "2.5.3"
 coil = "2.2.2"
 coroutines = "1.6.4"
+detekt = "1.22.0"
 espresso = "3.5.1"
 junit = "1.1.5"
 junit4 = "4.13"
@@ -75,3 +76,4 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref="detekt" }

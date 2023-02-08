@@ -1,14 +1,15 @@
 package com.matrix159.mastadonclone.shared.mvi.app
 
 sealed interface AppState {
-  object NotLoggedIn: AppState
+  object NotLoggedIn : AppState
   data class LoggedIn(
     val accessToken: String,
-  ): AppState
+  ) : AppState
+
   data class Authenticating(
     val userServerUrl: String,
     val clientId: String,
     val clientSecret: String,
     val redirectUri: String,
-  ): AppState
+  ) : AppState
 }

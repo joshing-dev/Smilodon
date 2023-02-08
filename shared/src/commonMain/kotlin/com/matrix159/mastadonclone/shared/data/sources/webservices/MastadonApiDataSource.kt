@@ -5,10 +5,14 @@ import com.matrix159.mastadonclone.shared.data.models.mastadonapi.createapplicat
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.createapplication.CreateApplicationResponseJson
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.InstanceResponseJson
 import com.matrix159.mastadonclone.shared.data.sources.localsettings.MastadonSettings
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
-import io.ktor.http.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
+import io.ktor.utils.io.errors.IOException
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -36,8 +40,8 @@ internal interface MastadonRemoteDataSource {
 
 internal class MastadonApiRemoteDataSource(private val settings: MastadonSettings) :
   MastadonRemoteDataSource {
-  private val baseUrl: String
-    get() = "https://${settings.appState.userServerUrl}/api/v1/apps"
+//  private val baseUrl: String
+//    get() = "https://${settings.appState.userServerUrl}/api/v1/apps"
   private val client: HttpClient
     get() = createApiClient(settings.appState.accessToken)
 
@@ -54,11 +58,11 @@ internal class MastadonApiRemoteDataSource(private val settings: MastadonSetting
       )
     }.body()
 
+  @Suppress("SwallowedException")
   override suspend fun getInstance(serverUrl: String): InstanceResponseJson? {
     return try {
       client.get("https://$serverUrl/api/v2/instance").body()
-    } catch (ex: Exception) {
-      Logger.e("Api Exception", ex)
+    } catch (ex: IOException) {
       null
     }
   }

@@ -1,7 +1,9 @@
 package com.matrix159.mastadonclone
 
 import android.app.Application
-import androidx.lifecycle.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.matrix159.mastadonclone.shared.di.initKoin
 import com.matrix159.mastadonclone.shared.mvi.app.AppEffect
