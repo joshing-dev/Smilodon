@@ -41,9 +41,7 @@ class HomeFeedStore(
                         MastadonRepository().getHomeTimelines().map { status ->
                             //TODO change this to just take the Account object
                             HomeFeedPost(
-                                author = status.account.displayName,
-                                content = status.content,
-                                avatar = status.account.avatar
+                                status = status
                             )
                         }
                     )

@@ -35,7 +35,11 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.matrix159.mastadonclone.presentation.R
 import com.matrix159.mastadonclone.presentation.ui.theme.MastadonTheme
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Account
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Status
 import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedPost
+import java.time.LocalDateTime
+import java.util.Date
 
 @Composable
 fun Post(homeFeedPost: HomeFeedPost, modifier: Modifier = Modifier) {
@@ -44,9 +48,8 @@ fun Post(homeFeedPost: HomeFeedPost, modifier: Modifier = Modifier) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            //https://cdn.masto.host/androiddevsocial/accounts/avatars/109/499/015/925/975/175/original/970ffadbe51dc125.jpg
             AsyncImage(
-                model = homeFeedPost.avatar,
+                model = homeFeedPost.status.account.avatar,
                 placeholder = debugPlaceholder(R.drawable.placeholder),
                 contentDescription = null,
                 modifier = Modifier
@@ -56,11 +59,22 @@ fun Post(homeFeedPost: HomeFeedPost, modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = homeFeedPost.author, style = MaterialTheme.typography.titleMedium
+                    text = homeFeedPost.status.account.displayName,
+                    style = MaterialTheme.typography.titleMedium
                 )
+
                 Spacer(modifier = Modifier.height(4.dp))
+
+                //TODO add author URL + time concatinated here.
+                // calculate the createdAt time vs now to show.
+
+                // example date time
+                //"2019-12-08T03:48:33.901Z"
+
+
+
                 Text(
-                    text = "@JoshEldridge@androiddev.social · 3h",
+                    text = "@${homeFeedPost.status.account.acct} + ${homeFeedPost.status}",// "@JoshEldridge@androiddev.social · 3h",
                     color = MaterialTheme.colorScheme.tertiary,
                     style = MaterialTheme.typography.titleSmall,
                     maxLines = 1,
@@ -81,7 +95,7 @@ fun Post(homeFeedPost: HomeFeedPost, modifier: Modifier = Modifier) {
 
         Box {
             //TODO figure out how to display quoted toots
-            Html("${homeFeedPost.content}")
+            Html(homeFeedPost.status.content)
 // TODO: Figure out where we want spoiler content action
 //      IconButton(
 //        onClick = { /*TODO*/ },
@@ -146,7 +160,11 @@ fun PreviewPost() {
         Surface {
             Post(
                 HomeFeedPost(
-                    author = "preview author", content = "preview test", avatar = ""
+                    status = Status(
+                        Account(displayName = "preview author"),
+                        content = "preview testpreview testpreview testpreview testpreview test",
+                        createdAt = "2019-12-08T03:48:33.901Z"
+                    )
                 ), modifier = Modifier.fillMaxSize()
             )
         }

@@ -1,5 +1,7 @@
 package com.matrix159.mastadonclone.shared.mvi.screens.homefeed
 
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Status
+
 
 data class HomeFeedState(
   val isLoading: Boolean = false,
@@ -8,7 +10,5 @@ data class HomeFeedState(
 )
 
 data class HomeFeedPost(
-  val author: String,
-  val content: String,
-  val avatar: String
+  val status: Status,
 )

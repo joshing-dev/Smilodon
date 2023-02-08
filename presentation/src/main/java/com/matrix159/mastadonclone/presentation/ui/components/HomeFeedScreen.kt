@@ -49,8 +49,9 @@ fun HomeFeedPreview() {
       HomeFeedScreen(
         state = HomeFeedState(
           homeFeedPosts = listOf(
-            HomeFeedPost("Test author", "Test description", avatar = ""),
-            HomeFeedPost("Another author", "Another description", avatar = "")
+            //TODO get some good test data for an Account object (or just delete these previews).
+//            HomeFeedPost("Test author", "Test description", avatar = ""),
+//            HomeFeedPost("Another author", "Another description", avatar = "")
           )
         ),
         loadNew = {}

@@ -22,7 +22,7 @@ interface Repository {
   suspend fun getClientApplication(serverUrl: String): MastadonApiApplication
 
   /**
-   * Checks for the presence of a Mastadon instance at the provided URL.
+   * Checks for the presence of a Mastodon instance at the provided URL.
    * @param serverUrl Server URL that the user is logging into.
    */
   suspend fun getInstance(serverUrl: String): InstanceResponseJson?

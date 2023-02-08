@@ -15,6 +15,8 @@ data class Status(
     @SerialName("content")
     val content: String,
 
+    @SerialName("created_at")
+    val createdAt: String,
 
 )
 
