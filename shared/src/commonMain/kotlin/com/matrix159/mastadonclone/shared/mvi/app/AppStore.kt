@@ -1,7 +1,9 @@
 package com.matrix159.mastadonclone.shared.mvi.app
 
 import com.matrix159.mastadonclone.shared.data.MastadonRepository
+import com.matrix159.mastadonclone.shared.data.Repository
 import com.matrix159.mastadonclone.shared.data.sources.localsettings.SettingsAppState
+import com.matrix159.mastadonclone.shared.di.RepositoryComponent
 import com.matrix159.mastadonclone.shared.mvi.ActionReducer
 import com.matrix159.mastadonclone.shared.mvi.EffectHandler
 import com.matrix159.mastadonclone.shared.mvi.Store
@@ -27,29 +29,30 @@ private val effectHandler: EffectHandler<AppState, AppAction, AppEffect> =
   { state, effect, dispatcher ->
     when (effect) {
       AppEffect.SaveAppState -> {
-        val repository = MastadonRepository()
+        val repository: Repository = RepositoryComponent.repository
+        val savedAppState = repository.getSavedAppState()
         when (state) {
           is AppState.LoggedIn -> {
-            repository.mastadonSettings.appState = repository.mastadonSettings.appState.copy(
+            repository.saveAppState(savedAppState.copy(
               accessToken = state.accessToken,
-            )
+            ))
           }
           is AppState.Authenticating -> {
-            repository.mastadonSettings.appState = repository.mastadonSettings.appState.copy(
+            repository.saveAppState(savedAppState.copy(
               userServerUrl = state.userServerUrl,
               clientId = state.clientId,
               clientSecret = state.clientSecret,
               redirectUri = state.redirectUri,
-            )
+            ))
           }
           AppState.NotLoggedIn -> {
-            repository.mastadonSettings.appState = SettingsAppState()
+            repository.saveAppState(SettingsAppState())
           }
         }
       }
       AppEffect.Startup -> {
-        val repository = MastadonRepository()
-        val settingsState = repository.mastadonSettings.appState
+        val repository: Repository = RepositoryComponent.repository
+        val settingsState = repository.getSavedAppState()
         if (settingsState.accessToken != null && settingsState.userServerUrl != null) {
           dispatcher.dispatchEffect(AppEffect.Login(settingsState.accessToken))
         } else {

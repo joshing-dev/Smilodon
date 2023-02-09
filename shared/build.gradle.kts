@@ -35,24 +35,28 @@ kotlin {
         // Local settings
         implementation(libs.multiplatform.settings)
 
-        // Logger
-        implementation(libs.logger)
-      }
-    }
-    val commonTest by getting {
-      dependencies {
-        implementation(kotlin("test"))
-        implementation(libs.junit4)
-        implementation(libs.kotlinx.coroutines.core)
-        implementation(libs.kotlinx.coroutines.test)
-        implementation(libs.multiplatform.settings.test)
-      }
-    }
-    val androidMain by getting {
-      dependencies {
-        implementation(libs.ktor.client.okhttp)
-      }
-    }
+                // Logger
+                implementation(libs.logger)
+
+                // DI
+                implementation(libs.koin.core)
+            }
+        }
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(libs.junit4)
+                implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.multiplatform.settings.test)
+                implementation(libs.koin.test)
+            }
+        }
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.okhttp)
+            }
+        }
 //    val androidUnitTest by getting
     val iosX64Main by getting
     val iosArm64Main by getting

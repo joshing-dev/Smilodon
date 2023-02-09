@@ -1,8 +1,9 @@
 package com.matrix159.mastadonclone.shared.mvi.screens.login
 
-import com.matrix159.mastadonclone.shared.data.MastadonRepository
+import com.matrix159.mastadonclone.shared.data.Repository
 import com.matrix159.mastadonclone.shared.data.models.MastadonApiApplication
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.InstanceResponseJson
+import com.matrix159.mastadonclone.shared.di.RepositoryComponent
 import com.matrix159.mastadonclone.shared.mvi.ActionReducer
 import com.matrix159.mastadonclone.shared.mvi.EffectHandler
 import com.matrix159.mastadonclone.shared.mvi.Store
@@ -34,22 +35,29 @@ private val effectHandler: EffectHandler<LoginScreenState, LoginScreenAction, Lo
   { _, effect, dispatcher ->
     when (effect) {
       is LoginScreenEffect.Login -> {
-        val repository = MastadonRepository()
+        val repository: Repository = RepositoryComponent.repository
         val clientAppDetails: MastadonApiApplication =
           repository.getClientApplication(effect.serverUrl)
-        appStore.dispatchEffect(AppEffect.StartAuthentication(
-          userServerUrl = clientAppDetails.serverUrl,
-          clientId = clientAppDetails.clientId,
-          clientSecret = clientAppDetails.clientSecret,
-          redirectUri = clientAppDetails.redirectUri,
-        ))
+        appStore.dispatchEffect(
+          AppEffect.StartAuthentication(
+            userServerUrl = clientAppDetails.serverUrl,
+            clientId = clientAppDetails.clientId,
+            clientSecret = clientAppDetails.clientSecret,
+            redirectUri = clientAppDetails.redirectUri,
+          )
+        )
       }
       is LoginScreenEffect.SearchForServer -> {
         dispatcher.dispatchAction(LoginScreenAction.StartLoading)
-        val repository = MastadonRepository()
+        val repository: Repository = RepositoryComponent.repository
         val response: InstanceResponseJson? = repository.getInstance(effect.serverUrl)
         if (response != null) {
-          dispatcher.dispatchAction(LoginScreenAction.ServerFound(serverTitle = response.title, serverDescription = response.description))
+          dispatcher.dispatchAction(
+            LoginScreenAction.ServerFound(
+              serverTitle = response.title,
+              serverDescription = response.description
+            )
+          )
         }
         dispatcher.dispatchAction(LoginScreenAction.StopLoading)
       }

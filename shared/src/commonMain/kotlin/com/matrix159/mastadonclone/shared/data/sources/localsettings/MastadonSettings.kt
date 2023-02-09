@@ -7,8 +7,11 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.decodeFromString
 
-class MastadonSettings(s: Settings) {
+interface MastadonSettings {
   var appState: SettingsAppState
+}
+class LocalMastadonSettings(s: Settings): MastadonSettings {
+  override var appState: SettingsAppState
     get() =
       Json.decodeFromString(_appState)
     set(value) {

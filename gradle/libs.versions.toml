@@ -16,6 +16,7 @@ espresso = "3.5.1"
 junit = "1.1.5"
 junit4 = "4.13.2"
 kermit = "1.2.2"
+koin = "3.2.0"
 kotlin = "1.8.0"
 kotlinxCoroutines = "1.6.4"
 ktor = "2.2.2"
@@ -46,6 +47,9 @@ androidx-test-ext = { group = "androidx.test.ext", name = "junit", version.ref =
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+koin-core = { group = "io.insert-koin", name = "koin-core", version.ref = "koin" }
+koin-test = { group = "io.insert-koin", name = "koin-test", version.ref = "koin" }
+koin-android = { group = "io.insert-koin", name = "koin-android", version.ref = "koin" }
 kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }

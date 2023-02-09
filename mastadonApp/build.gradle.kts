@@ -50,4 +50,5 @@ dependencies {
   implementation(libs.androidx.lifecycle.runtime)
   implementation(libs.loginoauth)
   implementation(libs.timber)
+  implementation(libs.koin.android)
 }
