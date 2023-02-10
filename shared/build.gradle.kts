@@ -1,4 +1,3 @@
-
 //https://youtrack.jetbrains.com/issue/KTIJ-19369/False-positive-cant-be-called-in-this-context-by-implicit-receiver-with-plugins-in-Gradle-version-catalogs-as-a-TOML-file
 @Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
@@ -35,28 +34,28 @@ kotlin {
         // Local settings
         implementation(libs.multiplatform.settings)
 
-                // Logger
-                implementation(libs.logger)
+        // Logger
+        implementation(libs.logger)
 
-                // DI
-                implementation(libs.koin.core)
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-                implementation(libs.junit4)
-                implementation(libs.kotlinx.coroutines.core)
-                implementation(libs.kotlinx.coroutines.test)
-                implementation(libs.multiplatform.settings.test)
-                implementation(libs.koin.test)
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.okhttp)
-            }
-        }
+        // DI
+        implementation(libs.koin.core)
+      }
+    }
+    val commonTest by getting {
+      dependencies {
+        implementation(kotlin("test"))
+//        implementation(libs.junit4)
+        implementation(libs.kotlinx.coroutines.core)
+        implementation(libs.kotlinx.coroutines.test)
+        implementation(libs.multiplatform.settings.test)
+        implementation(libs.koin.test)
+      }
+    }
+    val androidMain by getting {
+      dependencies {
+        implementation(libs.ktor.client.okhttp)
+      }
+    }
 //    val androidUnitTest by getting
     val iosX64Main by getting
     val iosArm64Main by getting
