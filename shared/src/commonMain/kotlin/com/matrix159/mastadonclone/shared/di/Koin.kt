@@ -6,6 +6,9 @@ import com.matrix159.mastadonclone.shared.data.sources.localsettings.LocalMastad
 import com.matrix159.mastadonclone.shared.data.sources.localsettings.MastadonSettings
 import com.matrix159.mastadonclone.shared.data.sources.webservices.MastadonApiRemoteDataSource
 import com.matrix159.mastadonclone.shared.data.sources.webservices.MastadonRemoteDataSource
+import com.matrix159.mastadonclone.shared.mvi.app.AppStore
+import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedStore
+import com.matrix159.mastadonclone.shared.mvi.screens.login.LoginStore
 import com.russhwolf.settings.Settings
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
@@ -15,6 +18,9 @@ import org.koin.dsl.module
 internal expect fun platformModule(): Module
 
 internal fun commonModule() = module {
+  single { AppStore() }
+  single { LoginStore(appStore = get()) }
+  single { HomeFeedStore() }
   factory<MastadonSettings> { LocalMastadonSettings(Settings()) }
   factory<MastadonRemoteDataSource> { MastadonApiRemoteDataSource(get()) }
   factory<Repository> { MastadonRepository(get(), get()) }

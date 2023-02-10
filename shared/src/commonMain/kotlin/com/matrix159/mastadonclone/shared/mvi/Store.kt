@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinComponent
 
-internal class StoreImpl<S, A, E>(
+abstract class StoreImpl<S, A, E>(
   initialState: S,
   private val handleAction: ActionReducer<S, A>,
   private val handleEffect: EffectHandler<S, A, E>,
@@ -27,11 +27,11 @@ internal class StoreImpl<S, A, E>(
 interface Store<S, A, E> : SuspendingDispatcher<A, E> {
   val state: StateFlow<S>
 
-  companion object {
-    operator fun <S, A, E> invoke(
-      initialState: S,
-      actionReducer: ActionReducer<S, A>,
-      effectHandler: EffectHandler<S, A, E>
-    ): Store<S, A, E> = StoreImpl(initialState, actionReducer, effectHandler)
-  }
+//  companion object {
+//    operator fun <S, A, E> invoke(
+//      initialState: S,
+//      actionReducer: ActionReducer<S, A>,
+//      effectHandler: EffectHandler<S, A, E>
+//    ): Store<S, A, E> = StoreImpl(initialState, actionReducer, effectHandler)
+//  }
 }

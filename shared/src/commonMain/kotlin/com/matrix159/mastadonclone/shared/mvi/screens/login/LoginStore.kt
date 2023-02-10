@@ -6,33 +6,38 @@ import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Insta
 import com.matrix159.mastadonclone.shared.di.RepositoryComponent
 import com.matrix159.mastadonclone.shared.mvi.ActionReducer
 import com.matrix159.mastadonclone.shared.mvi.EffectHandler
-import com.matrix159.mastadonclone.shared.mvi.Store
+import com.matrix159.mastadonclone.shared.mvi.StoreImpl
 import com.matrix159.mastadonclone.shared.mvi.app.AppEffect
-import com.matrix159.mastadonclone.shared.mvi.app.appStore
+import com.matrix159.mastadonclone.shared.mvi.app.AppStore
 
-private val actionReducer: ActionReducer<LoginScreenState, LoginScreenAction> = { state, action ->
-  when (state) {
-    LoginScreenState.Error -> state
-    is LoginScreenState.BaseState -> {
-      when (action) {
-        is LoginScreenAction.ServerUrlUpdated -> state.copy(
-          serverUrl = action.serverUrl,
-          serverTitle = null,
-          serverDescription = null
-        )
-        LoginScreenAction.StartLoading -> state.copy(loadingIndicatorShown = true)
-        LoginScreenAction.StopLoading -> state.copy(loadingIndicatorShown = false)
-        is LoginScreenAction.ServerFound -> state.copy(
-          serverTitle = action.serverTitle,
-          serverDescription = action.serverDescription
-        )
+class LoginStore/*<
+  S : LoginScreenState,
+  A : LoginScreenAction,
+  E: LoginScreenEffect
+>*/(
+  appStore: AppStore,
+  initialState: LoginScreenState = LoginScreenState.BaseState(),
+  actionHandler: ActionReducer<LoginScreenState, LoginScreenAction> = { state, action ->
+    when (state) {
+      LoginScreenState.Error -> state
+      is LoginScreenState.BaseState -> {
+        when (action) {
+          is LoginScreenAction.ServerUrlUpdated -> state.copy(
+            serverUrl = action.serverUrl,
+            serverTitle = null,
+            serverDescription = null
+          )
+          LoginScreenAction.StartLoading -> state.copy(loadingIndicatorShown = true)
+          LoginScreenAction.StopLoading -> state.copy(loadingIndicatorShown = false)
+          is LoginScreenAction.ServerFound -> state.copy(
+            serverTitle = action.serverTitle,
+            serverDescription = action.serverDescription
+          )
+        }
       }
     }
-  }
-}
-
-private val effectHandler: EffectHandler<LoginScreenState, LoginScreenAction, LoginScreenEffect> =
-  { _, effect, dispatcher ->
+  },
+  effectHandler: EffectHandler<LoginScreenState, LoginScreenAction, LoginScreenEffect> = { _, effect, dispatcher ->
     when (effect) {
       is LoginScreenEffect.Login -> {
         val repository: Repository = RepositoryComponent.repository
@@ -62,6 +67,7 @@ private val effectHandler: EffectHandler<LoginScreenState, LoginScreenAction, Lo
         dispatcher.dispatchAction(LoginScreenAction.StopLoading)
       }
     }
-  }
+  },
+) : StoreImpl<LoginScreenState, LoginScreenAction, LoginScreenEffect>(initialState, actionHandler, effectHandler)
 
-val loginStore by lazy { Store(LoginScreenState.BaseState(), actionReducer, effectHandler) }
+//val loginStore by lazy { Store(LoginScreenState.BaseState(), actionReducer, effectHandler) }

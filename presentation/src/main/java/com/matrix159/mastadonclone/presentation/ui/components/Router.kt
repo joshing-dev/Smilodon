@@ -9,12 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.matrix159.mastadonclone.shared.mvi.app.AppState
-import com.matrix159.mastadonclone.shared.mvi.app.appStore
 import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedEffects
-import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.homeFeedStore
 import com.matrix159.mastadonclone.shared.mvi.screens.login.LoginScreenAction
 import com.matrix159.mastadonclone.shared.mvi.screens.login.LoginScreenEffect
-import com.matrix159.mastadonclone.shared.mvi.screens.login.loginStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*

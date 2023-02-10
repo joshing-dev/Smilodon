@@ -19,12 +19,14 @@ import kotlin.test.assertEquals
 @OptIn(ExperimentalCoroutinesApi::class)
 class LoginScreenTests : KoinTest {
 
+  lateinit var store: Store
   @BeforeTest
   fun before() {
+    store = loginStore
     startKoin {
       //modules
       module {
-        factory<Repository>{ FakeRepository() }
+        factory<Repository> { FakeRepository() }
       }
     }
   }
@@ -45,6 +47,32 @@ class LoginScreenTests : KoinTest {
     val store = loginStore
     val serverUrl = "androiddev.social"
     store.dispatchAction(LoginScreenAction.ServerUrlUpdated(serverUrl))
-    assertEquals(LoginScreenState.BaseState(serverUrl, serverTitle = null, serverDescription = null), store.state.value)
+    assertEquals(
+      LoginScreenState.BaseState(
+        serverUrl,
+        serverTitle = null,
+        serverDescription = null
+      ), store.state.value
+    )
+  }
+
+  @Test
+  fun testServerFoundAction() = runTest {
+    val store = loginStore
+    val serverTitle = "Android Dev"
+    val serverDescription = "Android Dev Server"
+    store.dispatchAction(
+      LoginScreenAction.ServerFound(
+        serverTitle = serverTitle,
+        serverDescription = serverDescription
+      )
+    )
+    assertEquals(
+      LoginScreenState.BaseState(
+        serverTitle = serverTitle,
+        serverDescription = serverDescription
+      ),
+      store.state.value
+    )
   }
 }
