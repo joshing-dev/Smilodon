@@ -10,12 +10,13 @@ import androidx.lifecycle.lifecycleScope
 import com.matrix159.mastadonclone.presentation.ui.MastadonApp
 import com.matrix159.mastadonclone.shared.mvi.app.AppEffect
 import com.matrix159.mastadonclone.shared.mvi.app.AppState
-import com.matrix159.mastadonclone.shared.mvi.app.appStore
+import com.matrix159.mastadonclone.shared.mvi.app.AppStore
 import net.openid.appauth.*
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 class MainActivity : ComponentActivity() {
@@ -24,6 +25,7 @@ class MainActivity : ComponentActivity() {
   private var clientId: String? = null
   private var clientSecret: String? = null
 
+  private val appStore: AppStore by inject()
   private val authorizationResultLauncher =
     registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult ->
       val data = activityResult.data

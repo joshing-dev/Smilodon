@@ -1,6 +1,8 @@
 package com.matrix159.mastadonclone.shared.data.sources.webservices
 
 import co.touchlab.kermit.Logger
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.createapplication.CreateApplicationRequestJson
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.createapplication.CreateApplicationResponseJson
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.InstanceResponseJson
 import com.matrix159.mastadonclone.shared.data.sources.localsettings.MastadonSettings
 import io.ktor.client.*
@@ -31,31 +33,6 @@ internal interface MastadonRemoteDataSource {
    */
   suspend fun getInstance(serverUrl: String): InstanceResponseJson?
 }
-
-@Serializable
-data class CreateApplicationRequestJson(
-  @SerialName("client_name")
-  val clientName: String,
-  @SerialName("redirect_uris")
-  val redirectUris: String,
-  val scopes: String,
-  val website: String,
-)
-
-@Serializable
-data class CreateApplicationResponseJson(
-  val id: String,
-  val name: String,
-  val website: String,
-  @SerialName("redirect_uri")
-  val redirectUris: String,
-  @SerialName("client_id")
-  val clientId: String,
-  @SerialName("client_secret")
-  val clientSecret: String,
-  @SerialName("vapid_key")
-  val vapidKey: String,
-)
 
 internal class MastadonApiRemoteDataSource(private val settings: MastadonSettings) :
   MastadonRemoteDataSource {

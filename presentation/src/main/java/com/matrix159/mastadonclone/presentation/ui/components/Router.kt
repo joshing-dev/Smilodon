@@ -9,16 +9,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.matrix159.mastadonclone.shared.mvi.app.AppState
-import com.matrix159.mastadonclone.shared.mvi.app.appStore
+import com.matrix159.mastadonclone.shared.mvi.app.AppStore
 import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedEffects
-import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.homeFeedStore
+import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedStore
 import com.matrix159.mastadonclone.shared.mvi.screens.login.LoginScreenAction
 import com.matrix159.mastadonclone.shared.mvi.screens.login.LoginScreenEffect
-import com.matrix159.mastadonclone.shared.mvi.screens.login.loginStore
+import com.matrix159.mastadonclone.shared.mvi.screens.login.LoginStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.get
 
 sealed class Route(val routeName: String) {
   object LoginScreen: Route(routeName = "loginScreen")
@@ -27,7 +28,11 @@ sealed class Route(val routeName: String) {
 
 @OptIn(ExperimentalLifecycleComposeApi::class, FlowPreview::class)
 @Composable
-fun Router() {
+fun Router(
+  appStore: AppStore = get(),
+  loginStore: LoginStore = get(),
+  homeFeedStore: HomeFeedStore = get(),
+) {
   val navController = rememberNavController()
 
   // TODO: This is temporary, need to handle navigation and configuration changes better

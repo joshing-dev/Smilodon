@@ -3,10 +3,11 @@ package com.matrix159.mastadonclone.shared.data
 import com.matrix159.mastadonclone.shared.data.models.MastadonApiApplication
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.InstanceResponseJson
 import com.matrix159.mastadonclone.shared.data.sources.localsettings.MastadonSettings
-import com.matrix159.mastadonclone.shared.data.sources.webservices.MastadonApiRemoteDataSource
+import com.matrix159.mastadonclone.shared.data.sources.localsettings.SettingsAppState
 import com.matrix159.mastadonclone.shared.data.sources.webservices.MastadonRemoteDataSource
-import com.russhwolf.settings.Settings
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.koin.core.component.KoinComponent
 
 /**
  * Main entry point into the data layer from the viewmodel layer.
@@ -24,20 +25,33 @@ interface Repository {
    * @param serverUrl Server URL that the user is logging into.
    */
   suspend fun getInstance(serverUrl: String): InstanceResponseJson?
+
+  /**
+   * Saves the app state to local storage
+   */
+  fun saveAppState(appState: SettingsAppState)
+
+  /**
+   * Retrieves the app state from local storage
+   */
+  fun getSavedAppState(): SettingsAppState
 }
 
 /**
  * The current main repository used to retrieve and store information in the data layer.
- * @param settings A [Settings] class provided by the multiplatform-settings library.
+ * @param mastadonSettings The local settings interface.
+ * @param mastadonApi The interface to communicate with the Mastadon API.
  */
-class MastadonRepository(val settings: Settings = Settings()) : Repository {
+internal class MastadonRepository(
+  val mastadonSettings: MastadonSettings,
+  val mastadonApi: MastadonRemoteDataSource
+) : Repository, KoinComponent {
 
-  internal val mastadonSettings: MastadonSettings by lazy { MastadonSettings(settings) }
-  private val mastadonApi: MastadonRemoteDataSource by lazy {
-    MastadonApiRemoteDataSource(
-      mastadonSettings
-    )
+  override fun saveAppState(appState: SettingsAppState) {
+    mastadonSettings.appState = appState
   }
+
+  override fun getSavedAppState() = mastadonSettings.appState
 
   // TODO: Create domain layer data models so we aren't using the JSON models directly for below functions
   override suspend fun getClientApplication(serverUrl: String): MastadonApiApplication =
@@ -54,5 +68,4 @@ class MastadonRepository(val settings: Settings = Settings()) : Repository {
   override suspend fun getInstance(serverUrl: String): InstanceResponseJson? {
     return mastadonApi.getInstance(serverUrl)
   }
-
 }
