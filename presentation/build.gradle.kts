@@ -55,6 +55,8 @@ dependencies {
   implementation(libs.coil.kt)
   implementation(libs.coil.kt.compose)
   implementation(libs.timber)
+  // DI
+  implementation(libs.koin.androidx.compose)
   testImplementation(libs.junit4)
   androidTestImplementation(libs.androidx.test.ext)
   androidTestImplementation(libs.androidx.test.espresso)

@@ -68,6 +68,8 @@ class LoginStore/*<
       }
     }
   },
-) : StoreImpl<LoginScreenState, LoginScreenAction, LoginScreenEffect>(initialState, actionHandler, effectHandler)
-
-//val loginStore by lazy { Store(LoginScreenState.BaseState(), actionReducer, effectHandler) }
+) : StoreImpl<LoginScreenState, LoginScreenAction, LoginScreenEffect>(
+  initialState,
+  actionHandler,
+  effectHandler
+)
