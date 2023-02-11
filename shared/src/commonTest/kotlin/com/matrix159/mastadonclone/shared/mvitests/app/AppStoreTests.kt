@@ -180,22 +180,112 @@ class AppStoreTests : KoinTest {
   }
 
   @Test
-  fun testStartupEffect() = runTest {
-    TODO()
+  fun testStartupEffect_AlreadyLoggedIn() = runTest {
+    val accessToken = "asdasd"
+    val userServerUrl = "androiddev.social"
+    repository.saveAppState(
+      SettingsAppState(
+        accessToken = accessToken,
+        userServerUrl = userServerUrl
+      )
+    )
+    appStore.state.test {
+      awaitItem()
+      appStore.dispatchEffect(AppEffect.Startup)
+      assertEquals(
+        AppState.LoggedIn(accessToken),
+        awaitItem()
+      )
+    }
+  }
+
+  @Test
+  fun testStartupEffect_NotLoggedIn() = runTest {
+    appStore.state.test {
+      awaitItem()
+      // Do this so we weren't in an already logged out state
+      appStore.dispatchAction(AppAction.LoginSuccess("asdasd"))
+      awaitItem()
+      appStore.dispatchEffect(AppEffect.Startup)
+      assertEquals(
+        AppState.NotLoggedIn,
+        awaitItem()
+      )
+    }
   }
 
   @Test
   fun testStartAuthenticationEffect() = runTest {
-    TODO()
+    val serverUrl = "asda.asdasd"
+    val clientId = "asdasd"
+    val clientSecret = "1231g1"
+    val redirectUri = "asdasd.agagom"
+    appStore.state.test {
+      awaitItem()
+      appStore.dispatchEffect(
+        AppEffect.StartAuthentication(
+          userServerUrl = serverUrl,
+          clientId = clientId,
+          clientSecret = clientSecret,
+          redirectUri = redirectUri
+        )
+      )
+      assertEquals(
+        AppState.Authenticating(
+          userServerUrl = serverUrl,
+          clientId = clientId,
+          clientSecret = clientSecret,
+          redirectUri = redirectUri
+        ),
+        awaitItem()
+      )
+      assertEquals(
+        SettingsAppState(
+          userServerUrl = serverUrl,
+          clientId = clientId,
+          clientSecret = clientSecret,
+          redirectUri = redirectUri
+        ),
+        repository.getSavedAppState()
+      )
+    }
   }
 
   @Test
   fun testLoginEffect() = runTest {
-    TODO()
+    val accessToken = "Asdasda"
+    appStore.state.test {
+      awaitItem()
+      appStore.dispatchEffect(AppEffect.Login(accessToken))
+      assertEquals(
+        AppState.LoggedIn(accessToken = accessToken),
+        awaitItem()
+      )
+      assertEquals(
+        SettingsAppState(
+          accessToken = accessToken
+        ),
+        repository.getSavedAppState()
+      )
+    }
   }
 
   @Test
   fun testLogoutEffect() = runTest {
-    TODO()
+    appStore.state.test {
+      awaitItem()
+      // Do this so we weren't in an already logged out state
+      appStore.dispatchAction(AppAction.LoginSuccess("asdasd"))
+      awaitItem()
+      appStore.dispatchEffect(AppEffect.Logout)
+      assertEquals(
+        AppState.NotLoggedIn,
+        awaitItem()
+      )
+      assertEquals(
+        SettingsAppState(),
+        repository.getSavedAppState()
+      )
+    }
   }
 }
