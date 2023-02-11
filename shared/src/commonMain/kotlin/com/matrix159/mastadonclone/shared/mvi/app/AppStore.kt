@@ -2,16 +2,18 @@ package com.matrix159.mastadonclone.shared.mvi.app
 
 import com.matrix159.mastadonclone.shared.data.Repository
 import com.matrix159.mastadonclone.shared.data.sources.localsettings.SettingsAppState
-import com.matrix159.mastadonclone.shared.di.RepositoryComponent
 import com.matrix159.mastadonclone.shared.mvi.ActionReducer
 import com.matrix159.mastadonclone.shared.mvi.EffectHandler
 import com.matrix159.mastadonclone.shared.mvi.StoreImpl
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
 class AppStore/*<
   S : LoginScreenState,
   A : LoginScreenAction,
   E: LoginScreenEffect
 >*/(
+  repository: Repository,
   initialState: AppState = AppState.NotLoggedIn,
   actionHandler: ActionReducer<AppState, AppAction> = { _, action ->
     when (action) {
@@ -32,7 +34,6 @@ class AppStore/*<
   effectHandler: EffectHandler<AppState, AppAction, AppEffect> = { state, effect, dispatcher ->
     when (effect) {
       AppEffect.SaveAppState -> {
-        val repository: Repository = RepositoryComponent.repository
         val savedAppState = repository.getSavedAppState()
         when (state) {
           is AppState.LoggedIn -> {
@@ -44,7 +45,7 @@ class AppStore/*<
           }
           is AppState.Authenticating -> {
             repository.saveAppState(
-              savedAppState.copy(
+              SettingsAppState(
                 userServerUrl = state.userServerUrl,
                 clientId = state.clientId,
                 clientSecret = state.clientSecret,
@@ -58,7 +59,6 @@ class AppStore/*<
         }
       }
       AppEffect.Startup -> {
-        val repository: Repository = RepositoryComponent.repository
         val settingsState = repository.getSavedAppState()
         if (settingsState.accessToken != null && settingsState.userServerUrl != null) {
           dispatcher.dispatchEffect(AppEffect.Login(settingsState.accessToken))
@@ -87,4 +87,4 @@ class AppStore/*<
       }
     }
   }
-) : StoreImpl<AppState, AppAction, AppEffect>(initialState, actionHandler, effectHandler)
+) : StoreImpl<AppState, AppAction, AppEffect>(initialState, actionHandler, effectHandler), KoinComponent

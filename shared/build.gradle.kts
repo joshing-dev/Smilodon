@@ -49,6 +49,7 @@ kotlin {
         implementation(libs.kotlinx.coroutines.test)
         implementation(libs.multiplatform.settings.test)
         implementation(libs.koin.test)
+        implementation(libs.turbine)
       }
     }
     val androidMain by getting {

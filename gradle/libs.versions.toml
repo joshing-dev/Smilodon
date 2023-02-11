@@ -24,6 +24,7 @@ ktor = "2.2.2"
 loginoauth = "0.11.1"
 multiplatform-settings = "1.0.0"
 timber = "5.0.1"
+turbine = "0.12.1"
 
 [libraries]
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }
@@ -66,6 +67,7 @@ loginoauth = { group = "net.openid", name = "appauth", version.ref = "loginoauth
 multiplatform-settings = { group = "com.russhwolf", name = "multiplatform-settings-no-arg", version.ref = "multiplatform-settings" }
 multiplatform-settings-test = { group = "com.russhwolf", name = "multiplatform-settings-test", version.ref = "multiplatform-settings" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
+turbine = { group = "app.cash.turbine", name = "turbine", version.ref="turbine" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

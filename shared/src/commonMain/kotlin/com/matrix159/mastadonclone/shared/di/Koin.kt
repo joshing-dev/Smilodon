@@ -18,8 +18,8 @@ import org.koin.dsl.module
 internal expect fun platformModule(): Module
 
 internal fun commonModule() = module {
-  single { AppStore() }
-  single { LoginStore(appStore = get()) }
+  single { AppStore(repository = get()) }
+  single { LoginStore(appStore = get(), repository = get()) }
   single { HomeFeedStore() }
   factory<MastadonSettings> { LocalMastadonSettings(Settings()) }
   factory<MastadonRemoteDataSource> { MastadonApiRemoteDataSource(get()) }

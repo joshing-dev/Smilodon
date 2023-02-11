@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 class FakeRepository: Repository {
 
-  var appState: MutableStateFlow<SettingsAppState> = MutableStateFlow(SettingsAppState())
+  private var appState = SettingsAppState()
+  private val server = "androiddev.social"
 
   override suspend fun getClientApplication(serverUrl: String): MastadonApiApplication {
     return MastadonApiApplication(
@@ -20,16 +21,19 @@ class FakeRepository: Repository {
   }
 
   override suspend fun getInstance(serverUrl: String): InstanceResponseJson? {
-    // TODO
-    return null
+    return if (serverUrl.equals(this.server, ignoreCase = true)) {
+      InstanceResponseJson(title = "Android Dev", description = "Android Dev Description")
+    } else {
+      null
+    }
   }
 
   override fun saveAppState(appState: SettingsAppState) {
-    this.appState.value = appState
+    this.appState = appState
   }
 
   override fun getSavedAppState(): SettingsAppState {
-    return appState.value
+    return appState
   }
 }
 

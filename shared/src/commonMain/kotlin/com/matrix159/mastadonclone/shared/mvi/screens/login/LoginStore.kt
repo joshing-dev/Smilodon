@@ -3,7 +3,6 @@ package com.matrix159.mastadonclone.shared.mvi.screens.login
 import com.matrix159.mastadonclone.shared.data.Repository
 import com.matrix159.mastadonclone.shared.data.models.MastadonApiApplication
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.InstanceResponseJson
-import com.matrix159.mastadonclone.shared.di.RepositoryComponent
 import com.matrix159.mastadonclone.shared.mvi.ActionReducer
 import com.matrix159.mastadonclone.shared.mvi.EffectHandler
 import com.matrix159.mastadonclone.shared.mvi.StoreImpl
@@ -16,6 +15,7 @@ class LoginStore/*<
   E: LoginScreenEffect
 >*/(
   appStore: AppStore,
+  repository: Repository,
   initialState: LoginScreenState = LoginScreenState.BaseState(),
   actionHandler: ActionReducer<LoginScreenState, LoginScreenAction> = { state, action ->
     when (state) {
@@ -40,7 +40,6 @@ class LoginStore/*<
   effectHandler: EffectHandler<LoginScreenState, LoginScreenAction, LoginScreenEffect> = { _, effect, dispatcher ->
     when (effect) {
       is LoginScreenEffect.Login -> {
-        val repository: Repository = RepositoryComponent.repository
         val clientAppDetails: MastadonApiApplication =
           repository.getClientApplication(effect.serverUrl)
         appStore.dispatchEffect(
@@ -54,7 +53,6 @@ class LoginStore/*<
       }
       is LoginScreenEffect.SearchForServer -> {
         dispatcher.dispatchAction(LoginScreenAction.StartLoading)
-        val repository: Repository = RepositoryComponent.repository
         val response: InstanceResponseJson? = repository.getInstance(effect.serverUrl)
         if (response != null) {
           dispatcher.dispatchAction(

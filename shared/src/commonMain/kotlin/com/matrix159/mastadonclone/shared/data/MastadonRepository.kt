@@ -7,6 +7,7 @@ import com.matrix159.mastadonclone.shared.data.sources.localsettings.SettingsApp
 import com.matrix159.mastadonclone.shared.data.sources.webservices.MastadonRemoteDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.koin.core.component.KoinComponent
 
 /**
  * Main entry point into the data layer from the viewmodel layer.
@@ -44,7 +45,7 @@ interface Repository {
 internal class MastadonRepository(
   val mastadonSettings: MastadonSettings,
   val mastadonApi: MastadonRemoteDataSource
-) : Repository {
+) : Repository, KoinComponent {
 
   override fun saveAppState(appState: SettingsAppState) {
     mastadonSettings.appState = appState

@@ -15,8 +15,9 @@ class HomeFeedStore(
       is HomeFeedActions.StopLoading -> {
         state.copy(isLoading = false)
       }
-      is HomeFeedActions.ShowError -> state.copy(error = action.errorMessage)
+      is HomeFeedActions.ShowError -> state.copy(isLoading = false, error = action.errorMessage)
       is HomeFeedActions.UpdatePosts -> state.copy(
+        isLoading = false,
         homeFeedPosts = action.homeFeedPosts,
         error = null
       )
