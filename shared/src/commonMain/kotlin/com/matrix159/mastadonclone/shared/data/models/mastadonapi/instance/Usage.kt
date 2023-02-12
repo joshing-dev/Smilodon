@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Usage(
   @SerialName("users")
-  val users: Users = Users()
+  val users: Users
 )

@@ -7,9 +7,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Statuses(
   @SerialName("characters_reserved_per_url")
-  val charactersReservedPerUrl: Int = 0,
+  val charactersReservedPerUrl: Int,
   @SerialName("max_characters")
-  val maxCharacters: Int = 0,
+  val maxCharacters: Int,
   @SerialName("max_media_attachments")
-  val maxMediaAttachments: Int = 0
+  val maxMediaAttachments: Int
 )

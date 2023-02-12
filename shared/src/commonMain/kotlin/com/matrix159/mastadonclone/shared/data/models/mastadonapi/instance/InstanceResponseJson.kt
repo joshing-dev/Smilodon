@@ -7,27 +7,27 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class InstanceResponseJson(
   @SerialName("configuration")
-  val configuration: Configuration = Configuration(),
+  val configuration: Configuration,
   @SerialName("contact")
-  val contact: Contact = Contact(),
+  val contact: Contact,
   @SerialName("description")
-  val description: String = "",
+  val description: String,
   @SerialName("domain")
-  val domain: String = "",
+  val domain: String,
   @SerialName("languages")
-  val languages: List<String> = listOf(),
+  val languages: List<String>,
   @SerialName("registrations")
-  val registrations: Registrations = Registrations(),
+  val registrations: Registrations,
   @SerialName("rules")
-  val rules: List<Rule> = listOf(),
+  val rules: List<Rule>,
   @SerialName("source_url")
-  val sourceUrl: String = "",
+  val sourceUrl: String,
   @SerialName("thumbnail")
-  val thumbnail: Thumbnail = Thumbnail(),
+  val thumbnail: Thumbnail,
   @SerialName("title")
-  val title: String = "",
+  val title: String,
   @SerialName("usage")
-  val usage: Usage = Usage(),
+  val usage: Usage,
   @SerialName("version")
-  val version: String = ""
+  val version: String
 )

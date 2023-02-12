@@ -35,8 +35,9 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.matrix159.mastadonclone.presentation.R
 import com.matrix159.mastadonclone.presentation.ui.theme.MastadonTheme
-import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Account
-import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Status
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.common.Account
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.common.getMockAccount
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.timelines.Status
 import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedPost
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toInstant
@@ -169,7 +170,7 @@ fun PreviewPost() {
       Post(
         HomeFeedPost(
           status = Status(
-            Account(displayName = "preview author"),
+            getMockAccount(),
             content = "preview testpreview testpreview testpreview testpreview test",
             createdAt = "2019-12-08T03:48:33.901Z"
           )

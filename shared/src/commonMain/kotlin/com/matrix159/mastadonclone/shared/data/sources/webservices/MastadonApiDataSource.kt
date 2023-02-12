@@ -4,7 +4,7 @@ import co.touchlab.kermit.Logger
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.createapplication.CreateApplicationRequestJson
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.createapplication.CreateApplicationResponseJson
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.InstanceResponseJson
-import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Status
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.timelines.Status
 import com.matrix159.mastadonclone.shared.data.sources.localsettings.MastadonSettings
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

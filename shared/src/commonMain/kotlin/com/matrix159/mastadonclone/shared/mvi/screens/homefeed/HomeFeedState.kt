@@ -1,6 +1,6 @@
 package com.matrix159.mastadonclone.shared.mvi.screens.homefeed
 
-import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Status
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.timelines.Status
 
 
 data class HomeFeedState(

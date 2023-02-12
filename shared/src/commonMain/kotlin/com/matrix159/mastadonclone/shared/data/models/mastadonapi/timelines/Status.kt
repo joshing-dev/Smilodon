@@ -1,6 +1,7 @@
-package com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance
+package com.matrix159.mastadonclone.shared.data.models.mastadonapi.timelines
 
 
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.common.Account
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

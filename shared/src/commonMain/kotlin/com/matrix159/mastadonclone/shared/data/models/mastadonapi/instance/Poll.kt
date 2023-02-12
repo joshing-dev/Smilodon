@@ -1,6 +1,7 @@
 package com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance
 
 
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.common.CustomEmoji
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

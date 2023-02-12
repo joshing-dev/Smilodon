@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Focus(
   @SerialName("x")
-  val x: Double = 0.0,
+  val x: Double,
   @SerialName("y")
-  val y: Double = 0.0
+  val y: Double
 )

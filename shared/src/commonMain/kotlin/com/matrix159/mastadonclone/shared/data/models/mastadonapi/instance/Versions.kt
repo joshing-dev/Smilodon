@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Versions(
   @SerialName("@1x")
-  val normalResolution: String = "",
+  val normalResolution: String?,
   @SerialName("@2x")
-  val doubleResolution: String = ""
+  val doubleResolution: String?
 )

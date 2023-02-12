@@ -7,10 +7,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Thumbnail(
   @SerialName("blurhash")
-  val blurhash: String = "",
+  val blurhash: String?,
   @SerialName("url")
-  val url: String = "",
+  val url: String,
   @SerialName("versions")
-  val versions: Versions = Versions()
+  val versions: Versions?
 )
 

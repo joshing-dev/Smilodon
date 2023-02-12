@@ -7,11 +7,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Polls(
   @SerialName("max_characters_per_option")
-  val maxCharactersPerOption: Int = 0,
+  val maxCharactersPerOption: Int,
   @SerialName("max_expiration")
-  val maxExpiration: Int = 0,
+  val maxExpiration: Int,
   @SerialName("max_options")
-  val maxOptions: Int = 0,
+  val maxOptions: Int,
   @SerialName("min_expiration")
-  val minExpiration: Int = 0
+  val minExpiration: Int
 )

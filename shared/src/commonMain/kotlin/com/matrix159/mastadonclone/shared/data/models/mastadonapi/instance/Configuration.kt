@@ -7,15 +7,15 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Configuration(
   @SerialName("accounts")
-  val accounts: Accounts = Accounts(),
+  val accounts: Accounts,
   @SerialName("media_attachments")
-  val mediaAttachments: MediaAttachments = MediaAttachments(),
+  val mediaAttachments: MediaAttachments,
   @SerialName("polls")
-  val polls: Polls = Polls(),
+  val polls: Polls,
   @SerialName("statuses")
-  val statuses: Statuses = Statuses(),
+  val statuses: Statuses,
   @SerialName("translation")
-  val translation: Translation = Translation(),
+  val translation: Translation,
   @SerialName("urls")
-  val urls: Urls = Urls()
+  val urls: Urls
 )

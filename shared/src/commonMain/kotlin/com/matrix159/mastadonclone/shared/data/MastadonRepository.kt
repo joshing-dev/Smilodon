@@ -2,7 +2,7 @@ package com.matrix159.mastadonclone.shared.data
 
 import com.matrix159.mastadonclone.shared.data.models.MastadonApiApplication
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.InstanceResponseJson
-import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Status
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.timelines.Status
 import com.matrix159.mastadonclone.shared.data.sources.localsettings.MastadonSettings
 import com.matrix159.mastadonclone.shared.data.sources.localsettings.SettingsAppState
 import com.matrix159.mastadonclone.shared.data.sources.webservices.MastadonRemoteDataSource

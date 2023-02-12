@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Accounts(
   @SerialName("max_featured_tags")
-  val maxFeaturedTags: Int = 0
+  val maxFeaturedTags: Int
 )

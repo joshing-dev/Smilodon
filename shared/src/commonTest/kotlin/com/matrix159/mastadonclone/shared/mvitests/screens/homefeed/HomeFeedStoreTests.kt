@@ -2,8 +2,8 @@ package com.matrix159.mastadonclone.shared.mvitests.screens.homefeed
 
 import app.cash.turbine.test
 import com.matrix159.mastadonclone.shared.data.Repository
-import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Account
-import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Status
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.common.Account
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.timelines.Status
 import com.matrix159.mastadonclone.shared.fakes.FakeRepository
 import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedActions
 import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedEffects

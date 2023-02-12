@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Rule(
   @SerialName("id")
-  val id: String = "",
+  val id: String,
   @SerialName("text")
-  val text: String = ""
+  val text: String
 )

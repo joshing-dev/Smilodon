@@ -7,5 +7,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Users(
   @SerialName("active_month")
-  val activeMonth: Int = 0
+  val activeMonth: Int
 )

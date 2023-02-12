@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Option(
   @SerialName("title")
-  val title: String = "",
+  val title: String,
   @SerialName("votes_count")
-  val votesCount: Int = 0
+  val votesCount: Int
 )
