@@ -1,6 +1,6 @@
+// TODO: Remove once KTIJ-19369 is fixed
 @file:Suppress("DSL_SCOPE_VIOLATION")
 
-// TODO: Remove once KTIJ-19369 is fixed
 plugins {
   alias(libs.plugins.android.application) apply false
   alias(libs.plugins.android.library) apply false
@@ -11,7 +11,7 @@ plugins {
 }
 
 subprojects {
-  apply(plugin = "io.gitlab.arturbosch.detekt")
+  apply(plugin = rootProject.libs.plugins.detekt.get().pluginId)
 
   configure<io.gitlab.arturbosch.detekt.extensions.DetektExtension> {
     // configure
@@ -41,5 +41,9 @@ subprojects {
         html.outputLocation.set(file("${rootProject.projectDir}/reports/detekt.html"))
       }
     }
+  }
+
+  dependencies {
+    detektPlugins(rootProject.libs.detekt.formatting)
   }
 }

@@ -229,6 +229,12 @@ empty-blocks:
   EmptyWhileBlock:
     active: true
 
+formatting:
+  active: true
+  Indentation:
+    active: true
+    indentSize: 2
+
 exceptions:
   active: true
   ExceptionRaisedInUnexpectedLocation:

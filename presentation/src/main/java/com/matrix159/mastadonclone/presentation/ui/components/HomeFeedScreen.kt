@@ -19,7 +19,6 @@ import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedState
 @Composable
 fun HomeFeedScreen(
   state: HomeFeedState,
-  loadNew: () -> Unit,
   modifier: Modifier = Modifier
 ) {
   LazyColumn(
@@ -30,7 +29,6 @@ fun HomeFeedScreen(
         homeFeedPost = post,
         modifier = Modifier
           .padding(16.dp, 16.dp, 16.dp, 0.dp)
-          .clickable { loadNew() }
       )
       Divider(
         thickness = 1.dp,
@@ -54,7 +52,6 @@ fun HomeFeedPreview() {
 //            HomeFeedPost("Another author", "Another description", avatar = "")
           )
         ),
-        loadNew = {}
       )
     }
   }

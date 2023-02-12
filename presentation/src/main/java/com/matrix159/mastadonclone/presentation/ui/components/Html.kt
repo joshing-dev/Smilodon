@@ -7,9 +7,9 @@ import androidx.core.text.HtmlCompat
 
 @Composable
 fun Html(text: String) {
-    AndroidView(factory = { context ->
-        TextView(context).apply {
-            setText(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY))
-        }
-    })
+  AndroidView(factory = { context ->
+    TextView(context).apply {
+      setText(HtmlCompat.fromHtml(text, HtmlCompat.FROM_HTML_MODE_LEGACY))
+    }
+  })
 }

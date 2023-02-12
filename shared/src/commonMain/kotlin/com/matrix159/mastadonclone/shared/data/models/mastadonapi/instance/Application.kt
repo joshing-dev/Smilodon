@@ -6,8 +6,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Application(
-    @SerialName("name")
-    val name: String,
-    @SerialName("website")
-    val website: String? = null
+  @SerialName("name")
+  val name: String,
+  @SerialName("website")
+  val website: String? = null
 )

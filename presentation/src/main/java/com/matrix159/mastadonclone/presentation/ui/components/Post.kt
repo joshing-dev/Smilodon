@@ -44,51 +44,51 @@ import kotlinx.datetime.toInstant
 
 @Composable
 fun Post(homeFeedPost: HomeFeedPost, modifier: Modifier = Modifier) {
-    Column(modifier = modifier) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            AsyncImage(
-                model = homeFeedPost.status.account.avatar,
-                placeholder = debugPlaceholder(R.drawable.placeholder),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(48.dp)
-                    .clip(MaterialTheme.shapes.small)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = homeFeedPost.status.account.displayName,
-                    style = MaterialTheme.typography.titleMedium
-                )
+  Column(modifier = modifier) {
+    Row(
+      verticalAlignment = Alignment.CenterVertically,
+      horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+      AsyncImage(
+        model = homeFeedPost.status.account.avatar,
+        placeholder = debugPlaceholder(R.drawable.placeholder),
+        contentDescription = null,
+        modifier = Modifier
+          .size(48.dp)
+          .clip(MaterialTheme.shapes.small)
+      )
+      Spacer(modifier = Modifier.width(16.dp))
+      Column(modifier = Modifier.weight(1f)) {
+        Text(
+          text = homeFeedPost.status.account.displayName,
+          style = MaterialTheme.typography.titleMedium
+        )
 
-                Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.height(4.dp))
 
-                Text(
-                    text = "@${homeFeedPost.status.account.acct}${createdHoursAgo(homeFeedPost)}",// "@JoshEldridge@androiddev.social · 3h",
-                    color = MaterialTheme.colorScheme.tertiary,
-                    style = MaterialTheme.typography.titleSmall,
-                    maxLines = 1,
-                )
-            }
-            Column {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Image(
-                        imageVector = Icons.Default.MoreHoriz,
-                        contentDescription = "Post options.",
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
-                    )
-                }
-            }
+        Text(
+          text = "@${homeFeedPost.status.account.acct}${createdHoursAgo(homeFeedPost)}",
+          color = MaterialTheme.colorScheme.tertiary,
+          style = MaterialTheme.typography.titleSmall,
+          maxLines = 1,
+        )
+      }
+      Column {
+        IconButton(onClick = { /*TODO*/ }) {
+          Image(
+            imageVector = Icons.Default.MoreHoriz,
+            contentDescription = "Post options.",
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+          )
         }
+      }
+    }
 
-        Spacer(modifier = Modifier.height(16.dp))
+    Spacer(modifier = Modifier.height(16.dp))
 
-        Box {
-            //TODO figure out how to display quoted toots
-            Html(homeFeedPost.status.content)
+    Box {
+      //TODO figure out how to display quoted toots
+      Html(homeFeedPost.status.content)
 // TODO: Figure out where we want spoiler content action
 //      IconButton(
 //        onClick = { /*TODO*/ },
@@ -100,88 +100,88 @@ fun Post(homeFeedPost: HomeFeedPost, modifier: Modifier = Modifier) {
 //          colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
 //        )
 //      }
-        }
-
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()
-        ) {
-            IconButton(
-                onClick = { /*TODO*/ },
-            ) {
-                Image(
-                    imageVector = Icons.Outlined.Forum,
-                    contentDescription = "Reply to post.",
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
-                )
-            }
-            IconButton(
-                onClick = { /*TODO*/ },
-            ) {
-                Image(
-                    imageVector = Icons.Outlined.Repeat,
-                    contentDescription = "Reblog this post.",
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
-                )
-            }
-            IconButton(
-                onClick = { /*TODO*/ },
-            ) {
-                Image(
-                    imageVector = Icons.Outlined.StarRate,
-                    contentDescription = "Favorite this post.",
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
-                )
-            }
-            IconButton(
-                onClick = { /*TODO*/ },
-            ) {
-                Image(
-                    imageVector = Icons.Outlined.Share,
-                    contentDescription = "Share this post.",
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
-                )
-            }
-        }
     }
+
+    Row(
+      horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()
+    ) {
+      IconButton(
+        onClick = { /*TODO*/ },
+      ) {
+        Image(
+          imageVector = Icons.Outlined.Forum,
+          contentDescription = "Reply to post.",
+          colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+        )
+      }
+      IconButton(
+        onClick = { /*TODO*/ },
+      ) {
+        Image(
+          imageVector = Icons.Outlined.Repeat,
+          contentDescription = "Reblog this post.",
+          colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+        )
+      }
+      IconButton(
+        onClick = { /*TODO*/ },
+      ) {
+        Image(
+          imageVector = Icons.Outlined.StarRate,
+          contentDescription = "Favorite this post.",
+          colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+        )
+      }
+      IconButton(
+        onClick = { /*TODO*/ },
+      ) {
+        Image(
+          imageVector = Icons.Outlined.Share,
+          contentDescription = "Share this post.",
+          colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+        )
+      }
+    }
+  }
 }
 
 @Composable
 private fun createdHoursAgo(homeFeedPost: HomeFeedPost): String {
-    val now = Clock.System.now()
-    val postCreatedAt = homeFeedPost.status.createdAt.toInstant()
-    val durationSincePost = now - postCreatedAt
-    val hrs = durationSincePost.inWholeHours
+  val now = Clock.System.now()
+  val postCreatedAt = homeFeedPost.status.createdAt.toInstant()
+  val durationSincePost = now - postCreatedAt
+  val hrs = durationSincePost.inWholeHours
 
-    val hoursAgo = if (hrs > 0) {
-        " · ${hrs}h"
-    } else {
-        ""
-    }
-    return hoursAgo
+  val hoursAgo = if (hrs > 0) {
+    " · ${hrs}h"
+  } else {
+    ""
+  }
+  return hoursAgo
 }
 
 @Preview(showBackground = true)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewPost() {
-    MastadonTheme {
-        Surface {
-            Post(
-                HomeFeedPost(
-                    status = Status(
-                        Account(displayName = "preview author"),
-                        content = "preview testpreview testpreview testpreview testpreview test",
-                        createdAt = "2019-12-08T03:48:33.901Z"
-                    )
-                ), modifier = Modifier.fillMaxSize()
-            )
-        }
+  MastadonTheme {
+    Surface {
+      Post(
+        HomeFeedPost(
+          status = Status(
+            Account(displayName = "preview author"),
+            content = "preview testpreview testpreview testpreview testpreview test",
+            createdAt = "2019-12-08T03:48:33.901Z"
+          )
+        ), modifier = Modifier.fillMaxSize()
+      )
     }
+  }
 }
 
 @Composable
 fun debugPlaceholder(@DrawableRes debugPreview: Int) = if (LocalInspectionMode.current) {
-    painterResource(id = debugPreview)
+  painterResource(id = debugPreview)
 } else {
-    null
+  null
 }

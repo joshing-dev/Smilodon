@@ -96,7 +96,6 @@ fun Router(
       )
     }
     composable(Route.HomeFeed.routeName) {
-      val coroutineScope = rememberCoroutineScope()
       val homeFeedState by homeFeedStore.state.collectAsStateWithLifecycle(context = Dispatchers.Main.immediate)
       // Make sure the initial posts are loaded
       LaunchedEffect(true) {
@@ -105,11 +104,6 @@ fun Router(
 
       HomeFeedScreen(
         state = homeFeedState,
-        loadNew = {
-          coroutineScope.launch {
-            homeFeedStore.dispatchEffect(HomeFeedEffects.LoadPosts)
-          }
-        },
         modifier = Modifier.fillMaxSize()
       )
     }

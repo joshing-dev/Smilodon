@@ -1,6 +1,10 @@
 package com.matrix159.mastadonclone.shared.mvitests.screens.homefeed
 
 import app.cash.turbine.test
+import com.matrix159.mastadonclone.shared.data.Repository
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Account
+import com.matrix159.mastadonclone.shared.data.models.mastadonapi.instance.Status
+import com.matrix159.mastadonclone.shared.fakes.FakeRepository
 import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedActions
 import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedEffects
 import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedPost
@@ -22,6 +26,7 @@ import kotlin.test.assertEquals
 class HomeFeedStoreTests : KoinTest {
 
   private lateinit var homeFeedStore: HomeFeedStore
+  private lateinit var repository: Repository
 
   @BeforeTest
   fun before() {
@@ -29,7 +34,8 @@ class HomeFeedStoreTests : KoinTest {
       //modules
       modules(
         module {
-          single { HomeFeedStore() }
+          single<Repository> { FakeRepository() }
+          single { HomeFeedStore(repository = get()) }
         }
       )
     }
@@ -67,8 +73,8 @@ class HomeFeedStoreTests : KoinTest {
   @Test
   fun testUpdatePostsAction() = runTest {
     val posts = listOf(
-      HomeFeedPost(author = "author1", content = "jhjlgkjgc"),
-      HomeFeedPost(author = "author2", content = "kjghjhd")
+      HomeFeedPost(status = Status(account = Account(), content = "asdads", createdAt = "timehere")),
+      HomeFeedPost(status = Status(account = Account(), content = "zxcags", createdAt = "anothertimehere"))
     )
     homeFeedStore.dispatchAction(HomeFeedActions.UpdatePosts(homeFeedPosts = posts))
     assertEquals(
@@ -80,23 +86,10 @@ class HomeFeedStoreTests : KoinTest {
   // ------ EFFECTS ------
 
   @Test
-  fun testLoadPostsEffect() = runTest {
-    val posts = listOf(HomeFeedPost("Josh Eldridge", "antherha"))
-    homeFeedStore.state.test {
-      assertEquals(HomeFeedState(isLoading = true), awaitItem())
-      homeFeedStore.dispatchEffect(HomeFeedEffects.LoadPosts)
-      assertEquals(
-        HomeFeedState(isLoading = false, error = null, homeFeedPosts = posts),
-        awaitItem()
-      )
-    }
-  }
-
-  @Test
   fun testInitEffect() = runTest {
     val posts = listOf(
-      HomeFeedPost("Someone here", "antherha"),
-      HomeFeedPost("Another person", "asdalsdkaldsk")
+      HomeFeedPost(status = Status(account = Account(), content = "asdads", createdAt = "timehere")),
+      HomeFeedPost(status = Status(account = Account(), content = "zxczxc", createdAt = "anothertimehere")),
     )
     homeFeedStore.state.test {
       assertEquals(HomeFeedState(isLoading = true), awaitItem())

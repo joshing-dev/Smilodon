@@ -20,7 +20,7 @@ internal expect fun platformModule(): Module
 internal fun commonModule() = module {
   single { AppStore(repository = get()) }
   single { LoginStore(appStore = get(), repository = get()) }
-  single { HomeFeedStore() }
+  single { HomeFeedStore(repository = get()) }
   factory<MastadonSettings> { LocalMastadonSettings(Settings()) }
   factory<MastadonRemoteDataSource> { MastadonApiRemoteDataSource(get()) }
   factory<Repository> { MastadonRepository(get(), get()) }

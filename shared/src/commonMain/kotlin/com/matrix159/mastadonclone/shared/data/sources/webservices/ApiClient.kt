@@ -21,6 +21,10 @@ import kotlinx.serialization.json.Json
  * @return [HttpClient]
  */
 fun createApiClient(accessToken: String?): HttpClient = HttpClient {
+
+  // Throw exceptions if the response is not 200
+  expectSuccess = true
+
   install(ContentNegotiation) {
     json(Json {
       ignoreUnknownKeys = true
