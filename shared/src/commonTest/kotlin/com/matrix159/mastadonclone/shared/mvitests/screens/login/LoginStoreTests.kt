@@ -1,7 +1,6 @@
 package com.matrix159.mastadonclone.shared.mvitests.screens.login
 
 import app.cash.turbine.test
-import app.cash.turbine.testIn
 import com.matrix159.mastadonclone.shared.data.Repository
 import com.matrix159.mastadonclone.shared.data.sources.localsettings.SettingsAppState
 import com.matrix159.mastadonclone.shared.fakes.FakeRepository
@@ -12,15 +11,16 @@ import com.matrix159.mastadonclone.shared.mvi.screens.login.LoginScreenEffect
 import com.matrix159.mastadonclone.shared.mvi.screens.login.LoginScreenState
 import com.matrix159.mastadonclone.shared.mvi.screens.login.LoginStore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get
-import kotlin.test.*
+import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class LoginStoreTests : KoinTest {

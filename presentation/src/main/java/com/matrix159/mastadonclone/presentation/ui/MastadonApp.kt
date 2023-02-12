@@ -11,7 +11,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.matrix159.mastadonclone.presentation.ui.components.Router
 import com.matrix159.mastadonclone.presentation.ui.theme.MastadonTheme
 
-// TODO: Create domain layer data models so we aren't using the JSON models directly for below functions
 @Composable
 fun MastadonApp() {
   MastadonTheme {

@@ -6,13 +6,8 @@ import com.matrix159.mastadonclone.shared.mvi.ActionReducer
 import com.matrix159.mastadonclone.shared.mvi.EffectHandler
 import com.matrix159.mastadonclone.shared.mvi.StoreImpl
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
 
-class AppStore/*<
-  S : LoginScreenState,
-  A : LoginScreenAction,
-  E: LoginScreenEffect
->*/(
+class AppStore(
   repository: Repository,
   initialState: AppState = AppState.NotLoggedIn,
   actionHandler: ActionReducer<AppState, AppAction> = { _, action ->
