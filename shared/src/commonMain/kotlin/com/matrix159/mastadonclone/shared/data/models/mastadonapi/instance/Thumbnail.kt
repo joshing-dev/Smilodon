@@ -13,3 +13,4 @@ data class Thumbnail(
   @SerialName("versions")
   val versions: Versions = Versions()
 )
+

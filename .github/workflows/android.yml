@@ -8,7 +8,7 @@ on:
 
 jobs:
   lint:
-    name: Run linter
+    name: Run Checks
     runs-on: macos-latest
 
     steps:
@@ -18,7 +18,7 @@ jobs:
         with:
           java-version: 11
       - name: Linting
-        run: bash ./gradlew lint
+        run: bash ./gradlew check
 
   test:
     name: Run Unit Tests

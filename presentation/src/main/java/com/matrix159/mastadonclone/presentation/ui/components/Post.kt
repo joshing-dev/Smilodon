@@ -3,11 +3,26 @@ package com.matrix159.mastadonclone.presentation.ui.components
 import android.content.res.Configuration
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.MoreHoriz
+import androidx.compose.material.icons.outlined.Forum
+import androidx.compose.material.icons.outlined.Repeat
+import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.outlined.StarRate
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +45,8 @@ fun Post(homeFeedPost: HomeFeedPost, modifier: Modifier = Modifier) {
       horizontalArrangement = Arrangement.SpaceBetween
     ) {
       AsyncImage(
-        model = "https://cdn.masto.host/androiddevsocial/accounts/avatars/109/499/015/925/975/175/original/970ffadbe51dc125.jpg",
+        model = "https://cdn.masto.host/androiddevsocial/accounts/avatars/109/499/015/925/975/175/" +
+          "original/970ffadbe51dc125.jpg",
         placeholder = debugPlaceholder(R.drawable.placeholder),
         contentDescription = null,
         modifier = Modifier
@@ -65,7 +81,14 @@ fun Post(homeFeedPost: HomeFeedPost, modifier: Modifier = Modifier) {
     Spacer(modifier = Modifier.height(16.dp))
 
     Box {
-      Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis eros pellentesque, malesuada purus sit amet, ultrices lectus. Duis in pulvinar metus. Nullam quis magna vulputate, viverra nisl nec, dictum felis. Proin facilisis magna eu est pellentesque dictum. Donec at fermentum nunc. Suspendisse potenti. In eu pharetra urna. Sed ut tortor maximus quam lobortis feugiat eget nec turpis. Vestibulum ut lacus at magna ornare eleifend. Duis in odio elementum elit pharetra fermentum. In venenatis sed dui nec cursus. Praesent blandit nisl quis elit malesuada sagittis. Ut eleifend felis id arcu mollis, sed bibendum nisl laoreet. Maecenas sit amet velit eu. ")
+      Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum quis eros " +
+        "pellentesque, malesuada purus sit amet, ultrices lectus. Duis in pulvinar metus. Nullam " +
+        "quis magna vulputate, viverra nisl nec, dictum felis. Proin facilisis magna eu est " +
+        "pellentesque dictum. Donec at fermentum nunc. Suspendisse potenti. In eu pharetra urna." +
+        " Sed ut tortor maximus quam lobortis feugiat eget nec turpis. Vestibulum ut lacus at magna " +
+        "ornare eleifend. Duis in odio elementum elit pharetra fermentum. In venenatis sed dui nec " +
+        "cursus. Praesent blandit nisl quis elit malesuada sagittis. Ut eleifend felis id arcu " +
+        "mollis, sed bibendum nisl laoreet. Maecenas sit amet velit eu. ")
 // TODO: Figure out where we want spoiler content action
 //      IconButton(
 //        onClick = { /*TODO*/ },

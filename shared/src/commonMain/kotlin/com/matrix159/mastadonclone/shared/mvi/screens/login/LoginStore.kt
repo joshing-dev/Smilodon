@@ -9,11 +9,7 @@ import com.matrix159.mastadonclone.shared.mvi.StoreImpl
 import com.matrix159.mastadonclone.shared.mvi.app.AppEffect
 import com.matrix159.mastadonclone.shared.mvi.app.AppStore
 
-class LoginStore/*<
-  S : LoginScreenState,
-  A : LoginScreenAction,
-  E: LoginScreenEffect
->*/(
+class LoginStore(
   appStore: AppStore,
   repository: Repository,
   initialState: LoginScreenState = LoginScreenState.BaseState(),
@@ -71,3 +67,4 @@ class LoginStore/*<
   actionHandler,
   effectHandler
 )
+

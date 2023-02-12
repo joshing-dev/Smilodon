@@ -3,9 +3,9 @@ package com.matrix159.mastadonclone.shared.data.sources.localsettings
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.string
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 interface MastadonSettings {
   var appState: SettingsAppState

@@ -8,11 +8,12 @@ sealed interface AppAction {
     val clientSecret: String,
     val redirectUri: String,
   ) : AppAction
+
   data class LoginSuccess(
     val accessToken: String
-  ): AppAction
+  ) : AppAction
 
-  object Logout: AppAction
+  object Logout : AppAction
 }
 
 

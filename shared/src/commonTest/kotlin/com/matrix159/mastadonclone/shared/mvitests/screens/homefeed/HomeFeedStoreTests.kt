@@ -1,9 +1,11 @@
 package com.matrix159.mastadonclone.shared.mvitests.screens.homefeed
 
 import app.cash.turbine.test
-import com.matrix159.mastadonclone.shared.data.Repository
-import com.matrix159.mastadonclone.shared.fakes.FakeRepository
-import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.*
+import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedActions
+import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedEffects
+import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedPost
+import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedState
+import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedStore
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.koin.core.context.startKoin
@@ -11,7 +13,6 @@ import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import org.koin.test.KoinTest
 import org.koin.test.get
-import org.koin.test.inject
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -65,9 +66,15 @@ class HomeFeedStoreTests : KoinTest {
 
   @Test
   fun testUpdatePostsAction() = runTest {
-    val posts = listOf(HomeFeedPost(author = "author1", content = "jhjlgkjgc"), HomeFeedPost(author = "author2", content = "kjghjhd"))
+    val posts = listOf(
+      HomeFeedPost(author = "author1", content = "jhjlgkjgc"),
+      HomeFeedPost(author = "author2", content = "kjghjhd")
+    )
     homeFeedStore.dispatchAction(HomeFeedActions.UpdatePosts(homeFeedPosts = posts))
-    assertEquals(HomeFeedState(isLoading = false, error = null, homeFeedPosts = posts), homeFeedStore.state.value)
+    assertEquals(
+      HomeFeedState(isLoading = false, error = null, homeFeedPosts = posts),
+      homeFeedStore.state.value
+    )
   }
 
   // ------ EFFECTS ------
@@ -78,7 +85,10 @@ class HomeFeedStoreTests : KoinTest {
     homeFeedStore.state.test {
       assertEquals(HomeFeedState(isLoading = true), awaitItem())
       homeFeedStore.dispatchEffect(HomeFeedEffects.LoadPosts)
-      assertEquals(HomeFeedState(isLoading = false, error = null, homeFeedPosts = posts), awaitItem())
+      assertEquals(
+        HomeFeedState(isLoading = false, error = null, homeFeedPosts = posts),
+        awaitItem()
+      )
     }
   }
 
@@ -91,7 +101,10 @@ class HomeFeedStoreTests : KoinTest {
     homeFeedStore.state.test {
       assertEquals(HomeFeedState(isLoading = true), awaitItem())
       homeFeedStore.dispatchEffect(HomeFeedEffects.Init)
-      assertEquals(HomeFeedState(isLoading = false, error = null, homeFeedPosts = posts), awaitItem())
+      assertEquals(
+        HomeFeedState(isLoading = false, error = null, homeFeedPosts = posts),
+        awaitItem()
+      )
     }
   }
 }

@@ -1,13 +1,18 @@
 package com.matrix159.mastadonclone.presentation.ui.components
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.matrix159.mastadonclone.presentation.ui.model.Route
 import com.matrix159.mastadonclone.shared.mvi.app.AppState
 import com.matrix159.mastadonclone.shared.mvi.app.AppStore
 import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedEffects
@@ -17,14 +22,16 @@ import com.matrix159.mastadonclone.shared.mvi.screens.login.LoginScreenEffect
 import com.matrix159.mastadonclone.shared.mvi.screens.login.LoginStore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.get
 
-sealed class Route(val routeName: String) {
-  object LoginScreen: Route(routeName = "loginScreen")
-  object HomeFeed: Route(routeName = "homeFeed")
-}
+const val DEBOUNCE_TIME_FOR_INPUT = 300L
 
 @OptIn(ExperimentalLifecycleComposeApi::class, FlowPreview::class)
 @Composable
@@ -69,7 +76,7 @@ fun Router(
         serverFlow
           .filter { it.isNotEmpty() }
           .onEach { loginStore.dispatchAction(LoginScreenAction.StartLoading) }
-          .debounce(300)
+          .debounce(DEBOUNCE_TIME_FOR_INPUT)
           .onEach { loginStore.dispatchEffect(LoginScreenEffect.SearchForServer(it)) }
           .launchIn(this)
       }
