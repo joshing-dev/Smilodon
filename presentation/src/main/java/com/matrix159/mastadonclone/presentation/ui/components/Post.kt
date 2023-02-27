@@ -20,6 +20,7 @@ import androidx.compose.material.icons.outlined.Repeat
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.StarRate
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -32,6 +33,7 @@ import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.matrix159.mastadonclone.presentation.R
 import com.matrix159.mastadonclone.presentation.ui.theme.MastadonTheme
@@ -39,6 +41,7 @@ import com.matrix159.mastadonclone.shared.data.models.mastadonapi.common.Account
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.common.getMockAccount
 import com.matrix159.mastadonclone.shared.data.models.mastadonapi.timelines.Status
 import com.matrix159.mastadonclone.shared.mvi.screens.homefeed.HomeFeedPost
+import dev.jeziellago.compose.markdowntext.MarkdownText
 import kotlinx.datetime.Clock
 import kotlinx.datetime.toInstant
 
@@ -89,7 +92,12 @@ fun Post(homeFeedPost: HomeFeedPost, modifier: Modifier = Modifier) {
 
     Box {
       //TODO figure out how to display quoted toots
-      Html(homeFeedPost.status.content)
+      MarkdownText(
+        markdown = homeFeedPost.status.reblog?.content ?: homeFeedPost.status.content,
+        color = LocalContentColor.current,
+        fontSize = 18.sp,
+      )
+      //Html(homeFeedPost.status.content)
 // TODO: Figure out where we want spoiler content action
 //      IconButton(
 //        onClick = { /*TODO*/ },
@@ -161,24 +169,26 @@ private fun createdHoursAgo(homeFeedPost: HomeFeedPost): String {
   return hoursAgo
 }
 
-@Preview(showBackground = true)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun PreviewPost() {
-  MastadonTheme {
-    Surface {
-      Post(
-        HomeFeedPost(
-          status = Status(
-            getMockAccount(),
-            content = "preview testpreview testpreview testpreview testpreview test",
-            createdAt = "2019-12-08T03:48:33.901Z"
-          )
-        ), modifier = Modifier.fillMaxSize()
-      )
-    }
-  }
-}
+// TODO Bring back preview once model is filled out
+//@Preview(showBackground = true)
+//@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+//@Composable
+//fun PreviewPost() {
+//  MastadonTheme {
+//    Surface {
+//      Post(
+//        HomeFeedPost(
+//          status = Status(
+//            account = getMockAccount(),
+//            content = "preview testpreview testpreview testpreview testpreview test",
+//            reblog = null,
+//            createdAt = "2019-12-08T03:48:33.901Z"
+//          )
+//        ), modifier = Modifier.fillMaxSize()
+//      )
+//    }
+//  }
+//}
 
 @Composable
 fun debugPlaceholder(@DrawableRes debugPreview: Int) = if (LocalInspectionMode.current) {

@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class MediaAttachments(
+data class ConfigurationMediaAttachments(
   @SerialName("image_matrix_limit")
   val imageMatrixLimit: Int,
   @SerialName("image_size_limit")

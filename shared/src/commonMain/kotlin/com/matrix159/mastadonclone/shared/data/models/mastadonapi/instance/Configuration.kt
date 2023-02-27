@@ -9,7 +9,7 @@ data class Configuration(
   @SerialName("accounts")
   val accounts: Accounts,
   @SerialName("media_attachments")
-  val mediaAttachments: MediaAttachments,
+  val mediaAttachments: ConfigurationMediaAttachments,
   @SerialName("polls")
   val polls: Polls,
   @SerialName("statuses")

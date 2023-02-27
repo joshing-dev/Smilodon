@@ -6,6 +6,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Account(
+  @SerialName("id")
+  val id: String,
+  @SerialName("username")
+  val username: String,
   @SerialName("acct")
   val acct: String,
   @SerialName("avatar")
@@ -15,11 +19,11 @@ data class Account(
   @SerialName("bot")
   val bot: Boolean = false,
   @SerialName("created_at")
-  val createdAt: String ,
+  val createdAt: String,
   @SerialName("discoverable")
-  val discoverable: Boolean = false,
+  val discoverable: Boolean? = false,
   @SerialName("display_name")
-  val displayName: String ,
+  val displayName: String,
   @SerialName("emojis")
   val emojis: List<CustomEmoji>,
   @SerialName("fields")
@@ -34,28 +38,24 @@ data class Account(
   val header: String,
   @SerialName("header_static")
   val headerStatic: String,
-  @SerialName("id")
-  val id: String,
   @SerialName("last_status_at")
   val lastStatusAt: String?,
   @SerialName("locked")
   val locked: Boolean = false,
   @SerialName("limited")
-  val limited: Boolean = false,
+  val limited: Boolean? = false,
   @SerialName("moved")
-  val moved: Boolean = false,
+  val moved: Boolean? = false,
   @SerialName("noindex")
-  val noindex: Boolean = false,
+  val noindex: Boolean? = false,
   @SerialName("note")
   val note: String,
   @SerialName("statuses_count")
   val statusesCount: Int,
   @SerialName("suspended")
-  val suspended: Boolean = false,
+  val suspended: Boolean? = false,
   @SerialName("url")
   val url: String,
-  @SerialName("username")
-  val username: String
 )
 
 fun getMockAccount() = Account(

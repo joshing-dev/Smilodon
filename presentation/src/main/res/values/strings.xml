@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Mastadon Clone</string>
+    <string name="app_name">Smilodon</string>
     <string name="login_content_search_for_server">Search for server</string>
     <string name="login_intro_text">Log in with the server where you created your account.</string>
     <string name="login_server_url">Server URL</string>

@@ -58,6 +58,8 @@ dependencies {
   implementation(libs.timber)
   // DI
   implementation(libs.koin.androidx.compose)
+  implementation(libs.compose.markdown)
+
   testImplementation(libs.junit4)
   androidTestImplementation(libs.androidx.test.ext)
   androidTestImplementation(libs.androidx.test.espresso)
